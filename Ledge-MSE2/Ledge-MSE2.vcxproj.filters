@@ -1,17 +1,151 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Ledge Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Magic Reference">
+      <UniqueIdentifier>{f41ea301-df2f-46d6-ba13-4d0ce142e334}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\data\ledge-standard.mse-game\game">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-standard.mse-game\script">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-standard-style.mse-style\style">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-standard-symbol-font.mse-symbol-font\symbol-font">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\statistics">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\unit_tests">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\word_lists">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\word_lists_fr">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\add_cards_scripts">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\auto_replace">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\card_fields">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\game">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\keywords">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\language">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\magic-words.en_us.dic">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\packs">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\script">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic.mse-game\set_fields">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic-m15.mse-style\style">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic-mana-small.mse-symbol-font\symbol-font">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic-mana-large.mse-symbol-font\symbol-font">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic-watermarks.mse-include\include">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic-blends.mse-include\include">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic-default-image.mse-include\include">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic-identity-new.mse-include\include">
+      <Filter>Magic Reference</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\data\ledge-standard.mse-game\icon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-style.mse-style\image_bg.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-style.mse-style\no_mask.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-style.mse-style\red_flourish.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-style.mse-style\spade.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-style.mse-style\text_bg.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-style.mse-style\bg_color_mask.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-style.mse-style\black_flourish.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-style.mse-style\club.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-style.mse-style\diamond.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-style.mse-style\face_mask.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-style.mse-style\heart.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-style.mse-style\icon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-symbol-font.mse-symbol-font\diamond.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-symbol-font.mse-symbol-font\heart.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-symbol-font.mse-symbol-font\spade.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\data\ledge-standard-symbol-font.mse-symbol-font\club.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\data\ledge-standard-symbol-font.mse-symbol-font\boArust.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>

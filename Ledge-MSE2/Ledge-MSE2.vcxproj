@@ -110,6 +110,53 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\data\ledge-standard-style.mse-style\style" />
+    <None Include="..\data\ledge-standard-symbol-font.mse-symbol-font\symbol-font" />
+    <None Include="..\data\ledge-standard.mse-game\game" />
+    <None Include="..\data\ledge-standard.mse-game\script" />
+    <None Include="..\data\magic-blends.mse-include\include" />
+    <None Include="..\data\magic-default-image.mse-include\include" />
+    <None Include="..\data\magic-identity-new.mse-include\include" />
+    <None Include="..\data\magic-m15.mse-style\style" />
+    <None Include="..\data\magic-mana-large.mse-symbol-font\symbol-font" />
+    <None Include="..\data\magic-mana-small.mse-symbol-font\symbol-font" />
+    <None Include="..\data\magic-watermarks.mse-include\include" />
+    <None Include="..\data\magic.mse-game\add_cards_scripts" />
+    <None Include="..\data\magic.mse-game\auto_replace" />
+    <None Include="..\data\magic.mse-game\card_fields" />
+    <None Include="..\data\magic.mse-game\game" />
+    <None Include="..\data\magic.mse-game\keywords" />
+    <None Include="..\data\magic.mse-game\language" />
+    <None Include="..\data\magic.mse-game\magic-words.en_us.dic" />
+    <None Include="..\data\magic.mse-game\packs" />
+    <None Include="..\data\magic.mse-game\script" />
+    <None Include="..\data\magic.mse-game\set_fields" />
+    <None Include="..\data\magic.mse-game\statistics" />
+    <None Include="..\data\magic.mse-game\unit_tests" />
+    <None Include="..\data\magic.mse-game\word_lists" />
+    <None Include="..\data\magic.mse-game\word_lists_fr" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\data\ledge-standard-style.mse-style\bg_color_mask.png" />
+    <Image Include="..\data\ledge-standard-style.mse-style\black_flourish.png" />
+    <Image Include="..\data\ledge-standard-style.mse-style\club.png" />
+    <Image Include="..\data\ledge-standard-style.mse-style\diamond.png" />
+    <Image Include="..\data\ledge-standard-style.mse-style\face_mask.png" />
+    <Image Include="..\data\ledge-standard-style.mse-style\heart.png" />
+    <Image Include="..\data\ledge-standard-style.mse-style\icon.png" />
+    <Image Include="..\data\ledge-standard-style.mse-style\image_bg.png" />
+    <Image Include="..\data\ledge-standard-style.mse-style\no_mask.png" />
+    <Image Include="..\data\ledge-standard-style.mse-style\red_flourish.png" />
+    <Image Include="..\data\ledge-standard-style.mse-style\spade.png" />
+    <Image Include="..\data\ledge-standard-style.mse-style\text_bg.png" />
+    <Image Include="..\data\ledge-standard-symbol-font.mse-symbol-font\club.png" />
+    <Image Include="..\data\ledge-standard-symbol-font.mse-symbol-font\diamond.png" />
+    <Image Include="..\data\ledge-standard-symbol-font.mse-symbol-font\heart.png" />
+    <Image Include="..\data\ledge-standard-symbol-font.mse-symbol-font\spade.png" />
+    <Image Include="..\data\ledge-standard.mse-game\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\data\ledge-standard-symbol-font.mse-symbol-font\boArust.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
