@@ -1,0 +1,30 @@
+ranking_filter := {
+	input := to_upper(input)
+	input := sort_text(input, order: "[A1234567890]JQK")
+	if input == "1" then input := "A" else input
+	if input == "A0" then input := "10" else input	
+	if input == "" then input
+	else if input == "10" or input == "A" then input := substring(input, end:2)
+	else input := substring(input, end:1)
+}
+
+text_color := {
+	if card.suite == "spade" or card.suite == "club" then rgb(0,0,0) else rgb(200,0,0)
+}
+
+text_filter := {
+	substring(input, begin:0, end:2)
+	input := input + " "
+	input := replace(match: "  ", replace: " ")
+
+	if input[2] != " " then input := replace(match: " ", replace: "")
+	else input
+
+	if input[1] == " " then input := "<nosym>" + input + "</nosym>"
+	suiteholder := input[0]
+	if input[1] + input[2] == "11" then input := suiteholder + "J "
+	else if input[1] + input[2] == "12" then input := suiteholder + "Q "
+	else if input[1] + input[2] == "13" then input := suiteholder + "K "
+	else if input[1] == "1" then input := suiteholder + "A "
+	else input
+}

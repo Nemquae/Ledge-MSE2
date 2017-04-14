@@ -1,0 +1,98 @@
+mse version: 2.0.0
+short name: The Ledge
+full name: Trading Card Game
+icon: icon.png
+position hint: 444
+installer group: ledge-standard/game
+
+init script: include file: script
+
+card field:
+	type: color
+	name: bg_color
+	show statistics: false
+	editable: false
+	default: rgb(255,250,250)
+
+card field:
+	type: text
+	name: ranking
+	description: This field is for the number or ranking of the card.
+	script: ranking_filter(value)
+
+card field:
+	type: text
+	name: ranking_mirror
+	editable: false
+	save value: false
+	default: "{ card.ranking }"
+	show statistics: false
+
+
+card field:
+	type: text
+	name: name
+	description: The name of the card.
+	script: to_title(value)
+
+card field:
+	type: text
+	name: name_mirror
+	editable: false
+	save value: false
+	default: "{ card.name }"
+	show statistics: false
+
+card field:
+	type: choice
+	name: suite
+	description: The suite of the card.
+	choice: club
+	choice: diamond
+	choice: heart
+	choice: spade
+
+card field:
+	type: choice
+	name: suite_mirror
+	editable: false
+	save value: false
+	default: "{ card.suite }"
+	show statistics: false
+	choice: club
+	choice: diamond
+	choice: heart
+	choice: spade
+
+card field:
+	type: choice
+	name: flourish
+	editable: false
+	save value: false
+	choice: black
+	choice: red
+	default: "{ if card.suite == "club" or card.suite == "spade" then "black" else "red" }"
+
+card field:
+	type: image
+	name: image
+	description: The card's image.
+
+card field:
+	type: choice
+	name: image_mirror
+	editable: false
+	choice: default
+
+card field:
+	type: choice
+	name: text_box
+	editable: false
+	choice: default
+
+card field:
+	type: text
+	name: text
+	multi line: true
+	description: Some additional text.
+	script: tag_contents(tag: "<sym>", contents: text_filter, input: value)

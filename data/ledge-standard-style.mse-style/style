@@ -1,0 +1,156 @@
+mse version: 2.0.0
+game: ledge-standard
+short name: Original
+full name: The only style file.
+position hint: 1
+installer group: ledge-standard/style
+
+depends on: 
+	package: ledge-standard.mse-game
+	package: ledge-standard-symbol-font.mse-symbol-font
+
+card width: 298
+card height: 402
+card dpi: 120
+card background: rgb(200,200,200)
+
+styling field:
+	type: boolean
+	name: is_face
+	description: Should this card be treated as a face card?
+	initial: no
+
+card style:
+	bg_color:
+		top: 0
+		left: 0
+		height: 402
+		width: 298
+		mask: bg_color_mask.png
+
+	ranking:
+		top: 22
+		left: 26
+		height: 30
+		width: 26
+		alignment: center
+		font:
+			name: BoArust
+			size: 28
+			color: { text_color() }
+
+	ranking_mirror:
+		top: 380
+		left: 272
+		height: 30
+		width: 26
+		angle: 180
+		font:
+			name: BoArust
+			size: 28
+			color: { text_color() }
+
+	name:
+		top: 22
+		left: 68
+		height: 24
+		width: 160
+		alignment: left bottom overflow-shrink
+		font:
+			name: BoArust
+			size: 20
+			color: { text_color() }
+
+	name_mirror:
+		top: 380
+		left: 230
+		height: 24
+		width: 160
+		alignment: left bottom overflow-shrink
+		angle: 180
+		font:
+			name: BoArust
+			size: 20
+			color: { text_color() }
+
+	suite:
+		top: 60
+		left: 22
+		height: 34
+		width: 34
+		render style: image
+		choice images:
+			club: club.png
+			diamond: diamond.png
+			heart: heart.png
+			spade: spade.png
+
+	suite_mirror:
+		top: 342
+		left: 276
+		height: 34
+		width: 34
+		angle: 180
+		render style: image
+		choice images:
+			club: club.png
+			diamond: diamond.png
+			heart: heart.png
+			spade: spade.png
+
+	flourish:
+		top: 124
+		left: 12
+		height: 145
+		width: 48
+		render style: image
+		choice images:
+			black: black_flourish.png
+			red: red_flourish.png
+
+	image_mirror:
+		top: 349
+		left: 237
+		height: 292
+		width: 179
+		angle: 180
+		z index: 57
+		render style: image
+		mask: { if styling.is_face then "face_mask.png" else "no_mask.png" }
+		visible: { styling.is_face }
+		choice images:
+			default: { card.image }
+
+	image:
+		top: 57
+		left: 58
+		height: 292
+		width: 179
+		mask: { if styling.is_face then "face_mask.png" else "no_mask.png" }
+		default: image_bg.png
+
+	text_box:
+		top: 211
+		left: 58
+		height: 138
+		width: 179
+		visible: { if card.text != "" then true else false }
+		render style: image
+		choice images:
+			default: text_bg.png
+
+	text:
+		top: 211
+		left: 58
+		height: 138
+		width: 179
+		alignment: left
+		font:
+			name: BoArust
+			size: 14
+			color: rgb(0,0,0)
+		symbol font:
+			name: ledge-standard-symbol-font
+			size: 11
+
+
