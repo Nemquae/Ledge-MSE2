@@ -1,0 +1,112 @@
+############################################################## Statistics dimensions
+
+statistics dimension:
+	name:   card color
+	position hint: 0
+	script: primary_card_color(card.card_color)
+	icon: stats/card_color.png
+	colors:
+		rha			: rgb(192,64,64)
+		dau			: rgb(192,64,128)
+		wim			: rgb(192,64,192)
+		pfi			: rgb(128,64,192)
+		quae		: rgb(64,64,192)
+		vei			: rgb(64,128,192)
+		ela			: rgb(64,192,192)
+		biz			: rgb(64,192,128)
+		yun			: rgb(64,192,64)
+		jutu		: rgb(128,192,64)
+		glei		: rgb(192,192,64)
+		sace		: rgb(192,128,64)
+		ohm			: rgb(128,128,128)
+		construct	rgb(72,90,100) # construct
+		wild		rgb(130,110,0) # wild
+		enchantment rgb(115,0,160) # enchantment
+		multi		rgb(130,110,0) # multi
+		none		rgb(128,128,128) # none
+		all			rgb(100,70,0)	# all
+		source		rgb(109,62,39) # source
+	group: rha			
+	group: dau			
+	group: wim			
+	group: pfi			
+	group: quae		
+	group: vei			
+	group: ela			
+	group: biz			
+	group: yun			
+	group: jutu		
+	group: glei		
+	group: sace		
+	group: ohm			
+	group: construct	
+	group: wild		
+	group: enchantment 
+	group: multi		
+	group: none		
+	group: all			
+	group: source		
+
+statistics dimension:
+	position hint: 2
+	name:   base cost
+	script: base_cost(card.cost)
+	numeric: true
+	icon: stats/base_cost.png
+
+statistics dimension:
+	position hint: 3
+	name:   colored cost
+	script: colored_cost(card.casting_cost)
+	numeric: true
+	icon: stats/colored_cost.png
+
+statistics dimension:
+	name: undefined keywords
+	position hint: 29
+	icon: stats/undefined_keywords.png
+	description: The undefined keywords statistic
+	script: card.keywords
+
+statistics dimension:
+	position hint: 50
+	name: chi
+	script: card.chi
+	numeric: true
+	icon: stats/chi.png
+
+statistics dimension:
+	position hint: 51
+	name: sha
+	script: card.sha
+	numeric: true
+	icon: stats/sha.png
+
+statistics dimension:
+	name: text length (words)
+	position hint: 100
+	script: word_count(to_text(card.rule_text))
+	numeric: true
+	bin size: 5
+	icon: stats/text_length.png
+
+statistics dimension:
+	name: text length (lines)
+	position hint: 101
+	script: line_count(to_text(card.rule_text))
+	numeric: true
+	icon: stats/text_length.png
+
+statistics dimension:
+	name: keywords
+	position hint: 1000
+	script: keyword_definition(unique:true)
+	show empty: false
+	split list: true
+	icon: stats/keywords.png
+
+statistics dimension:
+	name: style
+	position hint: 1001
+	script: stylesheet.short_name
+	icon: stats/stylesheet.png

@@ -148,4 +148,15 @@
       <Filter>Resource Files</Filter>
     </Font>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\data\ledge-standard.mse-game\card_fields">
+      <Filter>Ledge Source</Filter>
+    </Text>
+    <Text Include="..\data\ledge-standard.mse-game\set_fields">
+      <Filter>Ledge Source</Filter>
+    </Text>
+    <Text Include="..\data\ledge-standard.mse-game\statistics">
+      <Filter>Ledge Source</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

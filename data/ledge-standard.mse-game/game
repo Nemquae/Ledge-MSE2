@@ -1,98 +1,63 @@
 mse version: 2.0.0
-short name: The Ledge
-full name: Trading Card Game
+short name: Ledge TCG
+full name: Ledge Trading Card Game
 icon: icon.png
 position hint: 444
 installer group: ledge-standard/game
 
+version: 2017-10-13
+
+############################################################## Dependencies (none yet)
+#depends on:
+#	package:
+#	version:
+
+############################################################## The script
+
 init script: include file: script
 
-card field:
-	type: color
-	name: bg_color
-	show statistics: false
-	editable: false
-	default: rgb(255,250,250)
+############################################################## Lots of lists
 
-card field:
-	type: text
-	name: ranking
-	description: This field is for the number or ranking of the card.
-	script: ranking_filter(value)
+include file: card_fields
+include file: set_fields
+include file: statistics
+include file: packs
+include file: keywords
+include file: word_lists
+include file: add_cards_scripts
+include file: auto_replace
 
-card field:
-	type: text
-	name: ranking_mirror
-	editable: false
-	save value: false
-	default: "{ card.ranking }"
-	show statistics: false
+############################################################## Other stuff
 
+card list color script:
+	input := card.card_color
+	if      input == "rha"	then rgb(192,64,64)
+	else if input == "dau"  then rgb(192,64,128)
+	else if input == "wim"	then rgb(192,64,192)
+	else if input == "pfi"  then rgb(128,64,192)
+	else if input == "quae" then rgb(64,64,192)
+	else if input == "vei"  then rgb(64,128,192)
+	else if input == "ela"  then rgb(64,192,192)
+	else if input == "biz"  then rgb(64,192,128)
+	else if input == "yun"  then rgb(64,192,64)
+	else if input == "jutu" then rgb(128,192,64)
+	else if input == "glei" then rgb(192,192,64)
+	else if input == "sace" then rgb(192,128,64)
+	else if input == "ohm"	then rgb(128,128,128)
 
-card field:
-	type: text
-	name: name
-	description: The name of the card.
-	script: to_title(value)
-
-card field:
-	type: text
-	name: name_mirror
-	editable: false
-	save value: false
-	default: "{ card.name }"
-	show statistics: false
-
-card field:
-	type: choice
-	name: suite
-	description: The suite of the card.
-	choice: club
-	choice: diamond
-	choice: heart
-	choice: spade
-
-card field:
-	type: choice
-	name: suite_mirror
-	editable: false
-	save value: false
-	default: "{ card.suite }"
-	show statistics: false
-	choice: club
-	choice: diamond
-	choice: heart
-	choice: spade
-
-card field:
-	type: choice
-	name: flourish
-	editable: false
-	save value: false
-	choice: black
-	choice: red
-	default: "{ if card.suite == "club" or card.suite == "spade" then "black" else "red" }"
-
-card field:
-	type: image
-	name: image
-	description: The card's image.
-
-card field:
-	type: choice
-	name: image_mirror
-	editable: false
-	choice: default
-
-card field:
-	type: choice
-	name: text_box
-	editable: false
-	choice: default
-
-card field:
-	type: text
-	name: text
-	multi line: true
-	description: Some additional text.
-	script: tag_contents(tag: "<sym>", contents: text_filter, input: value)
+	else (
+		construct	:= chosen(choice:"construct")
+		wild		:= chosen(choice:"wild")
+		enchantment := chosen(choice:"enchantment")
+		multi		:= chosen(choice:"multicolor")
+		none		:= chosen(choice:"none")
+		all			:= chosen(choice:"all")
+		source		:= chosen(choice:"source")
+		if      construct   then rgb(72,90,100) # construct
+		else if wild		then rgb(130,110,0) # wild
+		else if enchantment	then rgb(115,0,160) # enchantment
+		else if multi		then rgb(130,110,0) # multi
+		else if all			then rgb(100,70,0)	# all
+		else if source		then rgb(109,62,39) # source
+		else                     rgb(128,128,128) # none
+	)

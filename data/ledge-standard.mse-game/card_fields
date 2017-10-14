@@ -1,0 +1,306 @@
+﻿############################################################## Card fields
+
+############################# Automatic fields
+
+# The 'shape' of the card (flip, split, etc.)
+card field:
+	type: choice
+	name: shape
+	save value: false
+	show statistics: false
+	editable: false
+	choice: normal
+	choice: token
+	script:
+		stylesheet   # indicate that this value should be updated when the stylesheet changes
+		card_shape() # determined by the style
+card field:
+	type: text
+	name: full name
+	save value: false
+	show statistics: false
+	editable: false
+	card list visible: true
+	card list name: Name
+	card list column: 1
+	card list width: 150
+	description: The name of the card
+
+############################# Background stuff
+card field:
+	type: color
+	name: border color
+	default: set.border_color
+	choice:
+		name: black
+		color: rgb(0,0,0)
+	choice:
+		name: white
+		color: rgb(255,255,255)
+	show statistics: false
+	description: The border of the card; can be any solid color.
+card field:
+	type: multiple choice
+	name: card color
+	empty choice: none
+	choice: rha
+	choice: dau
+	choice: wim
+	choice: pfi
+	choice: quae
+	choice: vei
+	choice: ela
+	choice: biz
+	choice: yun
+	choice: jutu
+	choice: glei
+	choice: sace
+	choice:
+		name: ohm
+		line below: true
+	choice: none
+	choice: all
+	choice: multicolor
+	script: card_color_filter(value)
+	default: card_color(casting_cost: card.casting_cost, rules_text: card.rule_text, keywords: card.keywords, watermark: card.watermark, card_name: card.name, default: "none")
+	show statistics: false
+	description: The frame of the card, used to indicate card color.
+
+	############################# Name line
+card field:
+	type: text
+	name: name
+	card list visible: false
+	identifying: true
+	show statistics: false
+	description: The name of the card
+card field:
+	type: text
+	name: cost
+	icon: stats/casting_cost.png
+	position hint: 1
+	script: cost_filter(value)
+	card list visible: true
+	card list column: 2
+	card list alignment: right
+	card list width: 50
+	card list name: C
+	description: The cost of the card
+card field:
+	type: choice
+	name: type symbol
+	default: typesymbol_type(type: card.super_type)
+	card list visible: false
+	show statistics: false
+	choice: construct
+	choice: creature
+	choice: enchantment
+	choice: instant
+	choice: source
+	choice: multitype
+	choice: wild
+	choice: none
+	description: The card type symbol for this card
+card field:
+	type: multiple choice
+	name: indicator
+	empty choice: none
+	choice: rha
+	choice: dau
+	choice: wim
+	choice: pfi
+	choice: quae
+	choice: vei
+	choice: ela
+	choice: biz
+	choice: yun
+	choice: jutu
+	choice: glei
+	choice: sace
+	choice:
+		name: ohm
+		line below: true
+	choice: none
+	choice: all
+	choice: multicolor
+	script: card_color_filter(value)
+	default: card.card_color
+	show statistics: false
+	description: The color indicator of the card, used to indicate card color.
+
+############################# Image
+card field:
+	type: image
+	name: image
+	show statistics: false
+	description: The image of the card
+
+############################# Card type
+card field:
+	type: text
+	name: keyword
+	icon: stats/card_keyword.png
+	position hint: 30
+	script: keyword_filter(value)
+	show statistics: false
+card field:
+	type: text
+	name: keywords
+	show statistics: false
+	save value: false
+	script:
+		# Not sure if this is right... hmm
+		forward_editor(
+			field: card.keyword,
+			soft_before_empty: true,
+			hide_when_empty:   true
+		)
+	card list visible: true
+	card list column:4
+	description: The undefined keywords of this card
+card field:
+	type: choice
+	name: rarity
+	icon: stats/rarity.png
+	position hint: 100
+	choice: source
+	choice: common
+	choice: uncommon
+	choice: rare
+	choice: mythic rare
+	choice: special
+	initial: common
+	card list visible: true
+	card list column: 6
+	description: The rarity of the card, to edit the symbol switch to the 'set info' tab
+	choice colors:
+		basic land: rgb(109,62,39)
+		common:     rgb(33,33,33)
+		uncommon:   rgb(224,224,224)
+		mythic rare: rgb(202, 49, 35)
+		rare:       rgb(255,207,52)
+		special:    rgb(190,0,255)
+
+############################# Text box
+card field:
+	type: text
+	name: rule text
+	script: text_filter(input: value, card_name: card.name)
+	show statistics: false
+	multi line: true
+	description: The rules text for the card
+card field:
+	type: text
+	name: flavor text
+	script: flavor_text_filter(value)
+	show statistics: false
+	multi line: true
+	description: The flavor text for the card
+card field:
+	type: text
+	name: text
+	multi line: true
+	save value: false
+	show statistics: false
+	script:
+		combined_editor(field1: card.rule_text, separator: "<line>\n</line>", field2: card.flavor_text)
+	description: The rules and flavor text for the card; use up and down arrows to switch
+card field:
+	type: choice
+	name: watermark
+	icon: stats/watermark.png
+	position hint: 200
+	include file: /magic-watermarks.mse-include/watermark-names
+	description: A watermark for below the textbox, this can be a symbol to distinguish archetypes
+
+############################# PT
+card field:
+	type: text
+	name: chi
+	icon: stats/chi.png
+	show statistics: false
+	script: type_over_scores(value)
+	description: The chi (positive energy) of a creature
+card field:
+	type: text
+	name: sha
+	icon: stats/sha.png
+	show statistics: false
+	description: The sha (negative energy) of a creature
+card field:
+	type: text
+	name: scores
+	save value: false
+	script: 
+		combined_editor(
+			field1: card.chi,
+			separator: language().pt_separator,
+			field2: card.sha,
+			soft_before_empty: true,
+			hide_when_empty:   true
+		)
+	card list visible: true
+	card list column: 5
+	card list width: 50
+	card list name: Scores
+	description: Scores of a creature
+	show statistics: false
+
+############################# Card sorting / numbering
+card field:
+	type: text
+	name: card number
+	save value: false
+	script:      card_number() + "/" + card_count()
+	sort script: rarity_sort() + card.card_number
+	card list visible: true
+	card list column: 10
+	card list width: 50
+	card list name: #
+	card list alignment: right
+	editable: false
+	show statistics: false
+card field:
+	type: text
+	name: custom card number
+	save value: true
+	editable: true
+	show statistics: false
+card field:
+	type: text
+	name: set code
+	editable: false
+	save value: false
+	script: set.set_code + " ⋅ " + set.set_language
+	show statistics: false
+card field:
+	type: text
+	name: card code text
+	editable: true
+	save value: true
+	show statistics: false
+
+############################# Copyright stuff
+card field:
+	type: text
+	name: illustrator
+	icon: stats/illustrator.png
+	position hint: 210
+	default: set.artist
+	description: Illustrator of this card, the default value can be changed on the 'set info' tab
+card field:
+	type: text
+	name: copyright
+	default: set.copyright
+	show statistics: false
+card field:
+	type: text
+	name: copyright line
+	save value: false
+	show statistics: false
+	script:
+		if set.automatic_card_numbers then
+			combined_editor(field1: card.copyright, separator: " ", field2: card.card_number)
+		else
+			forward_editor(field: card.copyright)
+	description: Copyright of this card and cardnumber, the default value can be changed on the 'set info' tab

@@ -1,6 +1,8 @@
 mse version: 2.0.0
 installer group: ledge-standard/symbol-font
 
+version: 2017-10-13
+
 image font size: 125
 
 symbol:

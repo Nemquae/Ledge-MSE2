@@ -5,9 +5,15 @@ full name: The only style file.
 position hint: 1
 installer group: ledge-standard/style
 
+version: 2017-10-13
+
 depends on: 
 	package: ledge-standard.mse-game
+	version: 2017-10-13
+
+depends on:
 	package: ledge-standard-symbol-font.mse-symbol-font
+	version: 2017-10-13
 
 card width: 298
 card height: 402

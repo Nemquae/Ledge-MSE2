@@ -158,6 +158,11 @@
   <ItemGroup>
     <Font Include="..\data\ledge-standard-symbol-font.mse-symbol-font\boArust.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\data\ledge-standard.mse-game\card_fields" />
+    <Text Include="..\data\ledge-standard.mse-game\set_fields" />
+    <Text Include="..\data\ledge-standard.mse-game\statistics" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
