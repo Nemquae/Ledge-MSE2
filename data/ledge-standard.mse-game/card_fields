@@ -174,7 +174,7 @@ card field:
 	card list column: 6
 	description: The rarity of the card, to edit the symbol switch to the 'set info' tab
 	choice colors:
-		basic land: rgb(109,62,39)
+		source: rgb(109,62,39)
 		common:     rgb(33,33,33)
 		uncommon:   rgb(224,224,224)
 		mythic rare: rgb(202, 49, 35)

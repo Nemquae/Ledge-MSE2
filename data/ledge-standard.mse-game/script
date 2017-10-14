@@ -1,30 +1,165 @@
-ranking_filter := {
-	input := to_upper(input)
-	input := sort_text(input, order: "[A1234567890]JQK")
-	if input == "1" then input := "A" else input
-	if input == "A0" then input := "10" else input	
-	if input == "" then input
-	else if input == "10" or input == "A" then input := substring(input, end:2)
-	else input := substring(input, end:1)
+############################################################## Localization
+
+include file: language
+
+############################################################## Sorting energy symbols
+
+# correctly sort an energy symbol
+energy_sort       := sort_text@(order: "XYZI[0123456789]CSE")
+
+# Like energy filter, only also allow up / down symbols:
+updown_filter := sort_text@(order: "<UD>")
+energy_filter_t := replace@(               # Remove [] used for forcing mana symbols
+			match: "[\\[\\]]",
+			replace: ""
+		) + { updown_filter() + energy_sort() }
+
+############################################################## Determine card color
+
+# Names of colors
+color_name := {
+	if      input = "W" then "white"
+	else if input = "U" then "blue"
+	else if input = "B" then "black"
+	else if input = "R" then "red"
+	else if input = "G" then "green"
+	else                     ""
+}
+color_names_1 := { color_name(colors.0) }
+color_names_2 := { color_name(colors.0) + ", " + color_name(colors.1) }
+color_names_3 := { color_name(colors.0) + ", " + color_name(colors.1) + ", " + color_name(colors.2) }
+color_names_4 := { color_name(colors.0) + ", " + color_name(colors.1) + ", " + color_name(colors.2) + ", " + color_name(colors.3) }
+color_names_5 := { color_name(colors.0) + ", " + color_name(colors.1) + ", " + color_name(colors.2) + ", " + color_name(colors.3) + ", " + color_name(colors.4) }
+# color based on mana cost, input = a mana cost
+color_filter  := sort_text@(order: "<WUBRG>")
+color_filterH := sort_text@(order: "</>")
+mana_to_color := {
+	count  := number_of_items(in: colors)
+	if hybrid == "" and contains(type, match:"Artifact") then
+		# not a hybrid, but artifact
+		if      count == 0 then  "artifact"
+		else if count == 1 then  color_names_1() + ", artifact"
+		else if set.set_info.use_gradient_multicolor == "no"  then "artifact, multicolor" # stop here
+		else if count == 2 then  color_names_2() + ", artifact, multicolor"
+		else if set.set_info.use_gradient_multicolor != "yes" then "artifact, multicolor" # stop here
+		else if count == 3 then  color_names_3() + ", artifact, multicolor"
+		else if count == 4 then  color_names_4() + ", artifact, multicolor"
+		else if count == 5 then  color_names_5() + ", artifact, multicolor"
+		else                     "artifact, multicolor"
+	else if hybrid == "" then
+		# not a hybrid, not artifact
+		if      count == 0 then  "colorless"
+		else if count == 1 then  color_names_1()
+		else if set.set_info.use_gradient_multicolor == "no"  then "multicolor" # stop here
+		else if count == 2 then  color_names_2() + ", multicolor"
+		else if set.set_info.use_gradient_multicolor != "yes" then "multicolor" # stop here
+		else if count == 3 then  color_names_3() + ", multicolor"
+		else if count == 4 then  color_names_4() + ", multicolor"
+		else if count == 5 then  color_names_5() + ", multicolor"
+		else                     "multicolor"
+	else if contains(type, match:"Artifact") then
+		# hybrid, but artifact
+		if count == 0 then "artifact"
+		else if count == 1 then color_names_1() + ", artifact"
+		else if count == 2 then  color_names_2() + ", artifact"
+		else                     "artifact, multicolor"
+	else
+		# hybrid, not artifact
+		if count == 0 then "colorless"
+		else if count == 1 then color_names_1()
+		else if count == 2 then  color_names_2() + ", hybrid"
+		else                     "multicolor"
 }
 
-text_color := {
-	if card.suite == "spade" or card.suite == "club" then rgb(0,0,0) else rgb(200,0,0)
+# color based on land text box, input = textbox contents
+color_text_filter :=
+	# remove activation costs
+	replace@(
+		match: "<sym[^>]*>[^<]+</sym[^>]*>"
+		in_context: "(?ix) (\\n|^)[^:]*<match>(,|:) | (pays?|additional|costs?)[ ]<match>",
+		replace: ""
+	) +
+	# keep only mana
+	filter_text@(match: "<sym[^>]*>([^<]+)") + color_filter;
+# get the land frame for a "WUBRG"-style input.
+land_multicolor := {
+	count  := number_of_items(in: colors)
+	if      count == 0 then "land"
+	else if count == 1 then color_names_1() + ", land"
+	else if count == 2 then color_names_2() + ", land"
+	else                    "land, multicolor"
+}
+land_to_color := {
+	# Based on watermark
+	if      watermark = "mana symbol white" then "white, land"
+	else if watermark = "mana symbol blue"  then "blue, land"
+	else if watermark = "mana symbol black" then "black, land"
+	else if watermark = "mana symbol red"   then "red, land"
+	else if watermark = "mana symbol green" then "green, land"
+	else land_multicolor(colors:color_text_filter(input: card.rule_text))
+};
+
+# Look for a CDA that defines colors
+text_to_color := {
+	# Note: running filter_text is quite slow, do a quick 'contains' check first
+	if contains(match: card_name) then (
+	  text := filter_text(match: "is (colorless|all colors|((blue|white|green|red|black)((,|,? and) (blue|white|green|red|black))*))", in_context: regex_escape(card_name)+"(</[-a-z]+>)* <match>\\.")
+	  if text != "" then (
+	    if contains(text, match: "all colors") then (
+		colors := "WUBRG"
+		if land = "land" then land_multicolor()
+		else mana_to_color(hybrid: "")
+	    ) else (
+		colors := ""
+		if contains(text, match: "white") then colors := colors + "W"
+		if contains(text, match: "blue")  then colors := colors + "U"
+		if contains(text, match: "black") then colors := colors + "B"
+		if contains(text, match: "red")   then colors := colors + "R"
+		if contains(text, match: "green") then colors := colors + "G"
+		if land = "land" then land_multicolor()
+		else mana_to_color(hybrid: "")
+	    )
+	  )
+	)
 }
 
-text_filter := {
-	substring(input, begin:0, end:2)
-	input := input + " "
-	input := replace(match: "  ", replace: " ")
+# The color of a card
+is_creature    := match@(match: "(?i)Creature")
+is_tribal      := match@(match: "(?i)Tribal")
+is_artifact    := match@(match: "(?i)Artifact")
+is_land        := match@(match: "(?i)Land")
+is_enchantment := match@(match: "(?i)Enchantment")
+is_spell       := match@(match: "(?i)Instant|Sorcery")
+card_color := {
+	# usually the color of mana
+	text_color := text_to_color(rules_text, land: is_land(type));
+	if text_color == "" then (
+		mana_color := mana_to_color(colors: color_filter(casting_cost), hybrid: color_filterH(casting_cost))
+		if      mana_color == "colorless" and is_land    (type)  then land_to_color(watermark)
+		else if mana_color == "colorless" and is_artifact(type)  then "artifact"
+		else if mana_color == "colorless" and contains(card.shape, match:"flip") then default
+		else mana_color
+	)
+	else text_color
+};
 
-	if input[2] != " " then input := replace(match: " ", replace: "")
-	else input
-
-	if input[1] == " " then input := "<nosym>" + input + "</nosym>"
-	suiteholder := input[0]
-	if input[1] + input[2] == "11" then input := suiteholder + "J "
-	else if input[1] + input[2] == "12" then input := suiteholder + "Q "
-	else if input[1] + input[2] == "13" then input := suiteholder + "K "
-	else if input[1] == "1" then input := suiteholder + "A "
-	else input
+# Number of colors in a card_color
+card_color_color_count := count_chosen@(choices: "white,blue,black,red,green,artifact")
+# Clean up color field
+card_color_filter := {
+	colors := card_color_color_count()
+	if colors > 2 then
+		input := remove_choice(choice: "overlay")
+	if colors > 1 then (
+		input := require_choice(choices: "multicolor, hybrid, land, artifact")
+		input := exclusive_choice(choices: "multicolor, hybrid")
+		input := require_exclusive_choice(choices: "horizontal, vertical, radial, overlay")
+	) else
+		input := remove_choice(choices: "radial, horizontal, vertical, overlay, hybrid, reversed")
+	if chosen(choice:"overlay") then
+		input := remove_choice(choice: "reversed")
+	input
 }
+
+# needed by all style files anyway
+include file: /magic-blends.mse-include/new-blends

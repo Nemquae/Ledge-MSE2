@@ -1,0 +1,435 @@
+
+############################################################## We have keywords
+
+has keywords: true
+
+############################################################## Keyword mode
+
+keyword mode:
+	name: core
+	description: Core set keywords (Flying, Water, etc.)
+keyword mode:
+	is default: true
+	name: custom
+	description: Custom keywords
+
+############################################################## Keyword parameter types
+
+keyword parameter type:
+	name: energy
+	match: [CSE/|]+
+	refer script:
+		name: normal
+		description: No changes made
+		script: \{{input}\}
+	refer script:
+		name: energy cost
+		description: Converts energy to number
+		# "0" left in so users can easily see how to edit script.
+		script: \{base_cost({input})\}
+
+keyword parameter type:
+	name: cost
+	match: [ ][CSE/|]*|[-—][^(\n]*
+	separator before is: [ —-]
+	separator after is: [.]
+	optional: false
+	# note: the separator is part of match
+	refer script:
+		name: normal
+		description: When using energy only costs, doesn't include anything extra in the reminder text
+		script: \{{input}\}
+	refer script:
+		name: add "pay an additional " for energy costs
+		description: When using energy only costs, words the reminder text as "pay an additional <cost>"
+		script: \{for_energy_costs(add:"pay an additional ", {input})\}
+	refer script:
+		name: add "pay " for energy costs
+		description: When using energy only costs, words the reminder text as "pay <cost>"
+		script: \{for_energy_costs(add:"pay ", {input})\}
+	separator script: long_dash()
+
+keyword parameter type:
+	name: number
+	match: [XYZ0-9]+
+	refer script:
+		name: normal
+		description: (1,2,3)
+		script: \{{input}\}
+	refer script:
+		name: as words
+		description: (one, two, three)
+		script: \{english_number({input})\}
+	refer script:
+		name: as words, use "a" for 1
+		description: (a, two, three)
+		script: \{english_number_a({input})\}
+	refer script:
+		name: as words, use "" for 1
+		description: (, two, three)
+		script: \{english_number_multiple({input})\}
+	refer script:
+		name: as ordinal words
+		description: (first, second, third)
+		script: \{english_number_ordinal({input})\}
+
+keyword parameter type:
+	name: action
+	match: [^(:\n]+
+	separator after is: [.]
+	reminder script: alternative_cost()
+
+keyword parameter type:
+	name: one_word
+	match: [A-Za-z0-9]+
+
+keyword parameter type:
+	name: name
+	match: [^(.:;\n—]+
+	refer script:
+		name: normal
+		description: No changes made.
+		script: \{{input}\}
+	refer script:
+		name: singular
+		description: Removes plurality from words.
+		script: \{english_singular({input})\}
+	refer script:
+		name: separate words with "and/or"
+		description: Changes spaces to " and/or ". "Elf Fighter" becomes "Elf and/or Fighter".
+		script: \{separate_words(spacer: " and/or ", {input})\}
+	refer script:
+		name: separate words with "or"
+		description: Changes spaces to " or ". "Elf Fighter" becomes "Elf or Fighter".
+		script: \{separate_words(spacer: " or ", {input})\}
+
+keyword parameter type:
+	name: a
+	match: [an?]*
+keyword parameter type:
+	name: nonsource
+	match: ( n?o?n?s?o?u?r?c?e? ?)
+
+############################# All Ledge keywords
+
+# Alpha
+keyword:
+	keyword: Personality
+	match: Personality
+	mode: core
+	reminder: 
+keyword:
+	keyword: Leader
+	match: Leader
+	mode: core
+	reminder: 
+keyword:
+	keyword: Style
+	match: Style
+	mode: core
+	reminder: 
+keyword:
+	keyword: Soul
+	match: Soul
+	mode: core
+	reminder: 
+keyword:
+	keyword: Fire
+	match: Fire
+	mode: core
+	reminder: 
+keyword:
+	keyword: Grab
+	match: Grab
+	mode: core
+	reminder: 
+keyword:
+	keyword: Strength
+	match: Strength
+	mode: core
+	reminder: 
+keyword:
+	keyword: Matter
+	match: Matter
+	mode: core
+	reminder: 
+keyword:
+	keyword: Fate
+	match: Fate
+	mode: core
+	reminder: 
+keyword:
+	keyword: Wild
+	match: Wild
+	mode: core
+	reminder: 
+keyword:
+	keyword: Fighter
+	match: Fighter
+	mode: core
+	reminder: 
+keyword:
+	keyword: Threat
+	match: Threat
+	mode: core
+	reminder: 
+keyword:
+	keyword: Will
+	match: Will
+	mode: core
+	reminder: 
+keyword:
+	keyword: Metal
+	match: Metal
+	mode: core
+	reminder: 
+keyword:
+	keyword: Power
+	match: Power
+	mode: core
+	reminder: 
+keyword:
+	keyword: Body
+	match: Body
+	mode: core
+	reminder: 
+keyword:
+	keyword: Peace
+	match: Peace
+	mode: core
+	reminder: 
+keyword:
+	keyword: War
+	match: War
+	mode: core
+	reminder: 
+keyword:
+	keyword: Intelligence
+	match: Intelligence
+	mode: core
+	reminder: 
+keyword:
+	keyword: Pattern
+	match: Pattern
+	mode: core
+	reminder: 
+keyword:
+	keyword: Tech
+	match: Tech
+	mode: core
+	reminder: 
+keyword:
+	keyword: Construct
+	match: Construct
+	mode: core
+	reminder: 
+keyword:
+	keyword: Air
+	match: Air
+	mode: core
+	reminder: 
+keyword:
+	keyword: Fly
+	match: Fly
+	mode: core
+	reminder: 
+keyword:
+	keyword: Knowledge
+	match: Knowledge
+	mode: core
+	reminder: 
+keyword:
+	keyword: Truth
+	match: Truth
+	mode: core
+	reminder: 
+keyword:
+	keyword: Secret
+	match: Secret
+	mode: core
+	reminder: 
+keyword:
+	keyword: Mind
+	match: Mind
+	mode: core
+	reminder: 
+keyword:
+	keyword: Advisor
+	match: Advisor
+	mode: core
+	reminder: 
+keyword:
+	keyword: Discover
+	match: Discover
+	mode: core
+	reminder: 
+keyword:
+	keyword: Wisdom
+	match: Wisdom
+	mode: core
+	reminder: 
+keyword:
+	keyword: Time
+	match: Time
+	mode: core
+	reminder: 
+keyword:
+	keyword: Magic
+	match: Magic
+	mode: core
+	reminder: 
+keyword:
+	keyword: Enchantment
+	match: Enchantment
+	mode: core
+	reminder: 
+keyword:
+	keyword: Honor
+	match: Honor
+	mode: core
+	reminder: 
+keyword:
+	keyword: Betrayal
+	match: Betrayal
+	mode: core
+	reminder: 
+keyword:
+	keyword: Spirit
+	match: Spirit
+	mode: core
+	reminder: 
+keyword:
+	keyword: Believer
+	match: Believer
+	mode: core
+	reminder: 
+keyword:
+	keyword: Style
+	match: Style
+	mode: core
+	reminder: 
+keyword:
+	keyword: Water
+	match: Water
+	mode: core
+	reminder: 
+keyword:
+	keyword: Swim
+	match: Swim
+	mode: core
+	reminder: 
+keyword:
+	keyword: Fortune
+	match: Fortune
+	mode: core
+	reminder: 
+keyword:
+	keyword: Energy
+	match: Energy
+	mode: core
+	reminder: 
+keyword:
+	keyword: Worker
+	match: Worker
+	mode: core
+	reminder: 
+keyword:
+	keyword: Trade
+	match: Trade
+	mode: core
+	reminder: 
+keyword:
+	keyword: Health
+	match: Health
+	mode: core
+	reminder: 
+keyword:
+	keyword: Earth
+	match: Earth
+	mode: core
+	reminder: 
+keyword:
+	keyword: Freedom
+	match: Freedom
+	mode: core
+	reminder: 
+keyword:
+	keyword: Oppression
+	match: Oppression
+	mode: core
+	reminder: 
+keyword:
+	keyword: Dexterity
+	match: Dexterity
+	mode: core
+	reminder: 
+keyword:
+	keyword: Movement
+	match: Movement
+	mode: core
+	reminder: 
+keyword:
+	keyword: Storm
+	match: Storm
+	mode: core
+	reminder: 
+keyword:
+	keyword: Range
+	match: Range
+	mode: core
+	reminder: 
+keyword:
+	keyword: Perception
+	match: Perception
+	mode: core
+	reminder: 
+keyword:
+	keyword: Beauty
+	match: Beauty
+	mode: core
+	reminder: 
+keyword:
+	keyword: Trickster
+	match: Trickster
+	mode: core
+	reminder: 
+keyword:
+	keyword: Charm
+	match: Charm
+	mode: core
+	reminder: 
+keyword:
+	keyword: Charisma
+	match: Charisma
+	mode: core
+	reminder: 
+keyword:
+	keyword: Space
+	match: Space
+	mode: core
+	reminder: 
+keyword:
+	keyword: Hate
+	match: Hate
+	mode: core
+	reminder: 
+keyword:
+	keyword: Love
+	match: Love
+	mode: core
+	reminder: 
+keyword:
+	keyword: Creature
+	match: Creature
+	mode: core
+	reminder: 
+keyword:
+	keyword: Source
+	match: Source
+	mode: core
+	reminder: 
+keyword:
+	keyword: Undead
+	match: Undead
+	mode: core
+	reminder: 
