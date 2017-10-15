@@ -158,5 +158,14 @@
     <Text Include="..\data\ledge-standard.mse-game\statistics">
       <Filter>Ledge Source</Filter>
     </Text>
+    <Text Include="..\data\ledge-standard.mse-game\packs">
+      <Filter>Ledge Source</Filter>
+    </Text>
+    <Text Include="..\data\ledge-standard.mse-game\keywords">
+      <Filter>Ledge Source</Filter>
+    </Text>
+    <Text Include="..\data\ledge-standard.mse-game\auto_replace">
+      <Filter>Ledge Source</Filter>
+    </Text>
   </ItemGroup>
 </Project>
