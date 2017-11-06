@@ -115,6 +115,7 @@
     <None Include="..\data\ledge-standard.mse-game\game" />
     <None Include="..\data\ledge-standard.mse-game\script" />
     <None Include="..\data\magic-blends.mse-include\include" />
+    <None Include="..\data\magic-blends.mse-include\new-blends" />
     <None Include="..\data\magic-default-image.mse-include\include" />
     <None Include="..\data\magic-identity-new.mse-include\include" />
     <None Include="..\data\magic-m15.mse-style\style" />
@@ -159,6 +160,7 @@
     <Font Include="..\data\ledge-standard-symbol-font.mse-symbol-font\boArust.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="..\data\ledge-standard-blends.mse-include\new-blends" />
     <Text Include="..\data\ledge-standard.mse-game\auto_replace" />
     <Text Include="..\data\ledge-standard.mse-game\card_fields" />
     <Text Include="..\data\ledge-standard.mse-game\keywords" />

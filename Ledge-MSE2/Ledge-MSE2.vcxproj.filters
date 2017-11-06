@@ -89,6 +89,9 @@
     <None Include="..\data\magic-identity-new.mse-include\include">
       <Filter>Magic Reference</Filter>
     </None>
+    <None Include="..\data\magic-blends.mse-include\new-blends">
+      <Filter>Magic Reference</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\data\ledge-standard.mse-game\icon.png">
@@ -165,6 +168,9 @@
       <Filter>Ledge Source</Filter>
     </Text>
     <Text Include="..\data\ledge-standard.mse-game\auto_replace">
+      <Filter>Ledge Source</Filter>
+    </Text>
+    <Text Include="..\data\ledge-standard-blends.mse-include\new-blends">
       <Filter>Ledge Source</Filter>
     </Text>
   </ItemGroup>

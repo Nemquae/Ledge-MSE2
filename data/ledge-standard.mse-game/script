@@ -18,60 +18,38 @@ energy_filter_t := replace@(               # Remove [] used for forcing mana sym
 
 # Names of colors
 color_name := {
-	if      input = "W" then "white"
-	else if input = "U" then "blue"
-	else if input = "B" then "black"
-	else if input = "R" then "red"
-	else if input = "G" then "green"
+	if      input = "R" then "rha"
+	else if input = "D" then "dau"
+	else if input = "W" then "wim"
+	else if input = "P" then "pfi"
+	else if input = "Q" then "quae"
+	else if input = "V" then "vei"
+	else if input = "E" then "ela"
+	else if input = "B" then "biz"
+	else if input = "Y" then "yun"
+	else if input = "J" then "jutu"
+	else if input = "G" then "glei"
+	else if input = "S" then "sace"
+	else if input = "O" then "ohm"
 	else                     ""
 }
 color_names_1 := { color_name(colors.0) }
 color_names_2 := { color_name(colors.0) + ", " + color_name(colors.1) }
 color_names_3 := { color_name(colors.0) + ", " + color_name(colors.1) + ", " + color_name(colors.2) }
-color_names_4 := { color_name(colors.0) + ", " + color_name(colors.1) + ", " + color_name(colors.2) + ", " + color_name(colors.3) }
-color_names_5 := { color_name(colors.0) + ", " + color_name(colors.1) + ", " + color_name(colors.2) + ", " + color_name(colors.3) + ", " + color_name(colors.4) }
-# color based on mana cost, input = a mana cost
-color_filter  := sort_text@(order: "<WUBRG>")
-color_filterH := sort_text@(order: "</>")
-mana_to_color := {
+
+# color based on energy cost, input = an energy cost
+color_filter  := sort_text@(order: "<RDWPQVEBYJGSO>")
+energy_to_color := {
 	count  := number_of_items(in: colors)
-	if hybrid == "" and contains(type, match:"Artifact") then
-		# not a hybrid, but artifact
-		if      count == 0 then  "artifact"
-		else if count == 1 then  color_names_1() + ", artifact"
-		else if set.set_info.use_gradient_multicolor == "no"  then "artifact, multicolor" # stop here
-		else if count == 2 then  color_names_2() + ", artifact, multicolor"
-		else if set.set_info.use_gradient_multicolor != "yes" then "artifact, multicolor" # stop here
-		else if count == 3 then  color_names_3() + ", artifact, multicolor"
-		else if count == 4 then  color_names_4() + ", artifact, multicolor"
-		else if count == 5 then  color_names_5() + ", artifact, multicolor"
-		else                     "artifact, multicolor"
-	else if hybrid == "" then
-		# not a hybrid, not artifact
-		if      count == 0 then  "colorless"
-		else if count == 1 then  color_names_1()
-		else if set.set_info.use_gradient_multicolor == "no"  then "multicolor" # stop here
-		else if count == 2 then  color_names_2() + ", multicolor"
-		else if set.set_info.use_gradient_multicolor != "yes" then "multicolor" # stop here
-		else if count == 3 then  color_names_3() + ", multicolor"
-		else if count == 4 then  color_names_4() + ", multicolor"
-		else if count == 5 then  color_names_5() + ", multicolor"
-		else                     "multicolor"
-	else if contains(type, match:"Artifact") then
-		# hybrid, but artifact
-		if count == 0 then "artifact"
-		else if count == 1 then color_names_1() + ", artifact"
-		else if count == 2 then  color_names_2() + ", artifact"
-		else                     "artifact, multicolor"
-	else
-		# hybrid, not artifact
-		if count == 0 then "colorless"
-		else if count == 1 then color_names_1()
-		else if count == 2 then  color_names_2() + ", hybrid"
-		else                     "multicolor"
+
+	if      count == 0 then  "colorless"
+	else if count == 1 then  color_names_1()
+	else if count == 2 then  color_names_2() + ", multicolor"
+	else if count == 3 then  color_names_3() + ", multicolor"
+	else                     "multicolor"
 }
 
-# color based on land text box, input = textbox contents
+# color based on keywords text box, input = textbox contents
 color_text_filter :=
 	# remove activation costs
 	replace@(
@@ -81,43 +59,60 @@ color_text_filter :=
 	) +
 	# keep only mana
 	filter_text@(match: "<sym[^>]*>([^<]+)") + color_filter;
-# get the land frame for a "WUBRG"-style input.
-land_multicolor := {
+# get the source frame for a "RDWPQVEBYJGSO"-style input.
+source_multicolor := {
 	count  := number_of_items(in: colors)
-	if      count == 0 then "land"
-	else if count == 1 then color_names_1() + ", land"
-	else if count == 2 then color_names_2() + ", land"
-	else                    "land, multicolor"
+	if      count == 0 then "source"
+	else if count == 1 then color_names_1() + ", source"
+	else if count == 2 then color_names_2() + ", source"
+	else                    "source, multicolor"
 }
-land_to_color := {
+source_to_color := {
 	# Based on watermark
-	if      watermark = "mana symbol white" then "white, land"
-	else if watermark = "mana symbol blue"  then "blue, land"
-	else if watermark = "mana symbol black" then "black, land"
-	else if watermark = "mana symbol red"   then "red, land"
-	else if watermark = "mana symbol green" then "green, land"
-	else land_multicolor(colors:color_text_filter(input: card.rule_text))
+	if      watermark = "energy symbol rha" then "rha, source"
+	else if watermark = "energy symbol dau"  then "dau, source"
+	else if watermark = "energy symbol wim" then "wim, source"
+	else if watermark = "energy symbol pfi"   then "pfi, source"
+	else if watermark = "energy symbol quae" then "quae, source"
+	else if watermark = "energy symbol vei" then "vei, source"
+	else if watermark = "energy symbol ela" then "ela, source"
+	else if watermark = "energy symbol biz" then "biz, source"
+	else if watermark = "energy symbol yun" then "yun, source"
+	else if watermark = "energy symbol jutu" then "jutu, source"
+	else if watermark = "energy symbol glei" then "glei, source"
+	else if watermark = "energy symbol sace" then "sace, source"
+	else if watermark = "energy symbol ohm" then "ohm, source"
+	else source_multicolor(colors:color_text_filter(input: card.rule_text))
 };
 
 # Look for a CDA that defines colors
 text_to_color := {
 	# Note: running filter_text is quite slow, do a quick 'contains' check first
 	if contains(match: card_name) then (
-	  text := filter_text(match: "is (colorless|all colors|((blue|white|green|red|black)((,|,? and) (blue|white|green|red|black))*))", in_context: regex_escape(card_name)+"(</[-a-z]+>)* <match>\\.")
+	  text := filter_text(match: "is (colorless|all colors|((rha|dau|wim|pfi|quae|vei|ela|biz|yun|jutu|glei|sace|ohm)((,|,? and) (rha|dau|wim|pfi|quae|vei|ela|biz|yun|jutu|glei|sace|ohm))*))", in_context: regex_escape(card_name)+"(</[-a-z]+>)* <match>\\.")
 	  if text != "" then (
 	    if contains(text, match: "all colors") then (
-		colors := "WUBRG"
-		if land = "land" then land_multicolor()
-		else mana_to_color(hybrid: "")
+		colors := "RDWPQVEBYJGSO"
+		if source = "source" then source_multicolor()
+		else energy_to_color()
 	    ) else (
 		colors := ""
-		if contains(text, match: "white") then colors := colors + "W"
-		if contains(text, match: "blue")  then colors := colors + "U"
-		if contains(text, match: "black") then colors := colors + "B"
-		if contains(text, match: "red")   then colors := colors + "R"
-		if contains(text, match: "green") then colors := colors + "G"
-		if land = "land" then land_multicolor()
-		else mana_to_color(hybrid: "")
+		if contains(text, match: "rha" ) then colors := colors + "R"
+		if contains(text, match: "dau" ) then colors := colors + "D"
+		if contains(text, match: "wim" ) then colors := colors + "W"
+		if contains(text, match: "pfi" ) then colors := colors + "P"
+		if contains(text, match: "quae") then colors := colors + "Q"
+		if contains(text, match: "vei" ) then colors := colors + "V"
+		if contains(text, match: "ela" ) then colors := colors + "E"
+		if contains(text, match: "biz" ) then colors := colors + "B"
+		if contains(text, match: "yun" ) then colors := colors + "Y"
+		if contains(text, match: "jutu") then colors := colors + "J"
+		if contains(text, match: "glei") then colors := colors + "G"
+		if contains(text, match: "sace") then colors := colors + "S"
+		if contains(text, match: "ohm" ) then colors := colors + "O"
+
+		if source = "source" then source_multicolor()
+		else energy_to_color()
 	    )
 	  )
 	)
@@ -125,41 +120,180 @@ text_to_color := {
 
 # The color of a card
 is_creature    := match@(match: "(?i)Creature")
-is_tribal      := match@(match: "(?i)Tribal")
-is_artifact    := match@(match: "(?i)Artifact")
-is_land        := match@(match: "(?i)Land")
+is_construct   := match@(match: "(?i)Construct")
+is_source      := match@(match: "(?i)Source")
 is_enchantment := match@(match: "(?i)Enchantment")
-is_spell       := match@(match: "(?i)Instant|Sorcery")
+is_wild	       := match@(match: "(?i)Wild")
 card_color := {
-	# usually the color of mana
-	text_color := text_to_color(rules_text, land: is_land(type));
+	# usually the color of energy
+	text_color := text_to_color(rules_text, land: is_source(type));
 	if text_color == "" then (
-		mana_color := mana_to_color(colors: color_filter(casting_cost), hybrid: color_filterH(casting_cost))
-		if      mana_color == "colorless" and is_land    (type)  then land_to_color(watermark)
-		else if mana_color == "colorless" and is_artifact(type)  then "artifact"
-		else if mana_color == "colorless" and contains(card.shape, match:"flip") then default
-		else mana_color
+		energy_color := energy_to_color(colors: color_filter(casting_cost))
+		if      energy_color == "colorless" and is_source    (type)  then source_to_color(watermark)
+		else if energy_color == "colorless" and is_construct(type)  then "construct"
+		else energy_color
 	)
 	else text_color
 };
 
 # Number of colors in a card_color
-card_color_color_count := count_chosen@(choices: "white,blue,black,red,green,artifact")
+card_color_color_count := count_chosen@(choices: "rha,dau,wim,pfi,quae,vei,ela,biz,yun,jutu,glei,sace,ohm")
 # Clean up color field
 card_color_filter := {
 	colors := card_color_color_count()
-	if colors > 2 then
-		input := remove_choice(choice: "overlay")
 	if colors > 1 then (
-		input := require_choice(choices: "multicolor, hybrid, land, artifact")
-		input := exclusive_choice(choices: "multicolor, hybrid")
-		input := require_exclusive_choice(choices: "horizontal, vertical, radial, overlay")
+		input := require_choice(choices: "multicolor, source, construct")
+		input := exclusive_choice(choices: "multicolor")
 	) else
-		input := remove_choice(choices: "radial, horizontal, vertical, overlay, hybrid, reversed")
-	if chosen(choice:"overlay") then
-		input := remove_choice(choice: "reversed")
 	input
 }
 
 # needed by all style files anyway
-include file: /magic-blends.mse-include/new-blends
+include file: /ledge-standard-blends.mse-include/new-blends
+
+############################################################## Card number
+
+# Index for sorting, white cards are first, so white->A, blue->B, .. ,
+# The code consists of 3 parts:
+#   color,  shifted,   split
+sort_index := {
+	color_of_card() +
+	(if contains(card.shape, match:"shifted") then "S" else " ") + # planeshifted cards come after normal ones
+	(if contains(card.shape, match:"split")   then "S" else " ") + # split cards come after normal ones
+	":"
+}
+# Process the name for sorting rules
+sort_name :=
+	# Remove "The", "A", and "And" at the beginning
+	replace@(match: "^(The|An?) ", replace: "") +
+	# Remove commas and apostrophes
+	replace@(match: "(,|'|’)", replace: "") +
+	# Remove bold and italic tags
+	replace@(match: "(<b>|<i>|</b>|</i>)", replace: "") +
+	# Make lowercase
+	to_lower
+
+is_multicolor := { chosen(choice: "multicolor") and input != "artifact, multicolor" }
+is_null_cost  := { input == "" or input == "0" }
+is_hybrid_cost := { contains(card.casting_cost, match: "W/") or contains(card.casting_cost, match: "U/") or contains(card.casting_cost, match: "B/") or contains(card.casting_cost, match: "R/") or contains(card.casting_cost, match: "G/") }
+basic_land_sort := {
+	if contains(card.name, match:"Plains")        then "MB"      # Plains
+	else if contains(card.name, match:"Island")   then "MC"      # Islands
+	else if contains(card.name, match:"Swamp")    then "MD"      # Swamps
+	else if contains(card.name, match:"Mountain") then "ME"      # Mountains
+	else if contains(card.name, match:"Forest")   then "MF"      # Forests
+	else                                               "MA"      # other basic lands
+}
+hybrid_color_pair_sort := {
+	colors := sort_text(casting_cost, order: "<WUBRG>")
+	if not set.sort_hybrid_in_pairs then "HK"
+	else if colors = "WU" then "HA"
+	else if colors = "UB" then "HB"
+	else if colors = "BR" then "HC"
+	else if colors = "RG" then "HD"
+	else if colors = "WG" then "HE"
+	else if colors = "WB" then "HF"
+	else if colors = "UR" then "HG"
+	else if colors = "BG" then "HH"
+	else if colors = "WR" then "HI"
+	else if colors = "UG" then "HJ"
+	else "HK"
+}
+multi_color_pair_sort := {
+	colors := sort_text(casting_cost, order: "<WUBRG>")
+	if not set.sort_multicolor_in_pairs then "GK"
+	else if colors = "WU" then "GA"
+	else if colors = "UB" then "GB"
+	else if colors = "BR" then "GC"
+	else if colors = "RG" then "GD"
+	else if colors = "WG" then "GE"
+	else if colors = "WB" then "GF"
+	else if colors = "UR" then "GG"
+	else if colors = "BG" then "GH"
+	else if colors = "WR" then "GI"
+	else if colors = "UG" then "GJ"
+	else if contains(card.casting_cost, match:"/") then "GL"
+	else "GK"
+}
+# A code for the color of the card
+color_of_card := {
+	card_color := card.card_color
+	casting_cost := card.casting_cost
+	type := card.super_type
+	if contains(card.shape, match: "split") and
+	   card_color != card.card_color_2 then "I"                              # Diff Color Splits
+	else if chosen(choice: "land", card_color) then (                   # Lands
+		if card.rarity != "basic land" then "L"                          # Nonbasic Land
+		else basic_land_sort()                                           # Basic Land
+	) else if is_null_cost(casting_cost) then (                         # Non-Land Cards with no or zero costs.
+		if chosen(choice: "colorless", card_color) then "A"              # Clear Colorless
+		else if chosen(choice: "hybrid", card_color)    then "HK"        # Hybrids
+		else if is_multicolor(card_color)          then "GK"             # Multicolor
+		else if chosen(choice:"white", card_color) then "B"              # White
+		else if chosen(choice:"blue", card_color)  then "C"              # Blue
+		else if chosen(choice:"black", card_color) then "D"              # Black
+		else if chosen(choice:"red", card_color)   then "E"              # Red
+		else if chosen(choice:"green", card_color) then "F"              # Green
+		else                                            "J"              # Artifact
+	) else (
+		                                                            # Cards with costs.
+		colors := sort_text(casting_cost, order: "<WUBRG>")
+		if colors == "" and contains(type, match:"Artifact") then "J"    # Artifact
+		else if colors == ""  then "A"                                   # Clear Colorless
+		else if colors == "W" then "B"                                   # White
+		else if colors == "U" then "C"                                   # Blue
+		else if colors == "B" then "D"                                   # Black
+		else if colors == "R" then "E"                                   # Red
+		else if colors == "G" then "F"                                   # Green
+		else if is_hybrid_cost() then hybrid_color_pair_sort()           # Hybrid (by pairs)
+		else if contains(casting_cost, match:"/") and contains(type, match:"Artifact") then "I" # Hybrid Artifacts
+		else                       multi_color_pair_sort()               # Multicolor (by pairs)
+	)
+}
+
+rarity_sort := {
+	if card.shape == "token" then "T1"
+	else if card.shape == "emblem" then "T2"
+	else if card.shape == "rulestip" then "T3"
+	else if card.shape == "counter" then "T4"
+	else if card.shape == "checklist" then "T5"
+	else if set.sort_special_rarity == "with the rest" or card.rarity != "special" then " "
+	else "S"
+}
+set_filter := {
+	# TODO: what about rulestips?
+	if card.shape == "token" or card.shape == "emblem" then
+		{ card.shape == "token" or card.shape == "emblem" }
+	else if card.shape == "rulestip" then
+		{ card.shape == "rulestip" }
+	else if card.shape == "counter" then
+		{ card.shape == "counter" }
+	else if card.shape == "checklist" then
+		{ card.shape == "checklist" }
+	else if set.sort_special_rarity != "separate numbering" then
+		{ card.shape != "token" and card.shape != "emblem" and card.shape != "rulestip" and card.shape != "counter" and card.shape != "checklist"}
+	else if card.rarity == "special" then
+		{ card.shape != "token" and card.shape != "emblem" and card.shape != "rulestip" and card.shape != "counter" and card.shape != "checklist" and card.rarity == "special" }
+	else
+		{ card.shape != "token" and card.shape != "emblem" and card.shape != "rulestip" and card.shape != "counter" and card.shape != "checklist" and card.rarity != "special" }
+}
+
+card_number := {
+	position (
+		of: card
+		in: set
+		order_by: { rarity_sort() + sort_index() + sort_name(card.name) }
+		filter:   set_filter()
+	) + 1
+}
+card_count := {
+	number_of_items(in: set, filter: set_filter())
+}
+
+#Starting with M15, zero digits in card numbers should be shown up to three.
+card_number_m15 := { (if card_number() < 100 then "0" else "") + (if card_number() < 10 then "0" else "") + card_number() }
+card_count_m15 := { (if card_count() < 100 then "0" else "") + (if card_count() < 10 then "0" else "") + card_count() }
+
+# used by pack scripts
+is_token_card   := { card.shape == "token" or card.shape == "rulestip" or card.shape == "counter" or card.shape == "checklist" or card.shape == "emblem"}
+is_shifted_card := { contains(card.shape, match:"shifted") }
