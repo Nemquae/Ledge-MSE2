@@ -9,7 +9,7 @@ energy_sort       := sort_text@(order: "XYZI[0123456789]CSE")
 
 # Like energy filter, only also allow up / down symbols:
 updown_filter := sort_text@(order: "<UD>")
-energy_filter_t := replace@(               # Remove [] used for forcing mana symbols
+energy_filter_t := replace@(               # Remove [] used for forcing energy symbols
 			match: "[\\[\\]]",
 			replace: ""
 		) + { updown_filter() + energy_sort() }
@@ -57,7 +57,7 @@ color_text_filter :=
 		in_context: "(?ix) (\\n|^)[^:]*<match>(,|:) | (pays?|additional|costs?)[ ]<match>",
 		replace: ""
 	) +
-	# keep only mana
+	# keep only energy
 	filter_text@(match: "<sym[^>]*>([^<]+)") + color_filter;
 # get the source frame for a "RDWPQVEBYJGSO"-style input.
 source_multicolor := {
@@ -128,7 +128,7 @@ card_color := {
 	# usually the color of energy
 	text_color := text_to_color(rules_text, land: is_source(type));
 	if text_color == "" then (
-		energy_color := energy_to_color(colors: color_filter(casting_cost))
+		energy_color := energy_to_color(colors: color_filter(play_cost))
 		if      energy_color == "colorless" and is_source    (type)  then source_to_color(watermark)
 		else if energy_color == "colorless" and is_construct(type)  then "construct"
 		else energy_color
@@ -153,13 +153,9 @@ include file: /ledge-standard-blends.mse-include/new-blends
 
 ############################################################## Card number
 
-# Index for sorting, white cards are first, so white->A, blue->B, .. ,
-# The code consists of 3 parts:
-#   color,  shifted,   split
+# Index for sorting, rha cards are first, so rha->A, dau->B, .. ,
 sort_index := {
 	color_of_card() +
-	(if contains(card.shape, match:"shifted") then "S" else " ") + # planeshifted cards come after normal ones
-	(if contains(card.shape, match:"split")   then "S" else " ") + # split cards come after normal ones
 	":"
 }
 # Process the name for sorting rules
@@ -173,81 +169,49 @@ sort_name :=
 	# Make lowercase
 	to_lower
 
-is_multicolor := { chosen(choice: "multicolor") and input != "artifact, multicolor" }
+is_multicolor := { chosen(choice: "multicolor") }
 is_null_cost  := { input == "" or input == "0" }
-is_hybrid_cost := { contains(card.casting_cost, match: "W/") or contains(card.casting_cost, match: "U/") or contains(card.casting_cost, match: "B/") or contains(card.casting_cost, match: "R/") or contains(card.casting_cost, match: "G/") }
-basic_land_sort := {
-	if contains(card.name, match:"Plains")        then "MB"      # Plains
-	else if contains(card.name, match:"Island")   then "MC"      # Islands
-	else if contains(card.name, match:"Swamp")    then "MD"      # Swamps
-	else if contains(card.name, match:"Mountain") then "ME"      # Mountains
-	else if contains(card.name, match:"Forest")   then "MF"      # Forests
-	else                                               "MA"      # other basic lands
-}
-hybrid_color_pair_sort := {
-	colors := sort_text(casting_cost, order: "<WUBRG>")
-	if not set.sort_hybrid_in_pairs then "HK"
-	else if colors = "WU" then "HA"
-	else if colors = "UB" then "HB"
-	else if colors = "BR" then "HC"
-	else if colors = "RG" then "HD"
-	else if colors = "WG" then "HE"
-	else if colors = "WB" then "HF"
-	else if colors = "UR" then "HG"
-	else if colors = "BG" then "HH"
-	else if colors = "WR" then "HI"
-	else if colors = "UG" then "HJ"
-	else "HK"
-}
-multi_color_pair_sort := {
-	colors := sort_text(casting_cost, order: "<WUBRG>")
-	if not set.sort_multicolor_in_pairs then "GK"
-	else if colors = "WU" then "GA"
-	else if colors = "UB" then "GB"
-	else if colors = "BR" then "GC"
-	else if colors = "RG" then "GD"
-	else if colors = "WG" then "GE"
-	else if colors = "WB" then "GF"
-	else if colors = "UR" then "GG"
-	else if colors = "BG" then "GH"
-	else if colors = "WR" then "GI"
-	else if colors = "UG" then "GJ"
-	else if contains(card.casting_cost, match:"/") then "GL"
-	else "GK"
-}
+
 # A code for the color of the card
 color_of_card := {
 	card_color := card.card_color
-	casting_cost := card.casting_cost
+	play_cost := card.play_cost
 	type := card.super_type
-	if contains(card.shape, match: "split") and
-	   card_color != card.card_color_2 then "I"                              # Diff Color Splits
-	else if chosen(choice: "land", card_color) then (                   # Lands
-		if card.rarity != "basic land" then "L"                          # Nonbasic Land
-		else basic_land_sort()                                           # Basic Land
-	) else if is_null_cost(casting_cost) then (                         # Non-Land Cards with no or zero costs.
+	if is_null_cost(play_cost) then (								 # Cards with no or zero costs.
 		if chosen(choice: "colorless", card_color) then "A"              # Clear Colorless
-		else if chosen(choice: "hybrid", card_color)    then "HK"        # Hybrids
-		else if is_multicolor(card_color)          then "GK"             # Multicolor
-		else if chosen(choice:"white", card_color) then "B"              # White
-		else if chosen(choice:"blue", card_color)  then "C"              # Blue
-		else if chosen(choice:"black", card_color) then "D"              # Black
-		else if chosen(choice:"red", card_color)   then "E"              # Red
-		else if chosen(choice:"green", card_color) then "F"              # Green
-		else                                            "J"              # Artifact
+		else if is_multicolor(card_color)          then "B"             # Multicolor
+		else if chosen(choice: "rha",  card_color) then "C"              
+		else if chosen(choice: "dau",  card_color) then "D"              
+		else if chosen(choice: "wim",  card_color) then "E"              
+		else if chosen(choice: "pfi",  card_color) then "F"              
+		else if chosen(choice: "quae", card_color) then "G"              
+		else if chosen(choice: "vei",  card_color) then "H"              
+		else if chosen(choice: "ela",  card_color) then "I"              
+		else if chosen(choice: "biz",  card_color) then "J"              
+		else if chosen(choice: "yun",  card_color) then "K"              
+		else if chosen(choice: "jutu", card_color) then "L"              
+		else if chosen(choice :"glei", card_color) then "M"              
+		else if chosen(choice: "sace", card_color) then "N"              
+		else if chosen(choice: "ohm",  card_color) then "O"
+		else "P"
 	) else (
-		                                                            # Cards with costs.
-		colors := sort_text(casting_cost, order: "<WUBRG>")
-		if colors == "" and contains(type, match:"Artifact") then "J"    # Artifact
-		else if colors == ""  then "A"                                   # Clear Colorless
-		else if colors == "W" then "B"                                   # White
-		else if colors == "U" then "C"                                   # Blue
-		else if colors == "B" then "D"                                   # Black
-		else if colors == "R" then "E"                                   # Red
-		else if colors == "G" then "F"                                   # Green
-		else if is_hybrid_cost() then hybrid_color_pair_sort()           # Hybrid (by pairs)
-		else if contains(casting_cost, match:"/") and contains(type, match:"Artifact") then "I" # Hybrid Artifacts
-		else                       multi_color_pair_sort()               # Multicolor (by pairs)
+																		 # Cards with costs.
+		colors := sort_text(play_cost, order: "<RDWPQVEBYJGSO>")
+			 if colors == ""  then "A"                                   # Clear Colorless
+		else if contains(colors, match: "R") then "C"                                   
+		else if contains(colors, match: "D") then "D"                                   
+		else if contains(colors, match: "W") then "E"                                   
+		else if contains(colors, match: "P") then "F"                                   
+		else if contains(colors, match: "Q") then "G"                                   
+		else if contains(colors, match: "V") then "H"                                   
+		else if contains(colors, match: "E") then "I"                                   
+		else if contains(colors, match: "B") then "J"                                   
+		else if contains(colors, match: "Y") then "K"                                   
+		else if contains(colors, match: "J") then "L"                                   
+		else if contains(colors, match: "G") then "M"                                   
+		else if contains(colors, match: "S") then "N"                                   
+		else if contains(colors, match: "O") then "O"                                   
+		else "P"														
 	)
 }
 
@@ -297,3 +261,384 @@ card_count_m15 := { (if card_count() < 100 then "0" else "") + (if card_count() 
 # used by pack scripts
 is_token_card   := { card.shape == "token" or card.shape == "rulestip" or card.shape == "counter" or card.shape == "checklist" or card.shape == "emblem"}
 is_shifted_card := { contains(card.shape, match:"shifted") }
+
+############################################################## Utilities for keywords
+
+# Replace spaces by a spacer
+separate_words := remove_tags + trim + replace@(match:" ", replace: {spacer})
+
+# replaces — correctly
+add := "" # default is nothing
+
+# If the 'input' parameter is a energy costs, then adds 'add'
+for_energy_costs := format_cost := {
+	if input.separator_before == "—" and contains(input.param, match: " ") then (
+		if contains(input.param, match:",") then (
+			if match(match: "^[RDWPQVEBYJGSO0-9/|]+,", input.param) then
+				"{add}<param-cost>{combined_cost(input.param)}</param-cost>"
+			else "<param-cost>{combined_cost(input.param)}</param-cost>"
+		) else
+			"<param-cost>{alternative_cost(input.param)}</param-cost>"
+	) else
+		"{add}<param-energy>{input.param}</param-energy>"
+}
+
+# Convert first character to lower case
+alternative_cost := replace@(match:"^[A-Z]", replace: { to_lower() })
+
+#
+combined_cost := replace@(match:", [A-Z]", replace: { to_lower() })+
+	replace@(match:",", replace:" and")+
+	replace@(match:"^[RDWPQVEBYJGSO0-9/|]", in_context: "(^|[[:space:]])<match>", replace: "<sym-auto>&</sym-auto>")+
+	replace@(match:"^[A-Z]", replace: { to_lower() })
+
+long_dash := replace@(match:"-", replace:"—")
+
+# Utilities for keywords
+
+has_pc := { card.play_cost != "" }
+
+contains_target := match@(match:"(?i)([^a-z]|^)target([^a-z]|$)")
+
+is_targeted := { contains_target(card.rule_text) }
+
+color_to_energy :=	replace@(match: "rha",  replace: "[R]")+
+					replace@(match: "dau",  replace: "[D]")+
+					replace@(match: "wim",  replace: "[W]")+
+					replace@(match: "pfi",  replace: "[P]")+
+					replace@(match: "quae", replace: "[Q]")
+					replace@(match: "vei",  replace: "[V]")+
+					replace@(match: "ela",  replace: "[E]")+
+					replace@(match: "biz",  replace: "[B]")+
+					replace@(match: "yun",  replace: "[Y]")+
+					replace@(match: "jutu", replace: "[J]")
+					replace@(match: "glei", replace: "[G]")+
+					replace@(match: "sace", replace: "[S]")+
+					replace@(match: "ohm",  replace: "[O]")+
+
+############################################################## The text box
+
+# Filters for the text box
+# context in which energy symbols are found
+energy_context :=
+	"(?ix)				# case insensitive, ignore whitespace
+	 (^|[[:space:]\"(“'])		# start of a word
+	 (  <match>:			# G: something
+	 |  <match>,			# G, tap: something
+	 |  <match>[ ]can[ ]be[ ]pay
+	 |  (pays?|additional|costs?|the	# pay X. creatures cost 1 less. pay an additional G.
+	    |adds?|pay(ed)?[ ](with|using)
+	    )
+	    ([ ]either)?			 # pay either X or Y
+	    ([ ](<sym[^>]*>)?[RDWPQVEBYJGSO0-9/|]+(</sym[^>]*>)?,)* # pay X, Y or Z
+	    ([ ](<sym[^>]*>)?[RDWPQVEBYJGSO0-9/|]+(</sym[^>]*>)?[ ](and|or|and/or))* # pay X or Y
+	    [ ]<match>
+	    ([,.)]|$				# (end of word)
+	    |[ ][^ .,]*$			# still typing...
+	    |[ ]( or | and | in | less | more | to ) # or next word is ...
+	    )
+	    )
+	 |  <param-energy><match></param-energy>		# keyword argument that is declared as energy
+	 |  <param-cost>[ ]*<match></param-cost>	# keyword argument that is declared as cost
+	 |  <param-cost><match>,			# keyword argument that is declared as cost
+	 ";
+
+# truncates the name of legends
+legend_filter := replace@(match:"(, | of | the ).*", replace: "" )
+
+# these are considered a correct 'word' for spellchecking in the text box:
+additional_text_words := match@(match:
+	"(?ix)^(?:                         # match whole word
+	  <atom-[^>]*>.*?</atom-[^>]*>     # cardnames and stuff
+	| [+-]?[0-9X]+ / [+-]?[0-9X]+      # '3/3', '+X/+X'
+	)$")
+
+# the rule text filter
+#  - adds energy symbols
+#  - makes text in parentheses italic
+text_filter :=
+	# step 1 : remove all automatic tags
+	remove_tag@(tag: "<sym-auto>") +
+	remove_tag@(tag: "<i-auto>")   +
+	remove_tag@(tag: "<b-auto>")   +
+	remove_tag@(tag: "<error-spelling") +
+	remove_tag@(tag: "<nospellcheck") +
+	# step 2 : reminder text for keywords
+	expand_keywords@(
+		condition: {
+			correct_case or (mode != "pseudo" and not used_placeholders)
+		}
+		default_expand: {
+			chosen(choice:if correct_case then mode else "lower case", set.automatic_reminder_text)
+		},
+		combine: {
+			keyword  := "<nospellcheck>{keyword}</nospellcheck>"
+			reminder := process_english_hints(reminder)
+			if mode == "pseudo" then "<i-auto>{keyword}</i-auto>"
+			else keyword + if expand then "<atom-reminder-{mode}> ({reminder})</atom-reminder-{mode}>"
+		}) +
+	# step 2b : move action keywords' reminder text to the end of the line
+	replace@(
+		match: "(<atom-reminder-action>(?:(?!<kw-).)*</atom-reminder-action></kw[^>]*>)(((?!<atom-reminder| ?<kw-)[^\n(])+)",
+		replace: "\\2\\1"
+		) +
+	# step 2c : remove duplicate reminder text
+	replace@(
+		match: "(<atom-reminder-[^>]*>[^)]+[)]</atom-reminder-[^>]*>)([^\n]+)\\1"
+		replace: "\\2\\1"
+		) +
+	# step 3a : expand shortcut word CARDNAME
+	replace@(
+		match: "CARDNAME",
+		in_context: "(^|[[:space:]]|\\()<match>", # TODO: Allow any punctuation before
+		replace: "<atom-cardname></atom-cardname>"
+		) +
+	# step 3b : expand shortcut word LEGENDNAME
+	replace@(
+		match: "LEGENDNAME",
+		in_context: "(^|[[:space:]]|\\()<match>", # TODO: Allow any punctuation before
+		replace: "<atom-legname></atom-legname>"
+		) +
+	# step 3c : fill in atom fields
+	tag_contents@(
+		tag: "<atom-cardname>",
+		contents: { "<nospellcheck>" + (if card_name=="" then "CARDNAME" else card_name) + "</nospellcheck>" }
+		) +
+	tag_contents@(
+		tag: "<atom-legname>",
+		contents: { "<nospellcheck>" + (if card_name=="" then "LEGENDNAME" else legend_filter(card_name)) + "</nospellcheck>" }
+		) +
+	# step 4 : explict non energy symbols
+	replace@(
+		match: "\\][RDWPQVEBYJGSO0-9/|]+\\[",
+		replace: {"<nosym>" + energy_filter_t() + "</nosym>"} ) +
+	# step 5 : add energy & tap symbols
+	replace@(
+		match: "\\b[RDWPQVEBYJGSO0-9/|]+\\b",
+		in_context: energy_context,
+		replace: {"<sym-auto>" + energy_filter_t() + "</sym-auto>"} ) +
+	# step 5b : add explict energy symbols
+	replace@(
+		match: "\\[[RDWPQVEBYJGSO0-9/|]+\\]",
+		replace: {"<sym>" + energy_filter_t() + "</sym>"} ) +
+	# step 6 : curly quotes
+	curly_quotes +
+	# step 7 : italicize text in parenthesis
+	replace@(
+	 	match: "[(]([^)\n]|[(][^)\n]*[)])*[)]?",
+		in_context: "(^|[[:space:]])<match>|<atom-keyword><match></",
+	 	replace: "<i-auto>&</i-auto>") +
+	# step 8 : automatic capitalization, but not after "("
+	replace@(
+		match: "([ ]*: |—| — )" # preceded by this
+		     + "([[:lower:]])" # match this
+		     + "(?![)])",      # not followed by this
+		replace: { _1 + to_upper(_2) }) +
+	# step 9 : spellcheck
+	{ if set.mark_errors then
+		check_spelling(
+			language: language().spellcheck_code,
+			extra_dictionary: "/ledge.mse-game/ledge-words",
+			extra_match: additional_text_words
+		)
+	  else input
+	}
+
+############################################################## Other boxes
+
+# the flavor text filter
+#  - makes all text italic
+flavor_text_filter :=
+	# step 1 : remove italic tags
+	remove_tag@(tag: "<i-flavor>")   +
+	# step 2 : surround by <i> tags
+	{ "<i-flavor>" + input + "</i-flavor>" } +
+	# curly quotes
+	curly_quotes +
+	# spellcheck
+	{ if set.mark_errors
+	  then check_spelling(language:language().spellcheck_code)
+	  else input
+	}
+
+# Move the cursor past the separator in the p/t and type boxes
+type_over_type := replace@(match:" ?[-:]$", replace:"")
+
+super_type_filter := {
+	input := remove_tag(tag: "<word-list-")
+	input := type_over_type()
+	tag := "word-list-type" # TODO: localize
+	"<{tag}>{input}</{tag}>"
+}
+
+break_subtypes := split_text@(match: " +|<atom-sep>[^<]*</atom-sep>", include_empty:false)
+sub_type_filter := {
+	input := remove_tag(tag: "<word-list-")
+	input := remove_tag(tag: "<soft")
+	lang  := language()
+	# What word list to use?
+	list_type_rest := if      lang.is_creature(type)    then "class"
+	                  else if lang.is_land(type)        then "land"
+	                  else if lang.is_artifact(type)    then "artifact"
+	                  else if lang.is_enchantment(type) then "enchantment"
+	                  else if lang.is_spell(type)       then "spell"
+	                  else if lang.is_planeswalker(type)       then "planeswalker"
+	if list_type_rest != "" then (
+		if lang.is_creature(type) or lang.is_tribal(type) then (
+			list_type_first := "race"
+		) else (
+			list_type_first := list_type_rest
+		);
+		# wrap wordlist tag around each part
+		parts := break_subtypes()
+		(for each i:part in parts do
+			if i == 0 then
+				"<word-list-{list_type_first}>{part}</word-list-{list_type_first}>"
+			else
+				lang.subtype_separator + "<word-list-{list_type_rest}>{part}</word-list-{list_type_rest}>"
+		) +
+		(if length(parts) > 0 then
+			# Add a new box at the end
+			"<soft>{lang.subtype_separator}</soft><word-list-{list_type_rest}></word-list-{list_type_rest}>"
+		 else
+			"<word-list-{list_type_first}></word-list-{list_type_first}>"
+		)
+	) else input # do nothing
+}
+
+# all sub types, for word list
+space_to_comma := replace@(match:" ", replace:",")
+only_first     := replace@(match:" .*", replace:"")
+only_next      := replace@(match:"^[^ ]* ?", replace:"")
+all_sub_types := {
+	for each card in set do
+		if contains(card.super_type) then "," + space_to_comma(to_text(card.sub_type))
+}
+all_races := {
+	for each card in set do
+		if is_creature(card.super_type) or is_tribal(card.super_type) then
+			"," + only_first(to_text(card.sub_type))
+}
+all_classes := {
+	for each card in set do
+		if contains(card.super_type, match:"Creature") then
+			"," + space_to_comma(only_next(to_text(card.sub_type)))
+}
+
+# Determine a rarity code for M15 styles.
+rarity_code := {
+	if is_promo() then "P"
+	else if contains(card.shape, match:"token") then "T"
+	else if contains(card.shape, match:"emblem") then "E"
+	else if card.rarity == "common" then "C"
+	else if card.rarity == "uncommon" then "U"
+	else if card.rarity == "rare" then "R"
+	else if card.rarity == "mythic rare" then "M"
+	else if card.rarity == "special" then "S"
+	else if card.rarity == "basic land" then "L" }
+
+# Determine if the card is a promo card.
+is_promo := { "false" }
+
+# Determine if the card is a rare.
+is_rare := { card.rarity == "rare" or card.rarity == "mythic rare" }
+
+# Shape of cards, can be changed in style files
+card_shape := { "normal" }
+
+typesymbol_for :=
+	to_text +
+	replace@(match: "(Legendary|Basic|Snow|World| )", replace: "") +
+	{ if      input == "Creature"    then "creature"
+	  else if input == "Sorcery"     then "sorcery"
+	  else if input == "Instant"     then "instant"
+	  else if input == "Artifact"    then "artifact"
+	  else if input == "Enchantment" then "enchantment"
+	  else if input == "Land"        then "land"
+	  else if input == "Planeswalker" then "planeswalker"
+	  else                                "multitype"
+	}
+typesymbol_type := { typesymbol_for(type) }
+
+#Script to make ledge-energy-future compatible w/ other templates
+colorless_color := {
+		if contains(card.card_color, match:"hybrid") or contains(card.card_color, match:"multicolor") then "c"
+		else if card.card_color=="rha"  then "r"
+		else if card.card_color=="dau"  then "d"
+		else if card.card_color=="wim"  then "w"
+		else if card.card_color=="pfi"  then "p"
+		else if card.card_color=="quae" then "q"
+		else if card.card_color=="vei"  then "v"
+		else if card.card_color=="ela"  then "e"
+		else if card.card_color=="biz"  then "b"
+		else if card.card_color=="yun"  then "y"
+		else if card.card_color=="jutu" then "j"
+		else if card.card_color=="glei" then "g"
+		else if card.card_color=="sace" then "s"
+		else if card.card_color=="ohm"  then "o"
+		else "c"
+	}
+
+#Indicators never appear if the indicator would be colorless, colorless land, or colorless artifact.
+#Indicators do appear if the chosen frame doesn't match the default.
+#Indicators do appear if the chosen color for the indicator doesn't match the default.
+
+has_identity := { ( ( card.card_color != card_color(casting_cost: card.casting_cost, rules_text: card.rule_text, type: card.super_type, watermark: card.watermark, card_name: card.name, default: "colorless") ) or ( card.indicator != card_color(casting_cost: card.casting_cost, rules_text: card.rule_text, type: card.super_type, watermark: card.watermark, card_name: card.name, default: "colorless") ) ) and card.indicator != "colorless" and card.indicator != "artifact" and card.indicator != "land"}
+
+has_identity_2 := { ( ( card.card_color_2 != card_color(casting_cost: card.casting_cost_2, rules_text: card.rule_text_2, type: card.super_type_2, watermark: card.watermark_2, card_name: card.name_2, default: "colorless") ) or ( card.indicator_2 != card_color(casting_cost: card.casting_cost_2, rules_text: card.rule_text_2, type: card.super_type_2, watermark: card.watermark_2, card_name: card.name_2, default: "colorless") ) ) and card.indicator_2 != "colorless" and card.indicator_2 != "artifact" and card.indicator_2 != "land"}
+
+############################################################## Statistics utilities
+
+# Converted energy cost
+is_colored_energy := match@(match: "[RDWPQVEBYJGSO]")
+only_numbers    := filter_text@(match: "^[0123456789]+")
+cmc_split := break_text@(match: "(?ix) 1/2 | [|][RDWPQVEBYJGSO] | [0-9]+(?!/[RDWPQVEBYJGSO]) | [RDWPQVEBYJGSO0-9](/[RDWPQVEBYJGSO])\{0,4} ")
+cmc := {to_number(
+	for each sym in cmc_split(to_text()) do (
+		numbers := only_numbers(sym)
+		if is_half_energy(sym)  then 0.5
+		else if numbers != "" then to_int(numbers)
+		else                       1 # all other symbols are 1
+	))
+}
+
+colored_energy := {to_number(
+	for each sym in cmc_split(to_text()) do (
+		numbers := only_numbers(sym)
+		if is_colored_energy(sym) then
+			if is_half_energy(sym) then 0.5 else 1
+		else 0
+	))
+}
+
+primary_card_color := {
+	artifact := chosen(choice:"artifact") and not (chosen(choice:"white") or chosen(choice:"blue") or chosen(choice:"black") or chosen(choice:"red") or chosen(choice:"green"))
+	source   := chosen(choice:"source")
+	multi    := chosen(choice:"multicolor")
+	white    := chosen(choice:"white")
+	blue     := chosen(choice:"blue")
+	black    := chosen(choice:"black")
+	red      := chosen(choice:"red")
+	green    := chosen(choice:"green")
+	if      land                                      then "land"
+	else if multi                                     then "multicolor"
+	else if hybrid                                    then "hybrid"
+	else if artifact                                  then "artifact"
+	else if white                                     then "white"
+	else if blue                                      then "blue"
+	else if black                                     then "black"
+	else if red                                       then "red"
+	else if green                                     then "green"
+	else                                                   input
+}
+
+word_count := break_text@(match:"[^[:space:]]+") + length
+line_count := split_text@(match:"\n+",include_empty:false) + length
+
+#Remove supertypes or types to look at parts of the super_type field by themselves.
+remove_supertype := replace@(match: "(Legendary|Basic|Snow|World|Tribal|Token)", replace: "")+
+	replace@(match: "[ ]+", in_context: "^<match>", replace: "")+
+	replace@(match: "[ ]+", in_context: "<match>$", replace: "")
+remove_type := replace@(match: "(Artifact|Creature|Enchantment|Instant|Land|Planeswalker|Sorcery)", replace: "")+
+	replace@(match: "[ ]+", in_context: "^<match>", replace: "")+
+	replace@(match: "[ ]+", in_context: "<match>$", replace: "")
