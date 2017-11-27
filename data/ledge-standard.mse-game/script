@@ -612,33 +612,50 @@ colored_energy := {to_number(
 }
 
 primary_card_color := {
-	artifact := chosen(choice:"artifact") and not (chosen(choice:"white") or chosen(choice:"blue") or chosen(choice:"black") or chosen(choice:"red") or chosen(choice:"green"))
-	source   := chosen(choice:"source")
-	multi    := chosen(choice:"multicolor")
-	white    := chosen(choice:"white")
-	blue     := chosen(choice:"blue")
-	black    := chosen(choice:"black")
-	red      := chosen(choice:"red")
-	green    := chosen(choice:"green")
-	if      land                                      then "land"
-	else if multi                                     then "multicolor"
-	else if hybrid                                    then "hybrid"
-	else if artifact                                  then "artifact"
-	else if white                                     then "white"
-	else if blue                                      then "blue"
-	else if black                                     then "black"
-	else if red                                       then "red"
-	else if green                                     then "green"
-	else                                                   input
+	construct	:= chosen(choice:"construct")
+	wild		:= chosen(choice:"wild")
+	enchantment := chosen(choice:"enchantment")
+	multi		:= chosen(choice:"multicolor")
+	none		:= chosen(choice:"none")
+	all			:= chosen(choice:"all")
+	source		:= chosen(choice:"source")
+	rha			:= chosen(choice:"rha" )
+	dau			:= chosen(choice:"dau" )
+	wim		    := chosen(choice:"wim" )
+	pfi			:= chosen(choice:"pfi" )
+	quae		:= chosen(choice:"quae")
+	vei			:= chosen(choice:"vei" )
+	ela			:= chosen(choice:"ela" )
+	biz			:= chosen(choice:"biz" )
+	yun			:= chosen(choice:"yun" )
+	jutu	    := chosen(choice:"jutu")
+	glei		:= chosen(choice:"glei")
+	sace		:= chosen(choice:"sace")
+	ohm			:= chosen(choice:"ohm" )
+
+	if      construct	then "construct"
+	else if multi		then "multicolor"
+	else if enchantment	then "enchantment"
+	else if wild		then "wild"
+	else if none		then "none"
+	else if all			then "all"
+	else if source		then "source"
+	else if rha			then "rha"
+	else if dau			then "dau"
+	else if wim			then "wim"
+	else if pfi			then "pfi"
+	else if quae		then "quae"
+	else if vei			then "vei"
+	else if ela			then "ela"
+	else if biz			then "biz"
+	else if yun			then "yun"
+	else if jutu		then "jutu"
+	else if glei		then "glei"
+	else if sace		then "sace"
+	else if ohm			then "ohm"
+	else                   input
 }
 
 word_count := break_text@(match:"[^[:space:]]+") + length
 line_count := split_text@(match:"\n+",include_empty:false) + length
 
-#Remove supertypes or types to look at parts of the super_type field by themselves.
-remove_supertype := replace@(match: "(Legendary|Basic|Snow|World|Tribal|Token)", replace: "")+
-	replace@(match: "[ ]+", in_context: "^<match>", replace: "")+
-	replace@(match: "[ ]+", in_context: "<match>$", replace: "")
-remove_type := replace@(match: "(Artifact|Creature|Enchantment|Instant|Land|Planeswalker|Sorcery)", replace: "")+
-	replace@(match: "[ ]+", in_context: "^<match>", replace: "")+
-	replace@(match: "[ ]+", in_context: "<match>$", replace: "")
