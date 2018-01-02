@@ -10,7 +10,7 @@ unins000.exe
 /data/*
 
 !/data/ledge*
-!/data/magic-watermarks.mse-include/*
+!/data/magic-watermarks*
 
 
 #########################
