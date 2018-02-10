@@ -58,11 +58,12 @@ card field:
 	choice:
 		name: ohm
 		line below: true
-	choice: none
+	choice: dual
+	choice: tri
 	choice: all
-	choice: multicolor
+	choice: none
 	script: card_color_filter(value)
-	default: card_color(casting_cost: card.casting_cost, rules_text: card.rule_text, keywords: card.keywords, watermark: card.watermark, card_name: card.name, default: "none")
+	default: card_color(play_cost: card.play_cost, rules_text: card.rule_text, keywords: card.keywords, watermark: card.watermark, card_name: card.name, default: "none")
 	show statistics: false
 	description: The frame of the card, used to indicate card color.
 
@@ -77,30 +78,30 @@ card field:
 card field:
 	type: text
 	name: cost
-	icon: stats/casting_cost.png
+	icon: stats/play_cost.png
 	position hint: 1
-	script: cost_filter(value)
+	script: energy_filter(value)
 	card list visible: true
 	card list column: 2
 	card list alignment: right
 	card list width: 50
 	card list name: C
-	description: The cost of the card
+	description: The cost to play the card
 card field:
 	type: choice
-	name: type symbol
-	default: typesymbol_type(type: card.super_type)
+	name: keyword symbol
+	default: keywordsymbol_keyword(type: card.keyword)
 	card list visible: false
 	show statistics: false
-	choice: construct
+	choice: tech
 	choice: creature
-	choice: enchantment
+	choice: magic
 	choice: instant
 	choice: source
 	choice: multitype
 	choice: wild
 	choice: none
-	description: The card type symbol for this card
+	description: The card keyword symbol for this card
 card field:
 	type: multiple choice
 	name: indicator
@@ -120,9 +121,10 @@ card field:
 	choice:
 		name: ohm
 		line below: true
-	choice: none
+	choice: dual
+	choice: tri
 	choice: all
-	choice: multicolor
+	choice: none
 	script: card_color_filter(value)
 	default: card.card_color
 	show statistics: false
@@ -135,7 +137,7 @@ card field:
 	show statistics: false
 	description: The image of the card
 
-############################# Card type
+############################# Card keywords
 card field:
 	type: text
 	name: keyword
@@ -174,7 +176,7 @@ card field:
 	card list column: 6
 	description: The rarity of the card, to edit the symbol switch to the 'set info' tab
 	choice colors:
-		source: rgb(109,62,39)
+		source:		rgb(109,62,39)
 		common:     rgb(33,33,33)
 		uncommon:   rgb(224,224,224)
 		mythic rare: rgb(202, 49, 35)
@@ -210,32 +212,32 @@ card field:
 	name: watermark
 	icon: stats/watermark.png
 	position hint: 200
-	include file: /magic-watermarks.mse-include/watermark-names
+	include file: /ledge-watermarks.mse-include/watermark-names
 	description: A watermark for below the textbox, this can be a symbol to distinguish archetypes
 
-############################# PT
+############################# SC
+card field:
+	type: text
+	name: sha
+	icon: stats/sha.png
+	show statistics: false
+	description: The sha (negative energy) score of a creature
 card field:
 	type: text
 	name: chi
 	icon: stats/chi.png
 	show statistics: false
 	script: type_over_scores(value)
-	description: The chi (positive energy) of a creature
-card field:
-	type: text
-	name: sha
-	icon: stats/sha.png
-	show statistics: false
-	description: The sha (negative energy) of a creature
+	description: The chi (positive energy) score of a creature
 card field:
 	type: text
 	name: scores
 	save value: false
 	script: 
 		combined_editor(
-			field1: card.chi,
-			separator: language().pt_separator,
-			field2: card.sha,
+			field1: card.sha,
+			separator: language().sc_separator,
+			field2: card.chi,
 			soft_before_empty: true,
 			hide_when_empty:   true
 		)
@@ -243,7 +245,7 @@ card field:
 	card list column: 5
 	card list width: 50
 	card list name: Scores
-	description: Scores of a creature
+	description: Energy Scores of a creature
 	show statistics: false
 
 ############################# Card sorting / numbering

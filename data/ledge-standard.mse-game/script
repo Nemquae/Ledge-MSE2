@@ -5,7 +5,7 @@ include file: language
 ############################################################## Sorting energy symbols
 
 # correctly sort an energy symbol
-energy_sort       := sort_text@(order: "XYZI[0123456789]CSE")
+energy_sort       := sort_text@(order: "XYZI[0123456789]SCE")
 
 # Like energy filter, only also allow up / down symbols:
 updown_filter := sort_text@(order: "<UD>")
@@ -44,9 +44,9 @@ energy_to_color := {
 
 	if      count == 0 then  "colorless"
 	else if count == 1 then  color_names_1()
-	else if count == 2 then  color_names_2() + ", multicolor"
-	else if count == 3 then  color_names_3() + ", multicolor"
-	else                     "multicolor"
+	else if count == 2 then  color_names_2() + ", dual-color"
+	else if count == 3 then  color_names_3() + ", tri-color"
+	else                     "all-colors"
 }
 
 # color based on keywords text box, input = textbox contents
@@ -65,7 +65,8 @@ source_multicolor := {
 	if      count == 0 then "source"
 	else if count == 1 then color_names_1() + ", source"
 	else if count == 2 then color_names_2() + ", source"
-	else                    "source, multicolor"
+	else if count == 3 then color_names_3() + ", source"
+	else                    "source, all-colors"
 }
 source_to_color := {
 	# Based on watermark
@@ -122,11 +123,11 @@ text_to_color := {
 is_creature    := match@(match: "(?i)Creature")
 is_construct   := match@(match: "(?i)Construct")
 is_source      := match@(match: "(?i)Source")
-is_enchantment := match@(match: "(?i)Enchantment")
+is_magic	   := match@(match: "(?i)Magic")
 is_wild	       := match@(match: "(?i)Wild")
 card_color := {
 	# usually the color of energy
-	text_color := text_to_color(rules_text, land: is_source(type));
+	text_color := text_to_color(rules_text, source: is_source(type));
 	if text_color == "" then (
 		energy_color := energy_to_color(colors: color_filter(play_cost))
 		if      energy_color == "colorless" and is_source    (type)  then source_to_color(watermark)
@@ -142,8 +143,8 @@ card_color_color_count := count_chosen@(choices: "rha,dau,wim,pfi,quae,vei,ela,b
 card_color_filter := {
 	colors := card_color_color_count()
 	if colors > 1 then (
-		input := require_choice(choices: "multicolor, source, construct")
-		input := exclusive_choice(choices: "multicolor")
+		input := require_choice(choices: "dual-color, tri-color, all-colors, no-colors, source")
+		input := exclusive_choice(choices: "dual-color, tri-color, all-colors, no-colors")
 	) else
 	input
 }
@@ -169,17 +170,18 @@ sort_name :=
 	# Make lowercase
 	to_lower
 
-is_multicolor := { chosen(choice: "multicolor") }
+is_dual := { chosen(choice: "dual-color") }
+is_tri := { chosen(choice: "tri-color") }
 is_null_cost  := { input == "" or input == "0" }
 
 # A code for the color of the card
 color_of_card := {
 	card_color := card.card_color
 	play_cost := card.play_cost
-	type := card.super_type
+	type := card.keyword
 	if is_null_cost(play_cost) then (								 # Cards with no or zero costs.
 		if chosen(choice: "colorless", card_color) then "A"              # Clear Colorless
-		else if is_multicolor(card_color)          then "B"             # Multicolor
+		else if is_dual(card_color) or is_tri(card_color) then "B"             # dual
 		else if chosen(choice: "rha",  card_color) then "C"              
 		else if chosen(choice: "dau",  card_color) then "D"              
 		else if chosen(choice: "wim",  card_color) then "E"              
@@ -324,7 +326,7 @@ energy_context :=
 	"(?ix)				# case insensitive, ignore whitespace
 	 (^|[[:space:]\"(“'])		# start of a word
 	 (  <match>:			# G: something
-	 |  <match>,			# G, tap: something
+	 |  <match>,			# G, down: something
 	 |  <match>[ ]can[ ]be[ ]pay
 	 |  (pays?|additional|costs?|the	# pay X. creatures cost 1 less. pay an additional G.
 	    |adds?|pay(ed)?[ ](with|using)
@@ -411,16 +413,16 @@ text_filter :=
 	# step 4 : explict non energy symbols
 	replace@(
 		match: "\\][RDWPQVEBYJGSO0-9/|]+\\[",
-		replace: {"<nosym>" + energy_filter_t() + "</nosym>"} ) +
-	# step 5 : add energy & tap symbols
+		replace: {"<nosym>" + energy_filter_d() + "</nosym>"} ) +
+	# step 5 : add energy & down symbols
 	replace@(
 		match: "\\b[RDWPQVEBYJGSO0-9/|]+\\b",
 		in_context: energy_context,
-		replace: {"<sym-auto>" + energy_filter_t() + "</sym-auto>"} ) +
+		replace: {"<sym-auto>" + energy_filter_d() + "</sym-auto>"} ) +
 	# step 5b : add explict energy symbols
 	replace@(
 		match: "\\[[RDWPQVEBYJGSO0-9/|]+\\]",
-		replace: {"<sym>" + energy_filter_t() + "</sym>"} ) +
+		replace: {"<sym>" + energy_filter_d() + "</sym>"} ) +
 	# step 6 : curly quotes
 	curly_quotes +
 	# step 7 : italicize text in parenthesis
@@ -464,7 +466,7 @@ flavor_text_filter :=
 # Move the cursor past the separator in the p/t and type boxes
 type_over_type := replace@(match:" ?[-:]$", replace:"")
 
-super_type_filter := {
+keyword_filter := {
 	input := remove_tag(tag: "<word-list-")
 	input := type_over_type()
 	tag := "word-list-type" # TODO: localize
@@ -477,14 +479,13 @@ sub_type_filter := {
 	input := remove_tag(tag: "<soft")
 	lang  := language()
 	# What word list to use?
-	list_type_rest := if      lang.is_creature(type)    then "class"
-	                  else if lang.is_land(type)        then "land"
-	                  else if lang.is_artifact(type)    then "artifact"
-	                  else if lang.is_enchantment(type) then "enchantment"
-	                  else if lang.is_spell(type)       then "spell"
-	                  else if lang.is_planeswalker(type)       then "planeswalker"
+	list_type_rest := if      lang.is_creature(type)		then "class"
+	                  else if lang.is_source(type)			then "source"
+	                  else if lang.is_tech(type)			then "tech"
+	                  else if lang.is_magic(type)			then "magic"
+	                  else if lang.is_spell(type)			then "spell"
 	if list_type_rest != "" then (
-		if lang.is_creature(type) or lang.is_tribal(type) then (
+		if lang.is_creature(type) then (
 			list_type_first := "race"
 		) else (
 			list_type_first := list_type_rest
@@ -512,16 +513,16 @@ only_first     := replace@(match:" .*", replace:"")
 only_next      := replace@(match:"^[^ ]* ?", replace:"")
 all_sub_types := {
 	for each card in set do
-		if contains(card.super_type) then "," + space_to_comma(to_text(card.sub_type))
+		if contains(card.keyword) then "," + space_to_comma(to_text(card.sub_type))
 }
 all_races := {
 	for each card in set do
-		if is_creature(card.super_type) or is_tribal(card.super_type) then
+		if is_creature(card.keyword) then
 			"," + only_first(to_text(card.sub_type))
 }
 all_classes := {
 	for each card in set do
-		if contains(card.super_type, match:"Creature") then
+		if contains(card.keyword, match:"Creature") then
 			"," + space_to_comma(only_next(to_text(card.sub_type)))
 }
 
@@ -535,7 +536,7 @@ rarity_code := {
 	else if card.rarity == "rare" then "R"
 	else if card.rarity == "mythic rare" then "M"
 	else if card.rarity == "special" then "S"
-	else if card.rarity == "basic land" then "L" }
+	else if card.rarity == "basic source" then "B" }
 
 # Determine if the card is a promo card.
 is_promo := { "false" }
@@ -549,20 +550,18 @@ card_shape := { "normal" }
 typesymbol_for :=
 	to_text +
 	replace@(match: "(Legendary|Basic|Snow|World| )", replace: "") +
-	{ if      input == "Creature"    then "creature"
-	  else if input == "Sorcery"     then "sorcery"
-	  else if input == "Instant"     then "instant"
-	  else if input == "Artifact"    then "artifact"
-	  else if input == "Enchantment" then "enchantment"
-	  else if input == "Land"        then "land"
-	  else if input == "Planeswalker" then "planeswalker"
+	{ if      input == "Creature"     then "creature"
+	  else if input == "Instant"      then "instant"
+	  else if input == "Tech"		  then "tech"
+	  else if input == "Magic"		  then "magic"
+	  else if input == "Source"       then "source"
 	  else                                "multitype"
 	}
 typesymbol_type := { typesymbol_for(type) }
 
 #Script to make ledge-energy-future compatible w/ other templates
 colorless_color := {
-		if contains(card.card_color, match:"hybrid") or contains(card.card_color, match:"multicolor") then "c"
+		if contains(card.card_color, match:"dual-color") or contains(card.card_color, match:"tri-color") then "c"
 		else if card.card_color=="rha"  then "r"
 		else if card.card_color=="dau"  then "d"
 		else if card.card_color=="wim"  then "w"
@@ -579,13 +578,13 @@ colorless_color := {
 		else "c"
 	}
 
-#Indicators never appear if the indicator would be colorless, colorless land, or colorless artifact.
+#Indicators never appear if the indicator would be colorless, colorless source, or colorless tech.
 #Indicators do appear if the chosen frame doesn't match the default.
 #Indicators do appear if the chosen color for the indicator doesn't match the default.
 
-has_identity := { ( ( card.card_color != card_color(casting_cost: card.casting_cost, rules_text: card.rule_text, type: card.super_type, watermark: card.watermark, card_name: card.name, default: "colorless") ) or ( card.indicator != card_color(casting_cost: card.casting_cost, rules_text: card.rule_text, type: card.super_type, watermark: card.watermark, card_name: card.name, default: "colorless") ) ) and card.indicator != "colorless" and card.indicator != "artifact" and card.indicator != "land"}
+has_identity := { ( ( card.card_color != card_color(play_cost: card.play_cost, rules_text: card.rule_text, type: card.keyword, watermark: card.watermark, card_name: card.name, default: "colorless") ) or ( card.indicator != card_color(play_cost: card.play_cost, rules_text: card.rule_text, type: card.keyword, watermark: card.watermark, card_name: card.name, default: "colorless") ) ) and card.indicator != "colorless" and card.indicator != "tech" and card.indicator != "source"}
 
-has_identity_2 := { ( ( card.card_color_2 != card_color(casting_cost: card.casting_cost_2, rules_text: card.rule_text_2, type: card.super_type_2, watermark: card.watermark_2, card_name: card.name_2, default: "colorless") ) or ( card.indicator_2 != card_color(casting_cost: card.casting_cost_2, rules_text: card.rule_text_2, type: card.super_type_2, watermark: card.watermark_2, card_name: card.name_2, default: "colorless") ) ) and card.indicator_2 != "colorless" and card.indicator_2 != "artifact" and card.indicator_2 != "land"}
+has_identity_2 := { ( ( card.card_color_2 != card_color(play_cost: card.play_cost_2, rules_text: card.rule_text_2, type: card.keyword_2, watermark: card.watermark_2, card_name: card.name_2, default: "colorless") ) or ( card.indicator_2 != card_color(play_cost: card.play_cost_2, rules_text: card.rule_text_2, type: card.keyword_2, watermark: card.watermark_2, card_name: card.name_2, default: "colorless") ) ) and card.indicator_2 != "colorless" and card.indicator_2 != "tech" and card.indicator_2 != "source"}
 
 ############################################################## Statistics utilities
 
@@ -614,8 +613,9 @@ colored_energy := {to_number(
 primary_card_color := {
 	construct	:= chosen(choice:"construct")
 	wild		:= chosen(choice:"wild")
-	enchantment := chosen(choice:"enchantment")
-	multi		:= chosen(choice:"multicolor")
+	magic		:= chosen(choice:"magic")
+	dual		:= chosen(choice:"dual-color")
+	tri			:= chosen(choice:"tri-color")
 	none		:= chosen(choice:"none")
 	all			:= chosen(choice:"all")
 	source		:= chosen(choice:"source")
@@ -634,8 +634,9 @@ primary_card_color := {
 	ohm			:= chosen(choice:"ohm" )
 
 	if      construct	then "construct"
-	else if multi		then "multicolor"
-	else if enchantment	then "enchantment"
+	else if dual		then "dual-color"
+	else if tri			then "tri-color"
+	else if magic		then "magic"
 	else if wild		then "wild"
 	else if none		then "none"
 	else if all			then "all"

@@ -17,7 +17,7 @@ keyword mode:
 
 keyword parameter type:
 	name: energy
-	match: [CSE/|]+
+	match: [SCE/|]+
 	refer script:
 		name: normal
 		description: No changes made
@@ -30,7 +30,7 @@ keyword parameter type:
 
 keyword parameter type:
 	name: cost
-	match: [ ][CSE/|]*|[-—][^(\n]*
+	match: [ ][SCE/|]*|[-—][^(\n]*
 	separator before is: [ —-]
 	separator after is: [.]
 	optional: false

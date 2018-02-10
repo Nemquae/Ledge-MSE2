@@ -44,17 +44,19 @@ card list color script:
 	else if input == "ohm"	then rgb(128,128,128)
 
 	else (
-		construct	:= chosen(choice:"construct")
+		tech		:= chosen(choice:"tech")
 		wild		:= chosen(choice:"wild")
-		enchantment := chosen(choice:"enchantment")
-		multi		:= chosen(choice:"multicolor")
-		none		:= chosen(choice:"none")
-		all			:= chosen(choice:"all")
+		magic		:= chosen(choice:"magic")
+		dual		:= chosen(choice:"dual-color")
+		tri			:= chosen(choice:"tri-color")
+		none		:= chosen(choice:"no-color")
+		all			:= chosen(choice:"all-colors")
 		source		:= chosen(choice:"source")
-		if      construct   then rgb(72,90,100) # construct
+		if      tech	    then rgb(72,90,100) # tech
 		else if wild		then rgb(130,110,0) # wild
-		else if enchantment	then rgb(115,0,160) # enchantment
-		else if multi		then rgb(130,110,0) # multi
+		else if magic		then rgb(115,0,160) # magic
+		else if dual		then rgb(130,110,0) # dual
+		else if tri			then rgb(130,110,0) # tri
 		else if all			then rgb(100,70,0)	# all
 		else if source		then rgb(109,62,39) # source
 		else                     rgb(128,128,128) # none
