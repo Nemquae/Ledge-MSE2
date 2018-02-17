@@ -13,11 +13,15 @@ depends on:
 	version: 2017-10-13
 
 depends on:
-	package: ledge-standard-symbol-font.mse-symbol-font
+	package: ledge-standard-image.mse-include
 	version: 2017-10-13
 
 depends on:
 	package: ledge-watermarks.mse-include
+	version: 2017-10-13
+
+depends on:
+	package: ledge-color-identity.mse-include
 	version: 2017-10-13
 
 depends on:
@@ -26,10 +30,6 @@ depends on:
 
 depends on:
 	package: ledge-energy-small.mse-symbol-font
-	version: 2017-10-13
-
-depends on:
-	package: ledge-default-image.mse-include
 	version: 2017-10-13
 
 card width: 375
@@ -46,6 +46,11 @@ init script:
 	#Should multicolor sources with basic source keywords have a colored name?
 	mask_multi_source_with_color := { styling.colored_multicolor_source_name }
 	
+	template_prefix := [card: "" card2: "" pt: "" stamp: "" identity: "/ledge-color-identity.mse-include/"]
+	template_suffix := [card: "card.jpg" card2: "card2.jpg" sc: "sc.png", stamp: "stamp.jpg" identity: "identity.png"]
+	template      := { template_prefix[type] + input + template_suffix[type] }
+	source_template := { template_prefix[type] + (if input == "o" then "c" else input) + "s" + template_suffix[type] }
+
 	# Use the normal down symbol
 	energy_d := {
 		if      styling.down_symbol == "old"        then "old"
@@ -67,10 +72,6 @@ set info style:
 			border color: rgb(0,0,0)
 
 ############################################################## Extra style options
-styling field:
-	type: boolean
-	name: grey hybrid name
-	description: Use a grey background for the name and type line on hybrid cards. This is done on real cards.
 styling field:
 	type: boolean
 	name: colored multicolor source name
@@ -116,9 +117,9 @@ styling style:
 	down symbol:
 		render style: both
 		choice images:
-			modern:     /ledge-energy-large.mse-symbol-font/energy_t.png
-			old:        /ledge-energy-large.mse-symbol-font/energy_t_old.png
-			diagonal T: /ledge-energy-large.mse-symbol-font/energy_t_older.png
+			modern:     /ledge-energy-large.mse-symbol-font/energy_d.png
+			old:        /ledge-energy-large.mse-symbol-font/energy_d_old.png
+			diagonal T: /ledge-energy-large.mse-symbol-font/energy_d_older.png
 	center text:
 		render style: both
 		choice images:
@@ -129,3 +130,293 @@ styling style:
 		choice images:
 			no:  { symbol_variation(symbol: set.symbol, variation: "common") }
 			yes: { symbol_variation(symbol: set.symbol, variation: "invertedcommon") }
+
+############################################################## Card fields
+card style:
+	############################# Background stuff
+	card color:
+		left:	0
+		top:	0
+		width:	375
+		height:	523
+		z index: 0
+		render style: image
+		popup style: in place
+		image: { card_background() }
+############################# Name line
+	name:
+		left: { if card.card_symbol=="none" then 32 else 50 }
+		top: 30
+		right:  { 341 - card_style.base_cost.content_width }
+		height: 23
+		alignment: bottom shrink-overflow
+		padding bottom: 0
+		z index: 1
+		font:
+			name: Ledge Bold
+			size: 16
+			color: black
+	base cost:
+		right: 346
+		top: 29
+		width: { max(30, card_style.base_cost.content_width) + 5 }
+		height: 23
+		alignment: middle right
+		font:
+			name: MPlantin
+			size: 15
+		symbol font:
+			name: ledge-energy-large
+			size: 15
+			alignment: middle right
+		always symbol: true
+		z index: 2
+		padding top: 0
+	card symbol:
+		left: {if card.card_symbol=="none" then 20 else 30}
+		top: 29
+		height: 20
+		width: 14
+		z index: 1
+		render style: image
+		choice images:
+			tombstone: tombstone.png
+	############################# Image
+	image:
+		left: 29
+		top: 60
+		width: 316
+		height:	231
+		z index: 1
+		default: {default_image(card.card_color)}
+	############################# Card type
+	indicator:
+		left: 31
+		top: 300
+		width: 17
+		height: 17
+		z index: 2
+		render style: image
+		visible: { has_identity() }
+		image: { card_identity() }
+	type:
+		left: { if has_identity() then "52" else "32" }
+		top: 296
+		width: { (if has_identity() then "290" else "310") - max(22,card_style.rarity.content_width) }
+		height: 20
+		alignment: top shrink-overflow
+		z index: 1
+		padding top: 2
+		font:
+			name: Ledge Bold
+			size: 13
+			color: black
+			separator color: red
+	rarity:
+		right: 344
+		top: 297
+		width: 44
+		height: 22
+		z index: 2
+		render style: image
+		alignment: middle right
+		choice images:
+			# Images based on the set symbol
+			basic source:
+				script:
+					if styling.inverted_common_symbol then symbol_variation(symbol: set.symbol, variation: "invertedcommon")
+					else symbol_variation(symbol: set.symbol, variation: "common")
+			common:
+				script:
+					if styling.inverted_common_symbol then symbol_variation(symbol: set.symbol, variation: "invertedcommon")
+					else symbol_variation(symbol: set.symbol, variation: "common")
+			uncommon:   script: symbol_variation(symbol: set.symbol, variation: "uncommon")
+			rare:       script: symbol_variation(symbol: set.symbol, variation: "rare")
+			mythic rare:       script: symbol_variation(symbol: set.symbol, variation: "mythic rare")
+			special:    script: symbol_variation(symbol: set.symbol, variation: "special")
+	############################# Text box
+	text:
+		left: 29
+		top: 327
+		width: 314
+		height: 154
+		font:
+			name: MPlantin
+			italic name: MPlantin-Italic
+			size: 14
+			scale down to: 6
+			color: black
+		symbol font:
+			name: { styling.text_box_mana_symbols }
+			size: 14
+		alignment:
+			script:
+				if (styling.center_text == "short text only" and
+				   not contains(match:"\n", card.rule_text) and
+				   card.flavor_text == "<i-flavor></i-flavor>" and
+				   card_style.text.content_lines <= 2) or
+				   styling.center_text == "always"
+				then "middle center"
+				else "middle left"
+		z index: 2
+		padding left:   6
+		padding right:  4
+		line height hard: 1.2
+		line height line: 1.5
+		line height soft: 0.9
+		line height hard max: 1.3
+		line height line max: 1.6
+	watermark:
+		left: 117
+		top: 321
+		width: 138
+		height: 166
+		z index: 1
+		render style: image
+		popup style: in place
+		alignment: middle center
+		include file: /ledge-watermarks.mse-include/watermarks
+	############################# Scores
+	sc:
+		z index: 2
+		left: 286
+		top: 469
+		width: 60
+		height:	28
+		alignment: center middle shrink-overflow
+		font:
+			name: Ledge Bold
+			size: 16
+			color: black
+			separator color: red
+	############################# Card sorting / numbering
+	set code:
+		left: 24
+		top: 498
+		width: 40
+		height: 10
+		z index: 1
+		font:
+			name: Relay-Medium
+			size: 7
+			color: white
+			weight: bold
+	############################# Copyright stuff
+	illustrator:
+		left: { 44 + card_style.set_code.content_width }
+		top: 497.5
+		width: 200
+		height: 10
+		z index: 1
+		font:
+			name: Ledge Small Caps Bold
+			size: 7.25
+			color: white
+	copyright:
+		right: 350
+		top: { if card.pt != "" then 500 else 488 }
+		width: 140
+		height: 10
+		z index: 2
+		alignment: middle right shrink-overflow
+		font:
+			name: Matrix
+			size: 7
+			color: white
+			weight: bold
+############################################################## Extra card fields
+extra card field:
+	type: text
+	name: card code
+	save value: false
+	script:
+		if set.automatic_card_numbers then
+			forward_editor(prefix: card_number_standard() + "/" + card_count_standard() + " " + rarity_code() + " ", field: card.card_code_text)
+		else
+			combined_editor(field1: card.custom_card_number, separator: " " + rarity_code() + " ", field2: card.card_code_text)
+extra card field:
+	type: choice
+	name: artist arrow
+	editable: false
+	save value: false
+	choice: white
+extra card field:
+	type: choice
+	name: pt box
+	script: card.card_color
+	editable: false
+	save value: false
+extra card field:
+	type: choice
+	name: stamp
+	script: card.card_color
+	editable: false
+	save value: false
+extra card field:
+	type: choice
+	name: foil stamp
+	choice: stamp
+	save value: false
+	editable: false
+extra card field:
+	type: choice
+	name: foil layer
+	choice: foil
+	save value: false
+	editable: false
+extra card style:
+	card code:
+		left: 24
+		top: 488
+		width: 120
+		height: 10
+		z index: 1
+		font:
+			name: Relay-Medium
+			size: 7
+			color: white
+			weight: bold
+	artist arrow:
+		left: { 28 + card_style.set_code.content_width }
+		top: 500
+		width: 12
+		height: 7
+		z index: 1
+		render style: image
+		image: artist_arrow.png
+	score box:
+		left: 273
+		top: 466
+		width: 81
+		height:	42
+		z index: 1
+		visible: { card.sc != "" }
+		render style: image
+		image: { card_scbox() }
+	stamp:
+		left: 165
+		top: 472
+		width: 46
+		height: 26
+		z index: 1
+		visible: { is_rare() }
+		render style: image
+		image: { card_stamp() }
+	foil stamp:
+		left: 165
+		top: 472
+		width: 46
+		height: 26
+		z index: 1
+		visible: { is_rare() }
+		render style: image
+		image: foil_stamp.png
+	foil layer:
+		left: 0
+		top : 0
+		width: 375
+		height: 523
+		z index: 3
+		render style: image
+		image: {if styling.overlay == "" then nil else styling.overlay + "/overlay.png"}
+		mask: { if is_rare() then "foil_mask_rare.png" else "foil_mask.png" }

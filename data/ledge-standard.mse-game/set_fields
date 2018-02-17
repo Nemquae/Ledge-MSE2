@@ -49,7 +49,6 @@ set field:
 	choice: core
 	choice: custom
 	initial: core
-	# Convert from older mse versions
 	description: For which kinds of keywords should reminder text be added by default? Note: you can enable/disable reminder text by right clicking the keyword.
 set field:
 	type: boolean

@@ -19,13 +19,14 @@ statistics dimension:
 		glei		: rgb(192,192,64)
 		sace		: rgb(192,128,64)
 		ohm			: rgb(128,128,128)
-		construct	rgb(72,90,100) # construct
-		wild		rgb(130,110,0) # wild
-		enchantment rgb(115,0,160) # enchantment
-		multi		rgb(130,110,0) # multi
-		none		rgb(128,128,128) # none
-		all			rgb(100,70,0)	# all
-		source		rgb(109,62,39) # source
+		tech		: rgb(72,90,100) # tech
+		wild		: rgb(130,110,0) # wild
+		magic		: rgb(115,0,160) # magic
+		dual		: rgb(130,110,0) # dual
+		tri			: rgb(130,110,0) # tri
+		none		: rgb(128,128,128) # none
+		all			: rgb(100,70,0)	# all
+		source		: rgb(109,62,39) # source
 	group: rha			
 	group: dau			
 	group: wim			
@@ -39,10 +40,11 @@ statistics dimension:
 	group: glei		
 	group: sace		
 	group: ohm			
-	group: construct	
+	group: tech	
 	group: wild		
-	group: enchantment 
-	group: multi		
+	group: magic 
+	group: dual
+	group: tri
 	group: none		
 	group: all			
 	group: source		
@@ -50,14 +52,14 @@ statistics dimension:
 statistics dimension:
 	position hint: 2
 	name:   base cost
-	script: base_cost(card.cost)
+	script: base_cost(card.base_cost)
 	numeric: true
 	icon: stats/base_cost.png
 
 statistics dimension:
 	position hint: 3
 	name:   colored cost
-	script: colored_cost(card.casting_cost)
+	script: colored_cost(card.base_cost)
 	numeric: true
 	icon: stats/colored_cost.png
 
@@ -70,17 +72,17 @@ statistics dimension:
 
 statistics dimension:
 	position hint: 50
-	name: chi
-	script: card.chi
-	numeric: true
-	icon: stats/chi.png
-
-statistics dimension:
-	position hint: 51
 	name: sha
 	script: card.sha
 	numeric: true
 	icon: stats/sha.png
+
+	statistics dimension:
+	position hint: 51
+	name: chi
+	script: card.chi
+	numeric: true
+	icon: stats/chi.png
 
 statistics dimension:
 	name: text length (words)

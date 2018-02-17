@@ -63,7 +63,7 @@ card field:
 	choice: all
 	choice: none
 	script: card_color_filter(value)
-	default: card_color(play_cost: card.play_cost, rules_text: card.rule_text, keywords: card.keywords, watermark: card.watermark, card_name: card.name, default: "none")
+	default: card_color(base_cost: card.base_cost, rules_text: card.rule_text, keywords: card.keywords, watermark: card.watermark, card_name: card.name, default: "none")
 	show statistics: false
 	description: The frame of the card, used to indicate card color.
 
@@ -78,7 +78,7 @@ card field:
 card field:
 	type: text
 	name: cost
-	icon: stats/play_cost.png
+	icon: stats/base_cost.png
 	position hint: 1
 	script: energy_filter(value)
 	card list visible: true
@@ -143,7 +143,7 @@ card field:
 	name: keyword
 	icon: stats/card_keyword.png
 	position hint: 30
-	script: keyword_filter(value)
+	script: undefined_keyword_filter(value)
 	show statistics: false
 card field:
 	type: text
