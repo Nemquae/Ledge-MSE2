@@ -23,9 +23,6 @@
     <None Include="..\data\ledge-standard-style.mse-style\style">
       <Filter>Ledge Source</Filter>
     </None>
-    <None Include="..\data\ledge-standard-symbol-font.mse-symbol-font\symbol-font">
-      <Filter>Ledge Source</Filter>
-    </None>
     <None Include="..\data\magic.mse-game\statistics">
       <Filter>Magic Reference</Filter>
     </None>
@@ -77,9 +74,6 @@
     <None Include="..\data\magic-mana-large.mse-symbol-font\symbol-font">
       <Filter>Magic Reference</Filter>
     </None>
-    <None Include="..\data\magic-watermarks.mse-include\include">
-      <Filter>Magic Reference</Filter>
-    </None>
     <None Include="..\data\magic-blends.mse-include\include">
       <Filter>Magic Reference</Filter>
     </None>
@@ -90,6 +84,69 @@
       <Filter>Magic Reference</Filter>
     </None>
     <None Include="..\data\magic-blends.mse-include\new-blends">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\ledge-standard.mse-game\add_cards_scripts">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-standard.mse-game\language">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-standard.mse-game\ledge-words.en_us.dic">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-standard.mse-game\unit_tests">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-standard.mse-game\word_lists">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-standard.mse-game\word_lists_zh">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-color-identity.mse-include\include">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-energy-large.mse-symbol-font\symbol-font">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-energy-small.mse-symbol-font\symbol-font">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-standard-blends.mse-include\include">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-standard-image.mse-include\include">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-standard-image.mse-include\scripts">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-watermarks.mse-include\include">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-watermarks.mse-include\watermark-names">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-watermarks.mse-include\watermarks">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\ledge-watermarks.mse-include\watermarks-old">
+      <Filter>Ledge Source</Filter>
+    </None>
+    <None Include="..\data\magic-watermarks.mse-include\watermarks-old">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic-default-image.mse-include\scripts">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic-watermarks.mse-include\include">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic-watermarks.mse-include\watermark-names">
+      <Filter>Magic Reference</Filter>
+    </None>
+    <None Include="..\data\magic-watermarks.mse-include\watermarks">
       <Filter>Magic Reference</Filter>
     </None>
   </ItemGroup>

@@ -110,18 +110,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\data\ledge-color-identity.mse-include\include" />
+    <None Include="..\data\ledge-energy-large.mse-symbol-font\symbol-font" />
+    <None Include="..\data\ledge-energy-small.mse-symbol-font\symbol-font" />
+    <None Include="..\data\ledge-standard-blends.mse-include\include" />
+    <None Include="..\data\ledge-standard-image.mse-include\include" />
+    <None Include="..\data\ledge-standard-image.mse-include\scripts" />
     <None Include="..\data\ledge-standard-style.mse-style\style" />
-    <None Include="..\data\ledge-standard-symbol-font.mse-symbol-font\symbol-font" />
+    <None Include="..\data\ledge-standard.mse-game\add_cards_scripts" />
     <None Include="..\data\ledge-standard.mse-game\game" />
+    <None Include="..\data\ledge-standard.mse-game\language" />
+    <None Include="..\data\ledge-standard.mse-game\ledge-words.en_us.dic" />
     <None Include="..\data\ledge-standard.mse-game\script" />
+    <None Include="..\data\ledge-standard.mse-game\unit_tests" />
+    <None Include="..\data\ledge-standard.mse-game\word_lists" />
+    <None Include="..\data\ledge-standard.mse-game\word_lists_zh" />
+    <None Include="..\data\ledge-watermarks.mse-include\include" />
+    <None Include="..\data\ledge-watermarks.mse-include\watermark-names" />
+    <None Include="..\data\ledge-watermarks.mse-include\watermarks" />
+    <None Include="..\data\ledge-watermarks.mse-include\watermarks-old" />
     <None Include="..\data\magic-blends.mse-include\include" />
     <None Include="..\data\magic-blends.mse-include\new-blends" />
     <None Include="..\data\magic-default-image.mse-include\include" />
+    <None Include="..\data\magic-default-image.mse-include\scripts" />
     <None Include="..\data\magic-identity-new.mse-include\include" />
     <None Include="..\data\magic-m15.mse-style\style" />
     <None Include="..\data\magic-mana-large.mse-symbol-font\symbol-font" />
     <None Include="..\data\magic-mana-small.mse-symbol-font\symbol-font" />
     <None Include="..\data\magic-watermarks.mse-include\include" />
+    <None Include="..\data\magic-watermarks.mse-include\watermark-names" />
+    <None Include="..\data\magic-watermarks.mse-include\watermarks" />
+    <None Include="..\data\magic-watermarks.mse-include\watermarks-old" />
     <None Include="..\data\magic.mse-game\add_cards_scripts" />
     <None Include="..\data\magic.mse-game\auto_replace" />
     <None Include="..\data\magic.mse-game\card_fields" />
