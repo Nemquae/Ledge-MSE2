@@ -42,6 +42,7 @@ card list color script:
 	else if input == "glei" then rgb(192,192,64)
 	else if input == "sace" then rgb(192,128,64)
 	else if input == "ohm"	then rgb(128,128,128)
+	else if input == "wry"	then rgb(128,128,128)
 
 	else (
 		tech		:= chosen(choice:"tech")

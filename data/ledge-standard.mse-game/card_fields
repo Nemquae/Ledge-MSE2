@@ -42,7 +42,7 @@ card field:
 card field:
 	type: multiple choice
 	name: card color
-	empty choice: none
+	empty choice: ohm
 	choice: rha
 	choice: dau
 	choice: wim
@@ -56,12 +56,12 @@ card field:
 	choice: glei
 	choice: sace
 	choice:
-		name: ohm
+		name: wry
 		line below: true
 	choice: dual
 	choice: tri
-	choice: all
-	choice: none
+	choice: quad
+	choice: hex
 	script: card_color_filter(value)
 	default: card_color(base_cost: card.base_cost, rules_text: card.rule_text, keywords: card.keywords, watermark: card.watermark, card_name: card.name, default: "none")
 	show statistics: false
@@ -105,7 +105,7 @@ card field:
 card field:
 	type: multiple choice
 	name: indicator
-	empty choice: none
+	empty choice: ohm
 	choice: rha
 	choice: dau
 	choice: wim
@@ -119,12 +119,12 @@ card field:
 	choice: glei
 	choice: sace
 	choice:
-		name: ohm
+		name: wry
 		line below: true
 	choice: dual
 	choice: tri
-	choice: all
-	choice: none
+	choice: quad
+	choice: hex
 	script: card_color_filter(value)
 	default: card.card_color
 	show statistics: false

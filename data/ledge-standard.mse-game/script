@@ -20,7 +20,7 @@ energy_filter_t := replace@(               # Remove [] used for forcing energy s
 color_name := {
 	if      input = "R" then "rha"
 	else if input = "D" then "dau"
-	else if input = "W" then "wim"
+	else if input = "M" then "wim"
 	else if input = "P" then "pfi"
 	else if input = "Q" then "quae"
 	else if input = "V" then "vei"
@@ -31,6 +31,7 @@ color_name := {
 	else if input = "G" then "glei"
 	else if input = "S" then "sace"
 	else if input = "O" then "ohm"
+	else if input = "W" then "wry"
 	else                     ""
 }
 color_names_1 := { color_name(colors.0) }
@@ -38,7 +39,7 @@ color_names_2 := { color_name(colors.0) + ", " + color_name(colors.1) }
 color_names_3 := { color_name(colors.0) + ", " + color_name(colors.1) + ", " + color_name(colors.2) }
 
 # color based on energy cost, input = an energy cost
-color_filter  := sort_text@(order: "<RDWPQVEBYJGSO>")
+color_filter  := sort_text@(order: "<RDMPQVEBYJGSOW>")
 energy_to_color := {
 	count  := number_of_items(in: colors)
 
@@ -59,7 +60,7 @@ color_text_filter :=
 	) +
 	# keep only energy
 	filter_text@(match: "<sym[^>]*>([^<]+)") + color_filter;
-# get the source frame for a "RDWPQVEBYJGSO"-style input.
+# get the source frame for a "RDMPQVEBYJGSOW"-style input.
 source_multicolor := {
 	count  := number_of_items(in: colors)
 	if      count == 0 then "source"
@@ -83,6 +84,7 @@ source_to_color := {
 	else if watermark = "energy symbol glei" then "glei, source"
 	else if watermark = "energy symbol sace" then "sace, source"
 	else if watermark = "energy symbol ohm" then "ohm, source"
+	else if watermark = "energy symbol wry" then "wry, source"
 	else source_multicolor(colors:color_text_filter(input: card.rule_text))
 };
 
@@ -90,17 +92,17 @@ source_to_color := {
 text_to_color := {
 	# Note: running filter_text is quite slow, do a quick 'contains' check first
 	if contains(match: card_name) then (
-	  text := filter_text(match: "is (colorless|all colors|((rha|dau|wim|pfi|quae|vei|ela|biz|yun|jutu|glei|sace|ohm)((,|,? and) (rha|dau|wim|pfi|quae|vei|ela|biz|yun|jutu|glei|sace|ohm))*))", in_context: regex_escape(card_name)+"(</[-a-z]+>)* <match>\\.")
+	  text := filter_text(match: "is (colorless|all colors|((rha|dau|wim|pfi|quae|vei|ela|biz|yun|jutu|glei|sace|ohm|wry)((,|,? and) (rha|dau|wim|pfi|quae|vei|ela|biz|yun|jutu|glei|sace|ohm|wry))*))", in_context: regex_escape(card_name)+"(</[-a-z]+>)* <match>\\.")
 	  if text != "" then (
 	    if contains(text, match: "all colors") then (
-		colors := "RDWPQVEBYJGSO"
+		colors := "RDMPQVEBYJGSOW"
 		if source = "source" then source_multicolor()
 		else energy_to_color()
 	    ) else (
 		colors := ""
 		if contains(text, match: "rha" ) then colors := colors + "R"
 		if contains(text, match: "dau" ) then colors := colors + "D"
-		if contains(text, match: "wim" ) then colors := colors + "W"
+		if contains(text, match: "wim" ) then colors := colors + "M"
 		if contains(text, match: "pfi" ) then colors := colors + "P"
 		if contains(text, match: "quae") then colors := colors + "Q"
 		if contains(text, match: "vei" ) then colors := colors + "V"
@@ -111,6 +113,7 @@ text_to_color := {
 		if contains(text, match: "glei") then colors := colors + "G"
 		if contains(text, match: "sace") then colors := colors + "S"
 		if contains(text, match: "ohm" ) then colors := colors + "O"
+		if contains(text, match: "wry" ) then colors := colors + "W"
 
 		if source = "source" then source_multicolor()
 		else energy_to_color()
@@ -138,7 +141,7 @@ card_color := {
 };
 
 # Number of colors in a card_color
-card_color_color_count := count_chosen@(choices: "rha,dau,wim,pfi,quae,vei,ela,biz,yun,jutu,glei,sace,ohm")
+card_color_color_count := count_chosen@(choices: "rha,dau,wim,pfi,quae,vei,ela,biz,yun,jutu,glei,sace,ohm,wry")
 # Clean up color field
 card_color_filter := {
 	colors := card_color_color_count()
@@ -195,14 +198,15 @@ color_of_card := {
 		else if chosen(choice :"glei", card_color) then "M"              
 		else if chosen(choice: "sace", card_color) then "N"              
 		else if chosen(choice: "ohm",  card_color) then "O"
+		else if chosed(choice: "wry",  card_color) then "P"
 		else "P"
 	) else (
 																		 # Cards with costs.
-		colors := sort_text(base_cost, order: "<RDWPQVEBYJGSO>")
+		colors := sort_text(base_cost, order: "<RDMPQVEBYJGSOW>")
 			 if colors == ""  then "A"                                   # Clear Colorless
 		else if contains(colors, match: "R") then "C"                                   
 		else if contains(colors, match: "D") then "D"                                   
-		else if contains(colors, match: "W") then "E"                                   
+		else if contains(colors, match: "M") then "E"                                   
 		else if contains(colors, match: "P") then "F"                                   
 		else if contains(colors, match: "Q") then "G"                                   
 		else if contains(colors, match: "V") then "H"                                   
@@ -212,7 +216,8 @@ color_of_card := {
 		else if contains(colors, match: "J") then "L"                                   
 		else if contains(colors, match: "G") then "M"                                   
 		else if contains(colors, match: "S") then "N"                                   
-		else if contains(colors, match: "O") then "O"                                   
+		else if contains(colors, match: "O") then "O"
+		else if contains(colors, match: "W") then "P"
 		else "P"														
 	)
 }
@@ -276,7 +281,7 @@ add := "" # default is nothing
 for_energy_costs := format_cost := {
 	if input.separator_before == "—" and contains(input.param, match: " ") then (
 		if contains(input.param, match:",") then (
-			if match(match: "^[RDWPQVEBYJGSO0-9/|]+,", input.param) then
+			if match(match: "^[RDMPQVEBYJGSOW0-9/|]+,", input.param) then
 				"{add}<param-cost>{combined_cost(input.param)}</param-cost>"
 			else "<param-cost>{combined_cost(input.param)}</param-cost>"
 		) else
@@ -291,7 +296,7 @@ alternative_cost := replace@(match:"^[A-Z]", replace: { to_lower() })
 #
 combined_cost := replace@(match:", [A-Z]", replace: { to_lower() })+
 	replace@(match:",", replace:" and")+
-	replace@(match:"^[RDWPQVEBYJGSO0-9/|]", in_context: "(^|[[:space:]])<match>", replace: "<sym-auto>&</sym-auto>")+
+	replace@(match:"^[RDMPQVEBYJGSOW0-9/|]", in_context: "(^|[[:space:]])<match>", replace: "<sym-auto>&</sym-auto>")+
 	replace@(match:"^[A-Z]", replace: { to_lower() })
 
 long_dash := replace@(match:"-", replace:"—")
@@ -306,17 +311,18 @@ is_targeted := { contains_target(card.rule_text) }
 
 color_to_energy :=	replace@(match: "rha",  replace: "[R]")+
 					replace@(match: "dau",  replace: "[D]")+
-					replace@(match: "wim",  replace: "[W]")+
+					replace@(match: "wim",  replace: "[M]")+
 					replace@(match: "pfi",  replace: "[P]")+
-					replace@(match: "quae", replace: "[Q]")
+					replace@(match: "quae", replace: "[Q]")+
 					replace@(match: "vei",  replace: "[V]")+
 					replace@(match: "ela",  replace: "[E]")+
 					replace@(match: "biz",  replace: "[B]")+
 					replace@(match: "yun",  replace: "[Y]")+
-					replace@(match: "jutu", replace: "[J]")
+					replace@(match: "jutu", replace: "[J]")+
 					replace@(match: "glei", replace: "[G]")+
 					replace@(match: "sace", replace: "[S]")+
 					replace@(match: "ohm",  replace: "[O]")+
+					replace@(match: "wry",  replace: "[W]")
 
 ############################################################## The text box
 
@@ -332,8 +338,8 @@ energy_context :=
 	    |adds?|pay(ed)?[ ](with|using)
 	    )
 	    ([ ]either)?			 # pay either X or Y
-	    ([ ](<sym[^>]*>)?[RDWPQVEBYJGSO0-9/|]+(</sym[^>]*>)?,)* # pay X, Y or Z
-	    ([ ](<sym[^>]*>)?[RDWPQVEBYJGSO0-9/|]+(</sym[^>]*>)?[ ](and|or|and/or))* # pay X or Y
+	    ([ ](<sym[^>]*>)?[RDMPQVEBYJGSOW0-9/|]+(</sym[^>]*>)?,)* # pay X, Y or Z
+	    ([ ](<sym[^>]*>)?[RDMPQVEBYJGSOW0-9/|]+(</sym[^>]*>)?[ ](and|or|and/or))* # pay X or Y
 	    [ ]<match>
 	    ([,.)]|$				# (end of word)
 	    |[ ][^ .,]*$			# still typing...
@@ -412,16 +418,16 @@ text_filter :=
 		) +
 	# step 4 : explict non energy symbols
 	replace@(
-		match: "\\][RDWPQVEBYJGSO0-9/|]+\\[",
+		match: "\\][RDMPQVEBYJGSOW0-9/|]+\\[",
 		replace: {"<nosym>" + energy_filter_d() + "</nosym>"} ) +
 	# step 5 : add energy & down symbols
 	replace@(
-		match: "\\b[RDWPQVEBYJGSO0-9/|]+\\b",
+		match: "\\b[RDMPQVEBYJGSOW0-9/|]+\\b",
 		in_context: energy_context,
 		replace: {"<sym-auto>" + energy_filter_d() + "</sym-auto>"} ) +
 	# step 5b : add explict energy symbols
 	replace@(
-		match: "\\[[RDWPQVEBYJGSO0-9/|]+\\]",
+		match: "\\[[RDMPQVEBYJGSOW0-9/|]+\\]",
 		replace: {"<sym>" + energy_filter_d() + "</sym>"} ) +
 	# step 6 : curly quotes
 	curly_quotes +
@@ -564,7 +570,7 @@ colorless_color := {
 		if contains(card.card_color, match:"dual-color") or contains(card.card_color, match:"tri-color") then "c"
 		else if card.card_color=="rha"  then "r"
 		else if card.card_color=="dau"  then "d"
-		else if card.card_color=="wim"  then "w"
+		else if card.card_color=="wim"  then "m"
 		else if card.card_color=="pfi"  then "p"
 		else if card.card_color=="quae" then "q"
 		else if card.card_color=="vei"  then "v"
@@ -575,6 +581,7 @@ colorless_color := {
 		else if card.card_color=="glei" then "g"
 		else if card.card_color=="sace" then "s"
 		else if card.card_color=="ohm"  then "o"
+		else if card.card_color=="wry"  then "w"
 		else "c"
 	}
 
@@ -589,9 +596,9 @@ has_identity_2 := { ( ( card.card_color_2 != card_color(base_cost: card.base_cos
 ############################################################## Statistics utilities
 
 # Converted energy cost
-is_colored_energy := match@(match: "[RDWPQVEBYJGSO]")
+is_colored_energy := match@(match: "[RDMPQVEBYJGSOW]")
 only_numbers    := filter_text@(match: "^[0123456789]+")
-cost_split := break_text@(match: "(?ix) 1/2 | [|][RDWPQVEBYJGSO] | [0-9]+(?!/[RDWPQVEBYJGSO]) | [RDWPQVEBYJGSO0-9](/[RDWPQVEBYJGSO])\{0,4} ")
+cost_split := break_text@(match: "(?ix) 1/2 | [|][RDMPQVEBYJGSOW] | [0-9]+(?!/[RDMPQVEBYJGSOW]) | [RDMPQVEBYJGSOW0-9](/[RDMPQVEBYJGSOW])\{0,4} ")
 base_cost := {to_number(
 	for each sym in cost_split(to_text()) do (
 		numbers := only_numbers(sym)
@@ -616,6 +623,8 @@ primary_card_color := {
 	magic		:= chosen(choice:"magic")
 	dual		:= chosen(choice:"dual-color")
 	tri			:= chosen(choice:"tri-color")
+	quad		:= chosen(choice:"quad-color")
+	hex			:= chosen(choice:"hex-color")
 	none		:= chosen(choice:"none")
 	all			:= chosen(choice:"all")
 	source		:= chosen(choice:"source")
@@ -632,10 +641,13 @@ primary_card_color := {
 	glei		:= chosen(choice:"glei")
 	sace		:= chosen(choice:"sace")
 	ohm			:= chosen(choice:"ohm" )
+	wry			:= chosen(choice:"wry" )
 
 	if      tech		then "tech"
 	else if dual		then "dual-color"
 	else if tri			then "tri-color"
+	else if quad		then "quad-color"
+	else if hex			then "hex-color"
 	else if magic		then "magic"
 	else if wild		then "wild"
 	else if none		then "none"
@@ -654,6 +666,7 @@ primary_card_color := {
 	else if glei		then "glei"
 	else if sace		then "sace"
 	else if ohm			then "ohm"
+	else if wry			then "wry"
 	else                   input
 }
 

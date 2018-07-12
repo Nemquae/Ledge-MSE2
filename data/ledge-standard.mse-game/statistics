@@ -19,13 +19,14 @@ statistics dimension:
 		glei		: rgb(192,192,64)
 		sace		: rgb(192,128,64)
 		ohm			: rgb(128,128,128)
+		wry			: rgb(128,128,128)
 		tech		: rgb(72,90,100) # tech
 		wild		: rgb(130,110,0) # wild
 		magic		: rgb(115,0,160) # magic
 		dual		: rgb(130,110,0) # dual
 		tri			: rgb(130,110,0) # tri
-		none		: rgb(128,128,128) # none
-		all			: rgb(100,70,0)	# all
+		quad		: rgb(128,128,128) # quad
+		hex			: rgb(100,70,0)	# hex
 		source		: rgb(109,62,39) # source
 	group: rha			
 	group: dau			
@@ -40,13 +41,14 @@ statistics dimension:
 	group: glei		
 	group: sace		
 	group: ohm			
+	group: wry
 	group: tech	
 	group: wild		
 	group: magic 
 	group: dual
 	group: tri
-	group: none		
-	group: all			
+	group: quad		
+	group: hex			
 	group: source		
 
 statistics dimension:

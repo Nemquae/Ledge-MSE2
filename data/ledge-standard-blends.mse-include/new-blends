@@ -8,6 +8,8 @@
 
 mask_dual_source_with_color	:= { false }
 mask_tri_source_with_color	:= { false }
+mask_quad_source_with_color	:= { false }
+mask_hex_source_with_color	:= { false }
 template		:= { input + "{type}.jpg" }
 source_template		:= { (if input == "n" then "c" else input) + "l{type}.jpg" }
 # Are there templates for colored sources, source_template(...)?
@@ -36,6 +38,44 @@ horizontal_card_multi := [
 		  x2: 0.78,  y2: 0
 		  image2: template(colors[2])
 	   ))}
+	4: {linear_blend(
+		# blend = 0.16
+		image1: template(colors[0])
+		x1: 0.15,  y1: 0
+		x2: 0.31,  y2: 0
+		image2: linear_blend(
+		  image1: template(colors[1])
+		  x1: 0.42,  y1: 0
+		  x2: 0.58,  y2: 0
+		  image2: linear_blend(
+		    image1: template(colors[2])
+		    x1: 0.69, y1: 0
+		    x2: 0.85, y2: 0
+		    image2: template(colors[3])
+	   )))}
+	6: {linear_blend(
+		image1: template(colors[0])
+		x1: 1.5 / 15,  y1: 0
+		x2: 3.1 / 15,  y2: 0
+		image2: linear_blend(
+		  image1: template(colors[1])
+		  x1: 4.1 / 15,  y1: 0
+		  x2: 5.7 / 15,  y2: 0
+		  image2: linear_blend(
+		    image1: template(colors[2])
+		    x1: 6.7 / 15,  y1: 0
+		    x2: 8.3 / 15,  y2: 0
+		    image2: linear_blend(
+		      image1: template(colors[3])
+		      x1: 9.3 / 15,  y1: 0
+		      x2: 10.9 / 15,  y2: 0
+		      image2: linear_blend(
+		        image1: template(colors[4])
+		        x1: 11.9 / 15, y1: 0
+		        x2: 13.5 / 15, y2: 0
+		        image2: template(colors[5])
+	   )))))}
+
 ]
 
 
@@ -52,6 +92,18 @@ horizontal_score_multi := [
 		image2: template(colors[2])
 		x1: -0.51, y1: 0
 		x2:  0.26, y2: 0
+	   )}
+	4: { linear_blend(
+		image1: template(colors[2])
+		image2: template(colors[3])
+		x1: -0.1,  y1: 0
+		x2:  0.6,  y2: 0
+	   )}
+	6: { linear_blend(
+		image1: template(colors[4])
+		image2: template(colors[5])
+		x1: 0.07, y1: 0
+		x2: 0.7, y2: 0
 	   )}
 ]
 
@@ -80,7 +132,38 @@ identity_horizontal_multi := [
 		  x2: 0.61,  y2: 0.61
 		  image2: template(colors[2])
 	   ))}
-	4: { template("a") }
+	4: {linear_blend(
+		# blend = 0.16
+		image1: template(colors[0])
+		x1: 0.29,  y1: 0.29
+		x2: 0.3,  y2: 0.3
+		image2: linear_blend(
+		  image1: template(colors[1])
+		  x1: 0.49,  y1: 0.49
+		  x2: 0.50,  y2: 0.5
+		  image2: linear_blend(
+		    image1: template(colors[2])
+		    x1: 0.69, y1: 0.69
+		    x2: 0.7, y2: 0.7
+		    image2: template(colors[3])
+	   )))}
+	   # below not correct
+	6: {linear_blend(
+		# blend = 0.16
+		image1: template(colors[0])
+		x1: 0.29,  y1: 0.29
+		x2: 0.3,  y2: 0.3
+		image2: linear_blend(
+		  image1: template(colors[1])
+		  x1: 0.49,  y1: 0.49
+		  x2: 0.50,  y2: 0.5
+		  image2: linear_blend(
+		    image1: template(colors[2])
+		    x1: 0.69, y1: 0.69
+		    x2: 0.7, y2: 0.7
+		    image2: template(colors[3])
+	   )))}
+	12: { template("a") }
 ]
 
 ########################################################################
@@ -98,18 +181,20 @@ color_background := {
 
 
 	# What type of 'multi-color'?
-	source	:= chosen(choice:"source")
+	mono	:= chosen(choice:"mono-color")
 	dual    := chosen(choice:"dual-color")
 	tri		:= chosen(choice:"tri-color")
+	quad	:= chosen(choice:"quad-colors")
+	hex		:= chosen(choice:"hex-colors")
 	all		:= chosen(choice:"all-colors")
 	none	:= chosen(choice:"no-colors")
 	if source and colored_sources then template := source_template # use source template instead?
 
 	# The selected colors
-	colors := sort_text( order: "(RDWPQVEBYJGSO)"
+	colors := sort_text( order: "(RDMPQVEBYJGSOW)"
 	                   + (if chosen(choice:"rha" )  then "R")
 	                   + (if chosen(choice:"dau" )  then "D")
-	                   + (if chosen(choice:"wim" )  then "W")
+	                   + (if chosen(choice:"wim" )  then "M")
 	                   + (if chosen(choice:"pfi" )  then "P")
 	                   + (if chosen(choice:"quae")  then "Q")
 					   + (if chosen(choice:"vei" )  then "V")
@@ -120,6 +205,7 @@ color_background := {
 					   + (if chosen(choice:"glei")  then "G")
 					   + (if chosen(choice:"sace")  then "S")
 					   + (if chosen(choice:"ohm" )  then "O")
+					   + (if chosen(choice:"wry" )  then "W")
 					   )
 	if dual and colors == "" then (
 		colors := colors + "d"
@@ -273,12 +359,14 @@ font_color_positions := [
 font_white := {
 	dual	:= chosen(choice:"dual")
 	tri		:= chosen(choice:"tri")
+	quad	:= chosen(choice:"quad")
+	hex		:= chosen(choice:"hex")
 	all		:= chosen(choice:"all")
 	none	:= chosen(choice:"none")
-	colors	:= sort_text( order: "(RDWPQVEBYJGSO)"
+	colors	:= sort_text( order: "(RDMPQVEBYJGSOW)"
 		           , (if chosen(choice:"rha" )  then "R")
 		           + (if chosen(choice:"dau" )  then "D")
-		           + (if chosen(choice:"wim" )  then "W")
+		           + (if chosen(choice:"wim" )  then "M")
 		           + (if chosen(choice:"pfi" )  then "P")
 		           + (if chosen(choice:"quae")  then "Q")
 				   + (if chosen(choice:"vei" )  then "V")
@@ -289,6 +377,7 @@ font_white := {
 				   + (if chosen(choice:"glei")  then "G")
 				   + (if chosen(choice:"sace")  then "S")
 				   + (if chosen(choice:"ohm" )  then "O")
+				   + (if chosen(choice:"wry" )  then "W")
 				   + (if none					then "N")
 				   )
 	font_colors_white(
@@ -296,6 +385,10 @@ font_white := {
 		else if input == "none, dual"		then "n"
 		else if chosen(choice:"dual")		then "d"
 		else if chosen(choice:"tri")		then "t"
+		else if chosen(choice:"quad")		then "q"
+		else if chosen(choice:"hex")		then "h"
+		else if chosen(choice:"all")		then "a"
+		else if chosen(choice:"none")		then "n"
 		else if none and not (dual or tri)  then "n"
 		else if colors == ""                then "c"
 		else colors[
