@@ -11,7 +11,7 @@ mask_tri_source_with_color	:= { false }
 mask_quad_source_with_color	:= { false }
 mask_hex_source_with_color	:= { false }
 template		:= { input + "{type}.jpg" }
-source_template		:= { (if input == "n" then "c" else input) + "l{type}.jpg" }
+source_template		:= { (if input == "n" then "c" else input) + "s{type}.jpg" }
 # Are there templates for colored sources, source_template(...)?
 colored_sources           := true
 
