@@ -131,9 +131,6 @@
     <None Include="..\data\ledge-watermarks.mse-include\watermarks">
       <Filter>Ledge Source</Filter>
     </None>
-    <None Include="..\data\ledge-watermarks.mse-include\watermarks-old">
-      <Filter>Ledge Source</Filter>
-    </None>
     <None Include="..\data\magic-watermarks.mse-include\watermarks-old">
       <Filter>Magic Reference</Filter>
     </None>

@@ -1,5 +1,9 @@
 ﻿############################################################## Card fields
 
+depends on:
+	package: ledge-watermarks.mse-include
+	version: 2017-10-13
+
 ############################# Automatic fields
 
 # The 'shape' of the card (flip, split, etc.)
@@ -77,7 +81,7 @@ card field:
 	description: The name of the card
 card field:
 	type: text
-	name: cost
+	name: base cost
 	icon: stats/base_cost.png
 	position hint: 1
 	script: energy_filter(value)
@@ -90,7 +94,7 @@ card field:
 card field:
 	type: choice
 	name: keyword symbol
-	default: keywordsymbol_keyword(type: card.keyword)
+	default: type_symbol_keyword(type: card.keyword)
 	card list visible: false
 	show statistics: false
 	choice: tech
@@ -215,7 +219,7 @@ card field:
 	include file: /ledge-watermarks.mse-include/watermark-names
 	description: A watermark for below the textbox, this can be a symbol to distinguish archetypes
 
-############################# SC
+############################# Scores
 card field:
 	type: text
 	name: sha
@@ -247,6 +251,28 @@ card field:
 	card list name: Scores
 	description: Energy Scores of a creature
 	show statistics: false
+
+############################# Card Color Symbols
+card field:
+	type: multiple choice
+	name: card color symbols
+	empty choice: ohm
+	choice: rha
+	choice: dau
+	choice: wim
+	choice: pfi
+	choice: quae
+	choice: vei
+	choice: ela
+	choice: biz
+	choice: yun
+	choice: jutu
+	choice: glei
+	choice: sace
+	choice: wry
+	default: card.card_color
+	show statistics: false
+	description: The color symbols of the card, used to indicate card color.
 
 ############################# Card sorting / numbering
 card field:

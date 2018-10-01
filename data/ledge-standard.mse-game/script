@@ -1,3 +1,9 @@
+############################################################## Script
+
+#depends on:
+#	package: ledge-standard-blends.mse-include
+#	version: 2017-10-13
+
 ############################################################## Localization
 
 include file: language
@@ -7,8 +13,10 @@ include file: language
 # correctly sort an energy symbol
 energy_sort       := sort_text@(order: "XYZI[0123456789]SCE")
 
+energy_filter	  := to_upper + { energy_sort() }
+
 # Like energy filter, only also allow up / down symbols:
-updown_filter := sort_text@(order: "<UD>")
+updown_filter := sort_text@(order: "<UT>")
 energy_filter_t := replace@(               # Remove [] used for forcing energy symbols
 			match: "[\\[\\]]",
 			replace: ""
@@ -141,10 +149,10 @@ card_color := {
 };
 
 # Number of colors in a card_color
-card_color_color_count := count_chosen@(choices: "rha,dau,wim,pfi,quae,vei,ela,biz,yun,jutu,glei,sace,ohm,wry")
+card_color_count := count_chosen@(choices: "rha,dau,wim,pfi,quae,vei,ela,biz,yun,jutu,glei,sace,ohm,wry")
 # Clean up color field
 card_color_filter := {
-	colors := card_color_color_count()
+	colors := card_color_count()
 	if colors > 1 then (
 		input := require_choice(choices: "dual-color, tri-color, all-colors, no-colors, source")
 		input := exclusive_choice(choices: "dual-color, tri-color, all-colors, no-colors")
@@ -167,7 +175,7 @@ sort_name :=
 	# Remove "The", "A", and "And" at the beginning
 	replace@(match: "^(The|An?) ", replace: "") +
 	# Remove commas and apostrophes
-	replace@(match: "(,|'|’)", replace: "") +
+	replace@(match: "(,|'|â€™)", replace: "") +
 	# Remove bold and italic tags
 	replace@(match: "(<b>|<i>|</b>|</i>)", replace: "") +
 	# Make lowercase
@@ -198,7 +206,7 @@ color_of_card := {
 		else if chosen(choice :"glei", card_color) then "M"              
 		else if chosen(choice: "sace", card_color) then "N"              
 		else if chosen(choice: "ohm",  card_color) then "O"
-		else if chosed(choice: "wry",  card_color) then "P"
+		else if chosen(choice: "wry",  card_color) then "P"
 		else "P"
 	) else (
 																		 # Cards with costs.
@@ -262,8 +270,8 @@ card_count := {
 }
 
 #Starting with M15, zero digits in card numbers should be shown up to three.
-card_number_m15 := { (if card_number() < 100 then "0" else "") + (if card_number() < 10 then "0" else "") + card_number() }
-card_count_m15 := { (if card_count() < 100 then "0" else "") + (if card_count() < 10 then "0" else "") + card_count() }
+card_number_standard := { (if card_number() < 100 then "0" else "") + (if card_number() < 10 then "0" else "") + card_number() }
+card_count_standard := { (if card_count() < 100 then "0" else "") + (if card_count() < 10 then "0" else "") + card_count() }
 
 # used by pack scripts
 is_token_card   := { card.shape == "token" or card.shape == "rulestip" or card.shape == "counter" or card.shape == "checklist" or card.shape == "emblem"}
@@ -274,12 +282,12 @@ is_shifted_card := { contains(card.shape, match:"shifted") }
 # Replace spaces by a spacer
 separate_words := remove_tags + trim + replace@(match:" ", replace: {spacer})
 
-# replaces — correctly
+# replaces â€” correctly
 add := "" # default is nothing
 
 # If the 'input' parameter is a energy costs, then adds 'add'
 for_energy_costs := format_cost := {
-	if input.separator_before == "—" and contains(input.param, match: " ") then (
+	if input.separator_before == "â€”" and contains(input.param, match: " ") then (
 		if contains(input.param, match:",") then (
 			if match(match: "^[RDMPQVEBYJGSOW0-9/|]+,", input.param) then
 				"{add}<param-cost>{combined_cost(input.param)}</param-cost>"
@@ -299,7 +307,7 @@ combined_cost := replace@(match:", [A-Z]", replace: { to_lower() })+
 	replace@(match:"^[RDMPQVEBYJGSOW0-9/|]", in_context: "(^|[[:space:]])<match>", replace: "<sym-auto>&</sym-auto>")+
 	replace@(match:"^[A-Z]", replace: { to_lower() })
 
-long_dash := replace@(match:"-", replace:"—")
+long_dash := replace@(match:"-", replace:"â€”")
 
 # Utilities for keywords
 
@@ -330,7 +338,7 @@ color_to_energy :=	replace@(match: "rha",  replace: "[R]")+
 # context in which energy symbols are found
 energy_context :=
 	"(?ix)				# case insensitive, ignore whitespace
-	 (^|[[:space:]\"(“'])		# start of a word
+	 (^|[[:space:]\"(â€œ'])		# start of a word
 	 (  <match>:			# G: something
 	 |  <match>,			# G, down: something
 	 |  <match>[ ]can[ ]be[ ]pay
@@ -438,7 +446,7 @@ text_filter :=
 	 	replace: "<i-auto>&</i-auto>") +
 	# step 8 : automatic capitalization, but not after "("
 	replace@(
-		match: "([ ]*: |—| — )" # preceded by this
+		match: "([ ]*: |â€”| â€” )" # preceded by this
 		     + "([[:lower:]])" # match this
 		     + "(?![)])",      # not followed by this
 		replace: { _1 + to_upper(_2) }) +
@@ -446,7 +454,7 @@ text_filter :=
 	{ if set.mark_errors then
 		check_spelling(
 			language: language().spellcheck_code,
-			extra_dictionary: "/ledge.mse-game/ledge-words",
+			extra_dictionary: "/ledge-standard.mse-game/ledge-words",
 			extra_match: additional_text_words
 		)
 	  else input
@@ -470,11 +478,12 @@ flavor_text_filter :=
 	}
 
 # Move the cursor past the separator in the score and keyword boxes
-keyword_over_keyword := replace@(match:" ?[-:]$", replace:"")
+type_over_scores  := replace@(match:"/$", replace:"")
+type_over_keyword := replace@(match:" ?[-:]$", replace:"")
 
 undefined_keyword_filter := {
 	input := remove_tag(tag: "<word-list-")
-	input := keyword_over_keyword()
+	input := type_over_keyword()
 	tag := "word-list-keyword" # TODO: localize
 	"<{tag}>{input}</{tag}>"
 }
@@ -563,7 +572,7 @@ keyword_symbol_for :=
 	  else if input == "Source"       then "source"
 	  else                                "multi"
 	}
-keyword_symbol_keyword := { keyword_symbol_for(keyword) }
+type_symbol_keyword := { keyword_symbol_for(keyword) }
 
 #Script to make ledge-energy-future compatible w/ other templates
 colorless_color := {

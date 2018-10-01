@@ -29,9 +29,9 @@ include file: auto_replace
 
 card list color script:
 	input := card.card_color
-	if      input == "rha"	then rgb(192,64,64)
+	if      input == "rha"  then rgb(192,64,64)
 	else if input == "dau"  then rgb(192,64,128)
-	else if input == "wim"	then rgb(192,64,192)
+	else if input == "wim"  then rgb(192,64,192)
 	else if input == "pfi"  then rgb(128,64,192)
 	else if input == "quae" then rgb(64,64,192)
 	else if input == "vei"  then rgb(64,128,192)
@@ -43,7 +43,6 @@ card list color script:
 	else if input == "sace" then rgb(192,128,64)
 	else if input == "ohm"	then rgb(128,128,128)
 	else if input == "wry"	then rgb(128,128,128)
-
 	else (
 		tech		:= chosen(choice:"tech")
 		wild		:= chosen(choice:"wild")
@@ -60,5 +59,5 @@ card list color script:
 		else if tri			then rgb(130,110,0) # tri
 		else if all			then rgb(100,70,0)	# all
 		else if source		then rgb(109,62,39) # source
-		else                     rgb(128,128,128) # none
+		else					 rgb(128,128,128) # none
 	)

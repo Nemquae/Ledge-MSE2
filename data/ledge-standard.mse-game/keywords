@@ -30,8 +30,8 @@ keyword parameter type:
 
 keyword parameter type:
 	name: cost
-	match: [ ][SCE/|]*|[-—][^(\n]*
-	separator before is: [ —-]
+	match: [ ][SCE/|]*|[-â€”][^(\n]*
+	separator before is: [ â€”-]
 	separator after is: [.]
 	optional: false
 	# note: the separator is part of match
@@ -85,7 +85,7 @@ keyword parameter type:
 
 keyword parameter type:
 	name: name
-	match: [^(.:;\n—]+
+	match: [^(.:;\nâ€”]+
 	refer script:
 		name: normal
 		description: No changes made.

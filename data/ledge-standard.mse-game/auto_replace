@@ -6,24 +6,24 @@
 #auto replace category: everywhere
 auto replace:
 	match: (C)
-	replace: ©
+	replace: Â©
 auto replace:
 	match: AE
-	replace: Æ
+	replace: Ã†
 	whole word: false
 auto replace:
 	match: TM
-	replace: ™
+	replace: â„¢
 	whole word: false
 auto replace:
 	match: --
-	replace: —
+	replace: â€”
 auto replace:
 	# note the spaces
 	match:
 		 - 
 	replace:
-		 — 
+		 â€” 
 auto replace:
 	match: CIP
 	replace: enters the battlefield
@@ -38,10 +38,10 @@ auto replace:
 	replace: CARDNAME
 auto replace:
 	match: '
-	replace: ’
+	replace: â€™
 auto replace:
 	match: ::
-	replace: • 
+	replace: â€¢ 
 auto replace:
 	match: ->
-	replace: • 
+	replace: â€¢ 

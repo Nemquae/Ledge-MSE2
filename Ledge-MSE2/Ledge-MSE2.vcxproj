@@ -128,7 +128,6 @@
     <None Include="..\data\ledge-watermarks.mse-include\include" />
     <None Include="..\data\ledge-watermarks.mse-include\watermark-names" />
     <None Include="..\data\ledge-watermarks.mse-include\watermarks" />
-    <None Include="..\data\ledge-watermarks.mse-include\watermarks-old" />
     <None Include="..\data\magic-blends.mse-include\include" />
     <None Include="..\data\magic-blends.mse-include\new-blends" />
     <None Include="..\data\magic-default-image.mse-include\include" />

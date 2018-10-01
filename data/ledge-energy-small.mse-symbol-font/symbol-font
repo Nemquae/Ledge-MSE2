@@ -1,17 +1,17 @@
 ﻿mse version: 2.0.0
-version: 2015-12-13
+version: 2017-10-13
 short name: normal
-installer group: magic/Mana symbols/normal style
+installer group: ledge-standard/energy symbols/normal style
 position hint: 001
-icon: mana_r.png
+icon: energy_r.png
 # Symbol font in the normal, flat, style, used for text boxes and on old style cards
 # Note:
-#  Define  mana_t := {"new|old|older"} in the init script of the style
+#  Define  energy_t := {"new|old|older"} in the init script of the style
 #
 # So for example: 
 #
 #init script:
-#	mana_t := {"new"}
+#	energy_t := {"new"}
 
 image font size: 135
 horizontal space: 2
@@ -20,241 +20,241 @@ symbol:
 	image: energy_counter.png
 symbol:
 	code: A
-	image: mana_crude.png
+	image: energy_crude.png
 symbol:
 	code: phi
 	image: phi.png
 	image font size: 27
 symbol:
 	code: T
-	image: mana_t_older.png
-	enabled: { mana_t() == "older" }
+	image: energy_t_older.png
+	enabled: { energy_t() == "older" }
 symbol:
 	code: T
-	image: mana_t_old.png
-	enabled: { mana_t() == "old" }
+	image: energy_t_old.png
+	enabled: { energy_t() == "old" }
 symbol:
 	code: T
-	image: mana_t.png
+	image: energy_t.png
 symbol:
 	code: Q
-	image: mana_q_older.png
-	enabled: { mana_t() == "older" }
+	image: energy_q_older.png
+	enabled: { energy_t() == "older" }
 symbol:
 	code: Q
-	image: mana_q_old.png
-	enabled: { mana_t() == "old" }
+	image: energy_q_old.png
+	enabled: { energy_t() == "old" }
 symbol:
 	code: Q
-	image: mana_q.png
+	image: energy_q.png
 symbol:
 	code: chaos
-	image: mana_chaos.png
+	image: energy_chaos.png
 	image font size: 168.75
 symbol:
 	code: B/G/W
-	image: mana_bgw.png
+	image: energy_bgw.png
 	image font size: 145
 symbol:
 	code: B/R/G
-	image: mana_brg.png
+	image: energy_brg.png
 	image font size: 145
 symbol:
 	code: G/U/B
-	image: mana_gub.png
+	image: energy_gub.png
 	image font size: 145
 symbol:
 	code: G/W/U
-	image: mana_gwu.png
+	image: energy_gwu.png
 	image font size: 145
 symbol:
 	code: R/G/W
-	image: mana_rgw.png
+	image: energy_rgw.png
 	image font size: 145
 symbol:
 	code: R/W/U
-	image: mana_rwu.png
+	image: energy_rwu.png
 	image font size: 145
 symbol:
 	code: U/B/R
-	image: mana_ubr.png
+	image: energy_ubr.png
 	image font size: 145
 symbol:
 	code: U/R/G
-	image: mana_urg.png
+	image: energy_urg.png
 	image font size: 145
 symbol:
 	code: W/B/R
-	image: mana_wbr.png
+	image: energy_wbr.png
 	image font size: 145
 symbol:
 	code: W/U/B
-	image: mana_wub.png
+	image: energy_wub.png
 	image font size: 145
 symbol:
 	code: W/U
-	image: mana_guild_wu.png
+	image: energy_guild_wu.png
 	image font size: 145
-	enabled: { guild_mana() }
+	enabled: { guild_energy() }
 symbol:
 	code: U/B
-	image: mana_guild_ub.png
+	image: energy_guild_ub.png
 	image font size: 145
-	enabled: { guild_mana() }
+	enabled: { guild_energy() }
 symbol:
 	code: B/R
-	image: mana_guild_br.png
+	image: energy_guild_br.png
 	image font size: 145
-	enabled: { guild_mana() }
+	enabled: { guild_energy() }
 symbol:
 	code: R/G
-	image: mana_guild_rg.png
+	image: energy_guild_rg.png
 	image font size: 145
-	enabled: { guild_mana() }
+	enabled: { guild_energy() }
 symbol:
 	code: G/W
-	image: mana_guild_gw.png
+	image: energy_guild_gw.png
 	image font size: 145
-	enabled: { guild_mana() }
+	enabled: { guild_energy() }
 symbol:
 	code: W/B
-	image: mana_guild_wb.png
+	image: energy_guild_wb.png
 	image font size: 145
-	enabled: { guild_mana() }
+	enabled: { guild_energy() }
 symbol:
 	code: U/R
-	image: mana_guild_ur.png
+	image: energy_guild_ur.png
 	image font size: 145
-	enabled: { guild_mana() }
+	enabled: { guild_energy() }
 symbol:
 	code: B/G
-	image: mana_guild_bg.png
+	image: energy_guild_bg.png
 	image font size: 145
-	enabled: { guild_mana() }
+	enabled: { guild_energy() }
 symbol:
 	code: R/W
-	image: mana_guild_rw.png
+	image: energy_guild_rw.png
 	image font size: 145
-	enabled: { guild_mana() }
+	enabled: { guild_energy() }
 symbol:
 	code: G/U
-	image: mana_guild_gu.png
+	image: energy_guild_gu.png
 	image font size: 145
-	enabled: { guild_mana() }
+	enabled: { guild_energy() }
 symbol:
 	code: W/U
-	image: mana_wu.png
+	image: energy_wu.png
 	image font size: 145
 symbol:
 	code: U/B
-	image: mana_ub.png
+	image: energy_ub.png
 	image font size: 145
 symbol:
 	code: B/R
-	image: mana_br.png
+	image: energy_br.png
 	image font size: 145
 symbol:
 	code: R/G
-	image: mana_rg.png
+	image: energy_rg.png
 	image font size: 145
 symbol:
 	code: G/W
-	image: mana_gw.png
+	image: energy_gw.png
 	image font size: 145
 symbol:
 	code: W/B
-	image: mana_wb.png
+	image: energy_wb.png
 	image font size: 145
 symbol:
 	code: U/R
-	image: mana_ur.png
+	image: energy_ur.png
 	image font size: 145
 symbol:
 	code: B/G
-	image: mana_bg.png
+	image: energy_bg.png
 	image font size: 145
 symbol:
 	code: R/W
-	image: mana_rw.png
+	image: energy_rw.png
 	image font size: 145
 symbol:
 	code: G/U
-	image: mana_gu.png
+	image: energy_gu.png
 	image font size: 145
 symbol:
 	code: 1/2
-	image: mana_1_half.png
+	image: energy_1_half.png
 symbol:
 	code: |1
-	image: mana_1_half.png
+	image: energy_1_half.png
 symbol:
 	code: |W
-	image: mana_w_half.png
+	image: energy_w_half.png
 symbol:
 	code: |U
-	image: mana_u_half.png
+	image: energy_u_half.png
 symbol:
 	code: |B
-	image: mana_b_half.png
+	image: energy_b_half.png
 symbol:
 	code: |R
-	image: mana_r_half.png
+	image: energy_r_half.png
 symbol:
 	code: |G
-	image: mana_g_half.png
+	image: energy_g_half.png
 symbol:
 	code: |S
-	image: mana_s_half.png
+	image: energy_s_half.png
 symbol:
 	code: H/W
-	image: mana_phyw.png
+	image: energy_phyw.png
 	image font size: 117
 symbol:
 	code: H/U
-	image: mana_phyu.png
+	image: energy_phyu.png
 	image font size: 117
 symbol:
 	code: H/B
-	image: mana_phyb.png
+	image: energy_phyb.png
 	image font size: 117
 symbol:
 	code: H/R
-	image: mana_phyr.png
+	image: energy_phyr.png
 	image font size: 117
 symbol:
 	code: H/G
-	image: mana_phyg.png
+	image: energy_phyg.png
 	image font size: 117
 symbol:
 	code: H
-	image: mana_phyc.png
+	image: energy_phyc.png
 	image font size: 117
 symbol:
 	code: W
-	image: mana_w.png
+	image: energy_w.png
 symbol:
 	code: U
-	image: mana_u.png
+	image: energy_u.png
 symbol:
 	code: B
-	image: mana_b.png
+	image: energy_b.png
 symbol:
 	code: R
-	image: mana_r.png
+	image: energy_r.png
 symbol:
 	code: G
-	image: mana_g.png
+	image: energy_g.png
 symbol:
 	code: C
-	image: mana_c.png
+	image: energy_c.png
 symbol:
 	code: S
-	image: mana_s.png
+	image: energy_s.png
 symbol:
 	code: I
-	image: mana_infinite.png
+	image: energy_infinite.png
 symbol:
-	image: mana_nw.png
+	image: energy_nw.png
 	code: ([XYZ0-9])/W
 	regex: yes
 	draw text: 1
@@ -269,7 +269,7 @@ symbol:
 		max stretch: 0.5
 	image font size: 145
 symbol:
-	image: mana_nu.png
+	image: energy_nu.png
 	code: ([XYZ0-9])/U
 	regex: yes
 	draw text: 1
@@ -284,7 +284,7 @@ symbol:
 		max stretch: 0.5
 	image font size: 145
 symbol:
-	image: mana_nb.png
+	image: energy_nb.png
 	code: ([XYZ0-9])/B
 	regex: yes
 	draw text: 1
@@ -299,7 +299,7 @@ symbol:
 		max stretch: 0.5
 	image font size: 145
 symbol:
-	image: mana_nr.png
+	image: energy_nr.png
 	code: ([XYZ0-9])/R
 	regex: yes
 	draw text: 1
@@ -314,7 +314,7 @@ symbol:
 		max stretch: 0.5
 	image font size: 145
 symbol:
-	image: mana_ng.png
+	image: energy_ng.png
 	code: ([XYZ0-9])/G
 	regex: yes
 	draw text: 1
@@ -329,7 +329,7 @@ symbol:
 		max stretch: 0.5
 	image font size: 145
 symbol:
-	image: mana_circle.png
+	image: energy_circle.png
 	code: [XYZ]
 	regex: yes
 	draw text: 0
@@ -342,7 +342,7 @@ symbol:
 		size: 1
 		color: rgb(0,0,0)
 symbol:
-	image: mana_circle.png
+	image: energy_circle.png
 	code: [0-9]+(?!/[WUBRGSTQ2])|.
 	regex: yes
 	draw text: 0

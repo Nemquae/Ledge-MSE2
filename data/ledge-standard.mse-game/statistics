@@ -79,7 +79,7 @@ statistics dimension:
 	numeric: true
 	icon: stats/sha.png
 
-	statistics dimension:
+statistics dimension:
 	position hint: 51
 	name: chi
 	script: card.chi

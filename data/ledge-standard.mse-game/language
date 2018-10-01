@@ -5,31 +5,21 @@ languages := [
 	English: [
 		code              : "en",
 		spellcheck_code   : "en_us",
-		pt_separator      : "/",
-		type_separator    : " — ",
-		subtype_separator : " ",
+		sc_separator      : "/",
+		keyword_separator : " ",
+		define_serparator : ": "
 		is_creature       : match@(match: "(?i)Creature")
-		is_tribal         : match@(match: "(?i)Tribal")
-		is_artifact       : match@(match: "(?i)Artifact")
-		is_land           : match@(match: "(?i)Land")
-		is_enchantment    : match@(match: "(?i)Enchantment")
-		is_spell          : match@(match: "(?i)Instant|Sorcery")
-		is_planeswalker   : match@(match: "(?i)Planeswalker")
+
 	],
 	
 	Français: [
 		code              : "fr",
 		spellcheck_code   : "", # TODO: get dictionary
-		pt_separator      : "/",
-		type_separator    : " : "
+		sc_separator      : "/",
+		keyword_separator : " "
+		define_separator  : ": "
 		subtype_separator : "<atom-sep> et </atom-sep>",
 		is_creature       : match@(match: "(?i)Creature|Créature")
-		is_tribal         : match@(match: "(?i)Tribal")
-		is_artifact       : match@(match: "(?i)Artifact")
-		is_land           : match@(match: "(?i)Land")
-		is_enchantment    : match@(match: "(?i)Enchantment")
-		is_spell          : match@(match: "(?i)Instant|Sorcery")
-		is_planeswalker   : match@(match: "(?i)Planeswalker")
 	]
 ]
 
