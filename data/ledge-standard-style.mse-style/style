@@ -8,7 +8,7 @@ installer group: ledge-standard/style
 
 version: 2017-10-13
 
-depends on: 
+depends on:
 	package: ledge-standard.mse-game
 	version: 2017-10-13
 
@@ -46,12 +46,12 @@ card background: rgb(200,200,200)
 init script:
 	# Load scripts for image box
 	include file: /ledge-standard-image.mse-include/scripts
-	
+
 	#Should multicolor sources with basic source keywords have a colored name?
 	mask_multi_source_with_color := { styling.colored_multicolor_source_name }
-	
-	template_prefix := [card: "" card2: "" sc: "" stamp: "" identity: "/ledge-color-identity.mse-include/"]
-	template_suffix := [card: "card.jpg" card2: "card2.jpg" sc: "sc.png", stamp: "stamp.jpg" identity: "identity.png"]
+
+	template_prefix := [card: "" card2: "" scores: "" stamp: "" identity: "/ledge-color-identity.mse-include/"]
+	template_suffix := [card: "card.jpg" card2: "card2.jpg" scores: "scores.png", stamp: "stamp.jpg" identity: "identity.png"]
 	template      := { template_prefix[type] + input + template_suffix[type] }
 	source_template := { template_prefix[type] + (if input == "o" then "c" else input) + "s" + template_suffix[type] }
 
@@ -61,10 +61,10 @@ init script:
 		else if styling.down_symbol == "diagonal D" then "older"
 		else                                            "new"
 	}
-	
+
 	# Is the card a promo card?
 	is_promo := { styling.promo }
-	
+
 ############################################################## Set info fields
 set info style:
 	symbol:
@@ -149,7 +149,7 @@ card style:
 		image: { card_background() }
 	############################# Name line
 	name:
-		left: { if card.card_symbol=="none" then 32 else 50 }
+		left: 32
 		top: 30
 		right:  { 341 - card_style.base_cost.content_width }
 		height: 23
@@ -194,7 +194,7 @@ card style:
 		render style: image
 		visible: { has_identity() }
 		image: { card_identity() }
-	keyword:
+	keywords:
 		left: { if has_identity() then "52" else "32" }
 		top: 296
 		width: { (if has_identity() then "290" else "310") - max(22,card_style.rarity.content_width) }
@@ -242,7 +242,7 @@ card style:
 			scale down to: 6
 			color: black
 		symbol font:
-			name: { styling.text_box_mana_symbols }
+			name: { styling.text_box_energy_symbols }
 			size: 14
 		alignment:
 			script:
@@ -322,7 +322,7 @@ card style:
 			color: white
 	copyright:
 		right: 350
-		top: { if card.pt != "" then 500 else 488 }
+		top: { if card.scores != "" then 500 else 488 }
 		width: 140
 		height: 10
 		z index: 2
@@ -350,7 +350,7 @@ extra card field:
 	choice: white
 extra card field:
 	type: choice
-	name: score box
+	name: scores box
 	script: card.card_color
 	editable: false
 	save value: false
@@ -392,13 +392,12 @@ extra card style:
 		z index: 1
 		render style: image
 		image: artist_arrow.png
-	score box:
+	scores box:
 		left: 273
 		top: 466
 		width: 81
 		height:	42
 		z index: 1
-		visible: { card.sc != "" }
+		visible: { card.scores != "" }
 		render style: image
 		image: { card_scbox() }
-

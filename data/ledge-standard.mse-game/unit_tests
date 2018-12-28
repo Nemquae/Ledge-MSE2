@@ -12,7 +12,7 @@
 # assert(card_color_color_count("artifact,white") == 2)
 
 ##############################################################
-# converted mana cost
+# converted energy cost
 ##############################################################
 
 # assert(cmc("")        == 0)
@@ -24,4 +24,3 @@
 # assert(cmc("2X")      == 2)
 # assert(cmc("22")      == 22)
 # assert(cmc("20WUBRG") == 25)
-

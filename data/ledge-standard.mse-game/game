@@ -45,7 +45,7 @@ card list color script:
 	else if input == "wry"	then rgb(128,128,128)
 	else (
 		tech		:= chosen(choice:"tech")
-		wild		:= chosen(choice:"wild")
+		nature	:= chosen(choice:"nature")
 		magic		:= chosen(choice:"magic")
 		dual		:= chosen(choice:"dual-color")
 		tri			:= chosen(choice:"tri-color")
@@ -53,7 +53,7 @@ card list color script:
 		all			:= chosen(choice:"all-colors")
 		source		:= chosen(choice:"source")
 		if      tech	    then rgb(72,90,100) # tech
-		else if wild		then rgb(130,110,0) # wild
+		else if nature		then rgb(130,110,0) # nature
 		else if magic		then rgb(115,0,160) # magic
 		else if dual		then rgb(130,110,0) # dual
 		else if tri			then rgb(130,110,0) # tri

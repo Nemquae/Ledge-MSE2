@@ -12,6 +12,8 @@ mask_quad_source_with_color	:= { false }
 mask_hex_source_with_color	:= { false }
 template		:= { input + "{type}.jpg" }
 source_template		:= { (if input == "n" then "c" else input) + "s{type}.jpg" }
+# For what value should thumbnails of multi-colored be made?
+multi_previews         := "hybrid"
 # Are there templates for colored sources, source_template(...)?
 colored_sources           := true
 
@@ -175,19 +177,21 @@ color_background := {
 
 	# for thumbnails
 	#if input == "multi" then
-		input := "rha,quae,yun,{multi_previews},horizontal"
+		input := "rha,quae,yun,{multi_previews}"
 	#else if input == "horizontal" then
 	#	input := "rha,quae,yun,{multi_previews}," + input
 
 
 	# What type of 'multi-color'?
 	mono	:= chosen(choice:"mono-color")
-	dual    := chosen(choice:"dual-color")
+	dual  := chosen(choice:"dual-color")
 	tri		:= chosen(choice:"tri-color")
 	quad	:= chosen(choice:"quad-colors")
 	hex		:= chosen(choice:"hex-colors")
 	all		:= chosen(choice:"all-colors")
 	none	:= chosen(choice:"no-colors")
+	source := chosen(choice:"source-colors")
+
 	if source and colored_sources then template := source_template # use source template instead?
 
 	# The selected colors
@@ -231,7 +235,7 @@ color_background := {
 	if colors == "" then colors == "c"
 
 	# 'shape' / type of multi
-	shape := if      chosen(choice:"horizontal") then "horizontal"
+	shape := "" # if      chosen(choice:"horizontal") then "horizontal"
 
 	# Determine background (allows styles to hook something else here)
 	color_combination()
@@ -338,7 +342,7 @@ color_combination := {
 ########################################################################
 
 card_background := { color_background(type:"card",     base_multi:horizontal_card_multi) }
-card_scbox      := { color_background(type:"score",    base_multi:horizontal_score_multi) }
+card_scores_box      := { color_background(type:"score",    base_multi:horizontal_score_multi) }
 #card_textbox    := { color_background(type:"textbox",  base_multi:textbox_multi) }
 card_identity   := { color_background(type:"identity", base_multi:identity_horizontal_multi) }
 
@@ -349,9 +353,9 @@ card_identity   := { color_background(type:"identity", base_multi:identity_horiz
 # For which colors is the font white?
 font_colors_white := { input == "b" or input == "l" }
 
-font_color_positions := [
-	horizontal: [0,0,0,0,0,0,0,0]
-]
+# font_color_positions := [
+# 	horizontal: [0,0,0,0,0,0,0,0]
+# ]
 
 # Determine whether light or dark fonts should be used
 font_white := {
@@ -389,11 +393,11 @@ font_white := {
 		else if chosen(choice:"none")		then "n"
 		else if none and not (dual or tri)  then "n"
 		else if colors == ""                then "c"
-		else colors[
-			font_color_positions[
-				if      chosen(choice:"horizontal") then "horizontal"
-			][number_of_items(in: colors)]
-		]
+#		else colors[
+#			font_color_positions[
+#				if      chosen(choice:"horizontal") then "horizontal"
+#			][number_of_items(in: colors)]
+#		]
 	)
 }
 

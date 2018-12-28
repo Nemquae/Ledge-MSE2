@@ -128,21 +128,21 @@ text_to_color := {
 	    )
 	  )
 	)
-}
+};
 
 # The color of a card
 is_creature    := match@(match: "(?i)Creature")
-is_construct   := match@(match: "(?i)Construct")
+is_tech			   := match@(match: "(?i)Tech")
 is_source      := match@(match: "(?i)Source")
-is_magic	   := match@(match: "(?i)Magic")
-is_wild	       := match@(match: "(?i)Wild")
+is_magic	   	 := match@(match: "(?i)Magic")
+is_nature	     := match@(match: "(?i)Nature")
 card_color := {
 	# usually the color of energy
-	text_color := text_to_color(rules_text, source: is_source(keyword));
+	text_color := text_to_color(rules_text, source: is_source(card.keywords));
 	if text_color == "" then (
 		energy_color := energy_to_color(colors: color_filter(base_cost))
-		if      energy_color == "colorless" and is_source    (keyword)  then source_to_color(watermark)
-		else if energy_color == "colorless" and is_construct(keyword)  then "construct"
+		if      energy_color == "colorless" and is_source    (keywords)  then source_to_color(watermark)
+		else if energy_color == "colorless" and is_tech(keywords)  then "tech"
 		else energy_color
 	)
 	else text_color
@@ -189,22 +189,22 @@ is_null_cost  := { input == "" or input == "0" }
 color_of_card := {
 	card_color := card.card_color
 	base_cost := card.base_cost
-	keyword := card.keyword
+	keywords := card.keywords
 	if is_null_cost(base_cost) then (								 # Cards with no or zero costs.
 		if chosen(choice: "colorless", card_color) then "A"              # Clear Colorless
 		else if is_dual(card_color) or is_tri(card_color) then "B"             # dual
-		else if chosen(choice: "rha",  card_color) then "C"              
-		else if chosen(choice: "dau",  card_color) then "D"              
-		else if chosen(choice: "wim",  card_color) then "E"              
-		else if chosen(choice: "pfi",  card_color) then "F"              
-		else if chosen(choice: "quae", card_color) then "G"              
-		else if chosen(choice: "vei",  card_color) then "H"              
-		else if chosen(choice: "ela",  card_color) then "I"              
-		else if chosen(choice: "biz",  card_color) then "J"              
-		else if chosen(choice: "yun",  card_color) then "K"              
-		else if chosen(choice: "jutu", card_color) then "L"              
-		else if chosen(choice :"glei", card_color) then "M"              
-		else if chosen(choice: "sace", card_color) then "N"              
+		else if chosen(choice: "rha",  card_color) then "C"
+		else if chosen(choice: "dau",  card_color) then "D"
+		else if chosen(choice: "wim",  card_color) then "E"
+		else if chosen(choice: "pfi",  card_color) then "F"
+		else if chosen(choice: "quae", card_color) then "G"
+		else if chosen(choice: "vei",  card_color) then "H"
+		else if chosen(choice: "ela",  card_color) then "I"
+		else if chosen(choice: "biz",  card_color) then "J"
+		else if chosen(choice: "yun",  card_color) then "K"
+		else if chosen(choice: "jutu", card_color) then "L"
+		else if chosen(choice :"glei", card_color) then "M"
+		else if chosen(choice: "sace", card_color) then "N"
 		else if chosen(choice: "ohm",  card_color) then "O"
 		else if chosen(choice: "wry",  card_color) then "P"
 		else "P"
@@ -212,21 +212,21 @@ color_of_card := {
 																		 # Cards with costs.
 		colors := sort_text(base_cost, order: "<RDMPQVEBYJGSOW>")
 			 if colors == ""  then "A"                                   # Clear Colorless
-		else if contains(colors, match: "R") then "C"                                   
-		else if contains(colors, match: "D") then "D"                                   
-		else if contains(colors, match: "M") then "E"                                   
-		else if contains(colors, match: "P") then "F"                                   
-		else if contains(colors, match: "Q") then "G"                                   
-		else if contains(colors, match: "V") then "H"                                   
-		else if contains(colors, match: "E") then "I"                                   
-		else if contains(colors, match: "B") then "J"                                   
-		else if contains(colors, match: "Y") then "K"                                   
-		else if contains(colors, match: "J") then "L"                                   
-		else if contains(colors, match: "G") then "M"                                   
-		else if contains(colors, match: "S") then "N"                                   
+		else if contains(colors, match: "R") then "C"
+		else if contains(colors, match: "D") then "D"
+		else if contains(colors, match: "M") then "E"
+		else if contains(colors, match: "P") then "F"
+		else if contains(colors, match: "Q") then "G"
+		else if contains(colors, match: "V") then "H"
+		else if contains(colors, match: "E") then "I"
+		else if contains(colors, match: "B") then "J"
+		else if contains(colors, match: "Y") then "K"
+		else if contains(colors, match: "J") then "L"
+		else if contains(colors, match: "G") then "M"
+		else if contains(colors, match: "S") then "N"
 		else if contains(colors, match: "O") then "O"
 		else if contains(colors, match: "W") then "P"
-		else "P"														
+		else "P"
 	)
 }
 
@@ -354,9 +354,9 @@ energy_context :=
 	    |[ ]( or | and | in | less | more | to ) # or next word is ...
 	    )
 	    )
-	 |  <param-energy><match></param-energy>		# keyword argument that is declared as energy
-	 |  <param-cost>[ ]*<match></param-cost>	# keyword argument that is declared as cost
-	 |  <param-cost><match>,			# keyword argument that is declared as cost
+	 |  <param-energy><match></param-energy>		# keywords argument that is declared as energy
+	 |  <param-cost>[ ]*<match></param-cost>	# keywords argument that is declared as cost
+	 |  <param-cost><match>,			# keywords argument that is declared as cost
 	 ";
 
 # truncates the name of legends
@@ -388,10 +388,10 @@ text_filter :=
 			chosen(choice:if correct_case then mode else "lower case", set.automatic_reminder_text)
 		},
 		combine: {
-			keyword  := "<nospellcheck>{keyword}</nospellcheck>"
+			keywords  := "<nospellcheck>{keywords}</nospellcheck>"
 			reminder := process_english_hints(reminder)
-			if mode == "pseudo" then "<i-auto>{keyword}</i-auto>"
-			else keyword + if expand then "<atom-reminder-{mode}> ({reminder})</atom-reminder-{mode}>"
+			if mode == "pseudo" then "<i-auto>{keywords}</i-auto>"
+			else keywords + if expand then "<atom-reminder-{mode}> ({reminder})</atom-reminder-{mode}>"
 		}) +
 	# step 2b : move action keywords' reminder text to the end of the line
 	replace@(
@@ -442,7 +442,7 @@ text_filter :=
 	# step 7 : italicize text in parenthesis
 	replace@(
 	 	match: "[(]([^)\n]|[(][^)\n]*[)])*[)]?",
-		in_context: "(^|[[:space:]])<match>|<atom-keyword><match></",
+		in_context: "(^|[[:space:]])<match>|<atom-keywords><match></",
 	 	replace: "<i-auto>&</i-auto>") +
 	# step 8 : automatic capitalization, but not after "("
 	replace@(
@@ -477,47 +477,47 @@ flavor_text_filter :=
 	  else input
 	}
 
-# Move the cursor past the separator in the score and keyword boxes
+# Move the cursor past the separator in the score and keywords boxes
 type_over_scores  := replace@(match:"/$", replace:"")
-type_over_keyword := replace@(match:" ?[-:]$", replace:"")
+type_over_keywords := replace@(match:" ?[-:]$", replace:"")
 
-undefined_keyword_filter := {
+undefined_keywords_filter := {
 	input := remove_tag(tag: "<word-list-")
-	input := type_over_keyword()
-	tag := "word-list-keyword" # TODO: localize
+	input := type_over_keywords()
+	tag := "word-list-keywords" # TODO: localize
 	"<{tag}>{input}</{tag}>"
 }
 
 break_keywords := split_text@(match: " +|<atom-sep>[^<]*</atom-sep>", include_empty:false)
-defined_keyword_filter := {
+defined_keywords_filter := {
 	input := remove_tag(tag: "<word-list-")
 	input := remove_tag(tag: "<soft")
 	lang  := language()
 	# What word list to use?
-	list_keyword_rest := if      lang.is_creature(keyword)		then "class"
-	                  else if lang.is_source(keyword)			then "source"
-	                  else if lang.is_tech(keyword)			then "tech"
-	                  else if lang.is_magic(keyword)			then "magic"
-	                  else if lang.is_spell(keyword)			then "spell"
-	if list_keyword_rest != "" then (
-		if lang.is_creature(keyword) then (
-			list_keyword_first := "race"
+	list_keywords_rest := if      lang.is_creature(keywords)		then "class"
+	                  else if lang.is_source(keywords)			then "source"
+	                  else if lang.is_tech(keywords)			then "tech"
+	                  else if lang.is_magic(keywords)			then "magic"
+	                  else if lang.is_spell(keywords)			then "spell"
+	if list_keywords_rest != "" then (
+		if lang.is_creature(keywords) then (
+			list_keywords_first := "race"
 		) else (
-			list_keyword_first := list_keyword_rest
+			list_keywords_first := list_keywords_rest
 		);
 		# wrap wordlist tag around each part
 		parts := break_keywords()
 		(for each i:part in parts do
 			if i == 0 then
-				"<word-list-{list_keyword_first}>{part}</word-list-{list_keyword_first}>"
+				"<word-list-{list_keywords_first}>{part}</word-list-{list_keywords_first}>"
 			else
-				lang.keyword_separator + "<word-list-{list_keyword_rest}>{part}</word-list-{list_keyword_rest}>"
+				lang.keywords_separator + "<word-list-{list_keywords_rest}>{part}</word-list-{list_keywords_rest}>"
 		) +
 		(if length(parts) > 0 then
 			# Add a new box at the end
-			"<soft>{lang.keyword_separator}</soft><word-list-{list_keyword_rest}></word-list-{list_keyword_rest}>"
+			"<soft>{lang.keywords_separator}</soft><word-list-{list_keywords_rest}></word-list-{list_keywords_rest}>"
 		 else
-			"<word-list-{list_keyword_first}></word-list-{list_keyword_first}>"
+			"<word-list-{list_keywords_first}></word-list-{list_keywords_first}>"
 		)
 	) else input # do nothing
 }
@@ -528,17 +528,17 @@ only_first     := replace@(match:" .*", replace:"")
 only_next      := replace@(match:"^[^ ]* ?", replace:"")
 all_keywords := {
 	for each card in set do
-		if contains(card.keyword) then "," + space_to_comma(to_text(card.keyword))
+		if contains(card.keywords) then "," + space_to_comma(to_text(card.keywords))
 }
 all_races := {
 	for each card in set do
-		if is_creature(card.keyword) then
-			"," + only_first(to_text(card.keyword))
+		if is_creature(card.keywords) then
+			"," + only_first(to_text(card.keywords))
 }
 all_classes := {
 	for each card in set do
-		if contains(card.keyword, match:"Creature") then
-			"," + space_to_comma(only_next(to_text(card.keyword)))
+		if contains(card.keywords, match:"Creature") then
+			"," + space_to_comma(only_next(to_text(card.keywords)))
 }
 
 # Determine a rarity code for M15 styles.
@@ -562,7 +562,7 @@ is_rare := { card.rarity == "rare" or card.rarity == "mythic rare" }
 # Shape of cards, can be changed in style files
 card_shape := { "normal" }
 
-keyword_symbol_for :=
+keywords_symbol_for :=
 	to_text +
 	replace@(match: "(Legendary|Basic|Snow|World| )", replace: "") +
 	{ if      input == "Creature"     then "creature"
@@ -572,7 +572,7 @@ keyword_symbol_for :=
 	  else if input == "Source"       then "source"
 	  else                                "multi"
 	}
-type_symbol_keyword := { keyword_symbol_for(keyword) }
+type_symbol_keywords := { keywords_symbol_for(card.keywords) }
 
 #Script to make ledge-energy-future compatible w/ other templates
 colorless_color := {
@@ -627,8 +627,8 @@ colored_energy := {to_number(
 }
 
 primary_card_color := {
-	construct	:= chosen(choice:"construct")
-	wild		:= chosen(choice:"wild")
+	tech  	:= chosen(choice:"tech")
+	nature	:= chosen(choice:"nature")
 	magic		:= chosen(choice:"magic")
 	dual		:= chosen(choice:"dual-color")
 	tri			:= chosen(choice:"tri-color")
@@ -658,7 +658,7 @@ primary_card_color := {
 	else if quad		then "quad-color"
 	else if hex			then "hex-color"
 	else if magic		then "magic"
-	else if wild		then "wild"
+	else if nature	then "nature"
 	else if none		then "none"
 	else if all			then "all"
 	else if source		then "source"
@@ -681,4 +681,3 @@ primary_card_color := {
 
 word_count := break_text@(match:"[^[:space:]]+") + length
 line_count := split_text@(match:"\n+",include_empty:false) + length
-

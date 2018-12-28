@@ -21,35 +21,35 @@ statistics dimension:
 		ohm			: rgb(128,128,128)
 		wry			: rgb(128,128,128)
 		tech		: rgb(72,90,100) # tech
-		wild		: rgb(130,110,0) # wild
+		nature	: rgb(130,110,0) # nature
 		magic		: rgb(115,0,160) # magic
 		dual		: rgb(130,110,0) # dual
 		tri			: rgb(130,110,0) # tri
 		quad		: rgb(128,128,128) # quad
 		hex			: rgb(100,70,0)	# hex
 		source		: rgb(109,62,39) # source
-	group: rha			
-	group: dau			
-	group: wim			
-	group: pfi			
-	group: quae		
-	group: vei			
-	group: ela			
-	group: biz			
-	group: yun			
-	group: jutu		
-	group: glei		
-	group: sace		
-	group: ohm			
+	group: rha
+	group: dau
+	group: wim
+	group: pfi
+	group: quae
+	group: vei
+	group: ela
+	group: biz
+	group: yun
+	group: jutu
+	group: glei
+	group: sace
+	group: ohm
 	group: wry
-	group: tech	
-	group: wild		
-	group: magic 
+	group: tech
+	group: nature
+	group: magic
 	group: dual
 	group: tri
-	group: quad		
-	group: hex			
-	group: source		
+	group: quad
+	group: hex
+	group: source
 
 statistics dimension:
 	position hint: 2

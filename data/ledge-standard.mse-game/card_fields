@@ -93,8 +93,8 @@ card field:
 	description: The cost to play the card
 card field:
 	type: choice
-	name: keyword symbol
-	default: type_symbol_keyword(type: card.keyword)
+	name: keywords symbol
+	default: type_symbol_keywords(type: card.keywords)
 	card list visible: false
 	show statistics: false
 	choice: tech
@@ -103,9 +103,9 @@ card field:
 	choice: instant
 	choice: source
 	choice: multitype
-	choice: wild
+	choice: nature
 	choice: none
-	description: The card keyword symbol for this card
+	description: The card keywords symbol for this card
 card field:
 	type: multiple choice
 	name: indicator
@@ -144,10 +144,10 @@ card field:
 ############################# Card keywords
 card field:
 	type: text
-	name: keyword
-	icon: stats/card_keyword.png
+	name: keywords
+	icon: stats/card_keywords.png
 	position hint: 30
-	script: undefined_keyword_filter(value)
+	script: undefined_keywords_filter(value)
 	show statistics: false
 card field:
 	type: text
@@ -157,7 +157,7 @@ card field:
 	script:
 		# Not sure if this is right... hmm
 		forward_editor(
-			field: card.keyword,
+			field: card.keywords,
 			soft_before_empty: true,
 			hide_when_empty:   true
 		)
@@ -237,10 +237,10 @@ card field:
 	type: text
 	name: scores
 	save value: false
-	script: 
+	script:
 		combined_editor(
 			field1: card.sha,
-			separator: language().sc_separator,
+			separator: language().scores_separator,
 			field2: card.chi,
 			soft_before_empty: true,
 			hide_when_empty:   true

@@ -3,19 +3,19 @@
 
 has keywords: true
 
-############################################################## Keyword mode
+############################################################## Keywords mode
 
-keyword mode:
+keywords mode:
 	name: core
 	description: Core set keywords (Flying, Water, etc.)
-keyword mode:
+keywords mode:
 	is default: true
 	name: custom
 	description: Custom keywords
 
-############################################################## Keyword parameter types
+############################################################## Keywords parameter types
 
-keyword parameter type:
+keywords parameter type:
 	name: energy
 	match: [SCE/|]+
 	refer script:
@@ -28,7 +28,7 @@ keyword parameter type:
 		# "0" left in so users can easily see how to edit script.
 		script: \{base_cost({input})\}
 
-keyword parameter type:
+keywords parameter type:
 	name: cost
 	match: [ ][SCE/|]*|[-—][^(\n]*
 	separator before is: [ —-]
@@ -49,7 +49,7 @@ keyword parameter type:
 		script: \{for_energy_costs(add:"pay ", {input})\}
 	separator script: long_dash()
 
-keyword parameter type:
+keywords parameter type:
 	name: number
 	match: [XYZ0-9]+
 	refer script:
@@ -73,17 +73,17 @@ keyword parameter type:
 		description: (first, second, third)
 		script: \{english_number_ordinal({input})\}
 
-keyword parameter type:
+keywords parameter type:
 	name: action
 	match: [^(:\n]+
 	separator after is: [.]
 	reminder script: alternative_cost()
 
-keyword parameter type:
+keywords parameter type:
 	name: one_word
 	match: [A-Za-z0-9]+
 
-keyword parameter type:
+keywords parameter type:
 	name: name
 	match: [^(.:;\n—]+
 	refer script:
@@ -103,10 +103,10 @@ keyword parameter type:
 		description: Changes spaces to " or ". "Elf Fighter" becomes "Elf or Fighter".
 		script: \{separate_words(spacer: " or ", {input})\}
 
-keyword parameter type:
+keywords parameter type:
 	name: a
 	match: [an?]*
-keyword parameter type:
+keywords parameter type:
 	name: nonsource
 	match: ( n?o?n?s?o?u?r?c?e? ?)
 
@@ -117,319 +117,319 @@ keyword:
 	keyword: Personality
 	match: Personality
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Leader
 	match: Leader
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Style
 	match: Style
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Soul
 	match: Soul
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Fire
 	match: Fire
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Grab
 	match: Grab
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Strength
 	match: Strength
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Matter
 	match: Matter
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Fate
 	match: Fate
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Wild
 	match: Wild
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Fighter
 	match: Fighter
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Threat
 	match: Threat
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Will
 	match: Will
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Metal
 	match: Metal
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Power
 	match: Power
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Body
 	match: Body
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Peace
 	match: Peace
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: War
 	match: War
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Intelligence
 	match: Intelligence
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Pattern
 	match: Pattern
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Tech
 	match: Tech
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Construct
 	match: Construct
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Air
 	match: Air
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Fly
 	match: Fly
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Knowledge
 	match: Knowledge
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Truth
 	match: Truth
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Secret
 	match: Secret
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Mind
 	match: Mind
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Advisor
 	match: Advisor
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Discover
 	match: Discover
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Wisdom
 	match: Wisdom
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Time
 	match: Time
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Magic
 	match: Magic
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Enchantment
 	match: Enchantment
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Honor
 	match: Honor
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Betrayal
 	match: Betrayal
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Spirit
 	match: Spirit
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Believer
 	match: Believer
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Style
 	match: Style
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Water
 	match: Water
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Swim
 	match: Swim
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Fortune
 	match: Fortune
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Energy
 	match: Energy
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Worker
 	match: Worker
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Trade
 	match: Trade
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Health
 	match: Health
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Earth
 	match: Earth
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Freedom
 	match: Freedom
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Oppression
 	match: Oppression
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Dexterity
 	match: Dexterity
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Movement
 	match: Movement
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Storm
 	match: Storm
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Range
 	match: Range
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Perception
 	match: Perception
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Beauty
 	match: Beauty
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Trickster
 	match: Trickster
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Charm
 	match: Charm
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Charisma
 	match: Charisma
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Space
 	match: Space
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Hate
 	match: Hate
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Love
 	match: Love
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Creature
 	match: Creature
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Source
 	match: Source
 	mode: core
-	reminder: 
+	reminder:
 keyword:
 	keyword: Undead
 	match: Undead
 	mode: core
-	reminder: 
+	reminder:

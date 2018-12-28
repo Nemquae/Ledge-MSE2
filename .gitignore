@@ -12,6 +12,9 @@ unins000.exe
 !/data/ledge*
 !/data/magic-watermarks*
 
+data_backup.tar.xz
+magicseteditor
+
 
 #########################
 # general

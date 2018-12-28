@@ -5,18 +5,18 @@ languages := [
 	English: [
 		code              : "en",
 		spellcheck_code   : "en_us",
-		sc_separator      : "/",
-		keyword_separator : " ",
+		scores_separator      : "/",
+		keywords_separator : " ",
 		define_serparator : ": "
 		is_creature       : match@(match: "(?i)Creature")
 
 	],
-	
+
 	Français: [
 		code              : "fr",
 		spellcheck_code   : "", # TODO: get dictionary
-		sc_separator      : "/",
-		keyword_separator : " "
+		scores_separator      : "/",
+		keywords_separator : " "
 		define_separator  : ": "
 		subtype_separator : "<atom-sep> et </atom-sep>",
 		is_creature       : match@(match: "(?i)Creature|Créature")

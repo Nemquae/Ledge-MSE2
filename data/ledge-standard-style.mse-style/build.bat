@@ -2,6 +2,6 @@ cd ..
 
 cd ..
 
-mse --create-installer magic-m15.mse-style magic.mse-game magic-blends.mse-include magic-mana-small.mse-symbol-font magic-mana-large.mse-symbol-font magic-watermarks.mse-include magic-default-image.mse-include magic-identity-new.mse-include
+mse --create-installer ledge-standard-style.mse-style ledge-standard.mse-game ledge-standard-blends.mse-include ledge-energy-small.mse-symbol-font ledge-energy-large.mse-symbol-font ledge-watermarks.mse-include ledge-standard-image.mse-include ledge-color-identity-new.mse-include
 
-ren "magic-m15.mse-installer" "Magic - M15 Style.mse-installer"
+ren "ledge-standard.mse-installer" "Ledge - Standard Style.mse-installer"
