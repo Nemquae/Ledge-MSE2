@@ -94,7 +94,7 @@ source_to_color := {
 	else if watermark = "energy symbol ohm" then "ohm, source"
 	else if watermark = "energy symbol wry" then "wry, source"
 	else source_multicolor(colors:color_text_filter(input: card.rule_text))
-};
+}
 
 # Look for a CDA that defines colors
 text_to_color := {
@@ -128,7 +128,7 @@ text_to_color := {
 	    )
 	  )
 	)
-};
+}
 
 # The color of a card
 is_creature    := match@(match: "(?i)Creature")
@@ -146,7 +146,7 @@ card_color := {
 		else energy_color
 	)
 	else text_color
-};
+}
 
 # Number of colors in a card_color
 card_color_count := count_chosen@(choices: "rha,dau,wim,pfi,quae,vei,ela,biz,yun,jutu,glei,sace,ohm,wry")
@@ -484,7 +484,7 @@ type_over_keywords := replace@(match:" ?[-:]$", replace:"")
 undefined_keywords_filter := {
 	input := remove_tag(tag: "<word-list-")
 	input := type_over_keywords()
-	tag := "word-list-keywords" # TODO: localize
+	tag := "word-list-undefined-keyword" # TODO: localize
 	"<{tag}>{input}</{tag}>"
 }
 
@@ -494,17 +494,18 @@ defined_keywords_filter := {
 	input := remove_tag(tag: "<soft")
 	lang  := language()
 	# What word list to use?
-	list_keywords_rest := if      lang.is_creature(keywords)		then "class"
+	list_keywords_rest := if      lang.is_creature(keywords)		then "undefined-keyword"
 	                  else if lang.is_source(keywords)			then "source"
 	                  else if lang.is_tech(keywords)			then "tech"
 	                  else if lang.is_magic(keywords)			then "magic"
 	                  else if lang.is_spell(keywords)			then "spell"
+										else ""
 	if list_keywords_rest != "" then (
 		if lang.is_creature(keywords) then (
 			list_keywords_first := "race"
 		) else (
 			list_keywords_first := list_keywords_rest
-		);
+		)
 		# wrap wordlist tag around each part
 		parts := break_keywords()
 		(for each i:part in parts do
@@ -551,7 +552,9 @@ rarity_code := {
 	else if card.rarity == "rare" then "R"
 	else if card.rarity == "mythic rare" then "M"
 	else if card.rarity == "special" then "S"
-	else if card.rarity == "basic source" then "B" }
+	else if card.rarity == "basic source" then "B"
+	else "?"
+	}
 
 # Determine if the card is a promo card.
 is_promo := { "false" }

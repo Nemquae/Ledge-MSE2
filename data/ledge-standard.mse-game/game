@@ -7,10 +7,10 @@ installer group: ledge-standard/game
 
 version: 2017-10-13
 
-############################################################## Dependencies (none yet)
-#depends on:
-#	package:
-#	version:
+############################################################## Dependencies
+depends on:
+	package: ledge-standard-blends.mse-include
+	version: 2017-10-13
 
 ############################################################## The script
 

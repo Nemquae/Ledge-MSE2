@@ -3,19 +3,19 @@
 
 has keywords: true
 
-############################################################## Keywords mode
+############################################################## Keyword mode
 
-keywords mode:
+keyword mode:
 	name: core
 	description: Core set keywords (Flying, Water, etc.)
-keywords mode:
+keyword mode:
 	is default: true
 	name: custom
 	description: Custom keywords
 
 ############################################################## Keywords parameter types
 
-keywords parameter type:
+keyword parameter type:
 	name: energy
 	match: [SCE/|]+
 	refer script:
@@ -28,7 +28,7 @@ keywords parameter type:
 		# "0" left in so users can easily see how to edit script.
 		script: \{base_cost({input})\}
 
-keywords parameter type:
+keyword parameter type:
 	name: cost
 	match: [ ][SCE/|]*|[-—][^(\n]*
 	separator before is: [ —-]
@@ -49,7 +49,7 @@ keywords parameter type:
 		script: \{for_energy_costs(add:"pay ", {input})\}
 	separator script: long_dash()
 
-keywords parameter type:
+keyword parameter type:
 	name: number
 	match: [XYZ0-9]+
 	refer script:
@@ -73,17 +73,17 @@ keywords parameter type:
 		description: (first, second, third)
 		script: \{english_number_ordinal({input})\}
 
-keywords parameter type:
+keyword parameter type:
 	name: action
 	match: [^(:\n]+
 	separator after is: [.]
 	reminder script: alternative_cost()
 
-keywords parameter type:
+keyword parameter type:
 	name: one_word
 	match: [A-Za-z0-9]+
 
-keywords parameter type:
+keyword parameter type:
 	name: name
 	match: [^(.:;\n—]+
 	refer script:
@@ -103,10 +103,10 @@ keywords parameter type:
 		description: Changes spaces to " or ". "Elf Fighter" becomes "Elf or Fighter".
 		script: \{separate_words(spacer: " or ", {input})\}
 
-keywords parameter type:
+keyword parameter type:
 	name: a
 	match: [an?]*
-keywords parameter type:
+keyword parameter type:
 	name: nonsource
 	match: ( n?o?n?s?o?u?r?c?e? ?)
 

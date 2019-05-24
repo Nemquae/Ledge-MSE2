@@ -1,5 +1,33 @@
 ﻿
-############################################################## Magic word lists
+############################################################## Ledge word lists
+
+word list:
+	name: undefined-keyword
+	word:
+		name: Basic
+		is prefix: true
+	word:
+		name: Legendary
+		is prefix: true
+	word:
+		name: Tribal
+		is prefix: true
+	word:
+		name: Snow
+		is prefix: true
+	word:
+		name: World
+		is prefix: true
+		line below: true
+	word: Conspiracy
+	word: Creature
+	word: Artifact
+	word: Artifact Creature
+	word: Enchantment
+	word: Instant
+	word: Sorcery
+	word: Land
+	word: Planeswalker
 
 word list:
 	name: type
@@ -10,7 +38,7 @@ word list:
 		name: légendaire
 		is prefix: true
 	word:
-		name: tribaux 
+		name: tribaux
 		is prefix: true
 	word:
 		name: de neige
