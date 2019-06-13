@@ -67,7 +67,7 @@ card field:
 	choice: quad
 	choice: hex
 	script: card_color_filter(value)
-	default: card_color(base_cost: card.base_cost, rules_text: card.rule_text, keywords: card.keywords, watermark: card.watermark, card_name: card.name, default: "none")
+	default: card_color(base_cost: card.base_cost, rules_text: card.rule_text, keywords: card.keywords, watermark: card.watermark, card_name: card.name, default: "ohm")
 	show statistics: false
 	description: The frame of the card, used to indicate card color.
 

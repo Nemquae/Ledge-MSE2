@@ -601,9 +601,9 @@ colorless_color := {
 #Indicators do appear if the chosen frame doesn't match the default.
 #Indicators do appear if the chosen color for the indicator doesn't match the default.
 
-has_identity := { ( ( card.card_color != card_color(base_cost: card.base_cost, rules_text: card.rule_text, keyword: card.keyword, watermark: card.watermark, card_name: card.name, default: "colorless") ) or ( card.indicator != card_color(base_cost: card.base_cost, rules_text: card.rule_text, keyword: card.keyword, watermark: card.watermark, card_name: card.name, default: "colorless") ) ) and card.indicator != "colorless" and card.indicator != "tech" and card.indicator != "source"}
+has_identity := { ( ( card.card_color != card_color(base_cost: card.base_cost, rules_text: card.rule_text, keyword: card.keywords, watermark: card.watermark, card_name: card.name, default: "colorless") ) or ( card.indicator != card_color(base_cost: card.base_cost, rules_text: card.rule_text, keyword: card.keywords, watermark: card.watermark, card_name: card.name, default: "colorless") ) ) and card.indicator != "colorless" and card.indicator != "tech" and card.indicator != "source"}
 
-has_identity_2 := { ( ( card.card_color_2 != card_color(base_cost: card.base_cost_2, rules_text: card.rule_text_2, keyword: card.keyword_2, watermark: card.watermark_2, card_name: card.name_2, default: "colorless") ) or ( card.indicator_2 != card_color(base_cost: card.base_cost_2, rules_text: card.rule_text_2, keyword: card.keyword_2, watermark: card.watermark_2, card_name: card.name_2, default: "colorless") ) ) and card.indicator_2 != "colorless" and card.indicator_2 != "tech" and card.indicator_2 != "source"}
+has_identity_2 := { ( ( card.card_color_2 != card_color(base_cost: card.base_cost_2, rules_text: card.rule_text_2, keyword: card.keywords, watermark: card.watermark_2, card_name: card.name_2, default: "colorless") ) or ( card.indicator_2 != card_color(base_cost: card.base_cost_2, rules_text: card.rule_text_2, keyword: card.keywords, watermark: card.watermark_2, card_name: card.name_2, default: "colorless") ) ) and card.indicator_2 != "colorless" and card.indicator_2 != "tech" and card.indicator_2 != "source"}
 
 ############################################################## Statistics utilities
 

@@ -24,4 +24,4 @@ languages := [
 ]
 
 # The selected language
-language := { languages[set.card_language] or else language.English }
+language := { languages[set.card_language] or else languages.English }
