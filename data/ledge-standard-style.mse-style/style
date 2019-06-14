@@ -51,7 +51,7 @@ init script:
 	mask_multi_source_with_color := { styling.colored_multicolor_source_name }
 
 	template_prefix := [card: "" card2: "" scores: "" stamp: "" identity: "/ledge-color-identity.mse-include/"]
-	template_suffix := [card: "card.jpg" card2: "card2.jpg" scores: "scores.png", stamp: "stamp.jpg" identity: "identity.png"]
+	template_suffix := [card: "card.jpg" card2: "card2.jpg" scores: "sc.png", stamp: "stamp.jpg" identity: "identity.png"]
 	template      := { template_prefix[type] + input + template_suffix[type] }
 	source_template := { template_prefix[type] + (if input == "o" then "c" else input) + "s" + template_suffix[type] }
 
@@ -400,4 +400,4 @@ extra card style:
 		z index: 1
 		visible: { card.scores != "" }
 		render style: image
-		image: { card_scbox() }
+		image: { card_scores_box() }

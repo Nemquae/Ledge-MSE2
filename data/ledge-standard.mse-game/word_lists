@@ -2,7 +2,7 @@
 ############################################################## Ledge word lists
 
 word list:
-	name: undefined-keyword
+	name: undefined-keywords
 	word:
 		name: Basic
 		is prefix: true

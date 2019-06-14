@@ -9,52 +9,52 @@ icon: energy_w.png
 image font size: 135
 horizontal space: 2
 symbol:
-	code: T
+	code: t
 	image: energy_t.png
 symbol:
-	code: U
+	code: u
 	image: energy_u.png
 symbol:
-	code: R
+	code: r
 	image: energy_r.png
 symbol:
-	code: D
+	code: d
 	image: energy_d.png
 symbol:
-	code: M
+	code: m
 	image: energy_m.png
 symbol:
-	code: P
+	code: p
 	image: energy_p.png
 symbol:
-	code: Q
+	code: q
 	image: energy_q.png
 symbol:
-	code: V
+	code: v
 	image: energy_v.png
 symbol:
-	code: E
+	code: e
 	image: energy_e.png
 symbol:
-	code: B
+	code: b
 	image: energy_b.png
 symbol:
-	code: Y
+	code: y
 	image: energy_y.png
 symbol:
-	code: J
+	code: j
 	image: energy_j.png
 symbol:
-	code: G
+	code: g
 	image: energy_g.png
 symbol:
-	code: S
+	code: s
 	image: energy_s.png
 symbol:
-	code: O
+	code: o
 	image: energy_o.png
 symbol:
-	code: W
+	code: w
 	image: energy_w.png
 symbol:
 	image: energy_circle.png
@@ -103,19 +103,21 @@ insert symbol menu:
 		name: cost
 	item:
 		type: line
-	item: R
-	item: D
-	item: M
-	item: P
-	item: Q
-	item: V
-	item: E
-	item: B
-	item: Y
-	item: J
-	item: G
-	item: S
-	item: O
-	item: W
+	item: r
+	item: d
+	item: m
+	item: p
+	item: q
+	item: v
+	item: e
+	item: b
+	item: y
+	item: j
+	item: g
+	item: s
+	item: o
+	item: w
 	item:
 		type: line
+
+	#@TODO: Double check the case of these symbols ^^

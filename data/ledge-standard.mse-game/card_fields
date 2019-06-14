@@ -148,19 +148,15 @@ card field:
 	icon: stats/card_keywords.png
 	position hint: 30
 	script: undefined_keywords_filter(value)
-	show statistics: false
-card field:
-	type: text
-	name: keywords
+#	script:
+#		# Not sure if this is right... hmm
+#		forward_editor(
+#			field: card.keywords,
+#			soft_before_empty: true,
+#			hide_when_empty:   true
+#		)
 	show statistics: false
 	save value: false
-	script:
-		# Not sure if this is right... hmm
-		forward_editor(
-			field: card.keywords,
-			soft_before_empty: true,
-			hide_when_empty:   true
-		)
 	card list visible: true
 	card list column:4
 	description: The undefined keywords of this card
