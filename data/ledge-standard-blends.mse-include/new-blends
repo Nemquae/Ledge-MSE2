@@ -206,7 +206,7 @@ color_background := {
 					   + (if chosen(choice:"jutu")  then "j")
 					   + (if chosen(choice:"glei")  then "g")
 					   + (if chosen(choice:"sace")  then "s")
-						 + (if chosen(choice:"rha" )  then "r")
+					   + (if chosen(choice:"rha" )  then "r")
 					   + (if chosen(choice:"dau" )  then "d")
 					   + (if chosen(choice:"wim" )  then "m")
 					   + (if chosen(choice:"pfi" )  then "p")
@@ -344,7 +344,9 @@ color_combination := {
 ########################################################################
 
 card_background 	:= { color_background(type:"card",     base_multi:horizontal_card_multi) }
-card_scores_box   := { color_background(type:"scores",   base_multi:horizontal_score_multi) }
+card_sha_box		:= { color_background(type:"sha",	   base_multi:horizontal_score_multi) }
+card_chi_box		:= { color_background(type:"chi",	   base_multi:horizontal_score_multi) }
+card_color_box		:= { color_background(type:"color",	   base_multi:horizontal_score_multi) }
 card_textbox    	:= { color_background(type:"textbox",  base_multi:horizontal_card_multi) }
 card_identity   	:= { color_background(type:"identity", base_multi:horizontal_identity_multi) }
 
