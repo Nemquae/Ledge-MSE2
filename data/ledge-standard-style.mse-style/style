@@ -50,8 +50,8 @@ init script:
 	#Should multicolor sources with basic source keywords have a colored name?
 	mask_multi_source_with_color := { styling.colored_multicolor_source_name }
 
-	template_prefix := [card: "" card2: "" sha: "" chi: "" color: "" stamp: "" identity: "/ledge-color-identity.mse-include/"]
-	template_suffix := [card: "card.jpg" card2: "card2.jpg" sha: "sc.png", chi: "sc.png" color: "sc.png" stamp: "stamp.jpg" identity: "identity.png"]
+	template_prefix := [card: "" card2: "" sha: "" chi: "" color: "" cost: "" stamp: "" identity: "/ledge-color-identity.mse-include/"]
+	template_suffix := [card: "card.jpg" card2: "card2.jpg" sha: "sc.png", chi: "sc.png" color: "sc.png" cost: "sc.png" stamp: "stamp.jpg" identity: "identity.png"]
 	template      := { template_prefix[type] + input + template_suffix[type] }
 	source_template := { template_prefix[type] + (if input == "o" then "c" else input) + "s" + template_suffix[type] }
 
@@ -167,13 +167,10 @@ card style:
 		height: 23
 		alignment: middle right
 		font:
-			name: MPlantin
-			size: 15
-		symbol font:
-			name: ledge-energy-large
-			size: 15
-			alignment: middle right
-		always symbol: true
+			name: Ledge Bold
+			size: 16
+			color: black
+		always symbol: false
 		z index: 2
 		padding top: 0
 	############################# Image
@@ -284,7 +281,6 @@ card style:
 			name: Ledge Bold
 			size: 16
 			color: black
-			separator color: red
 	chi:
 		z index: 2
 		left: 286
@@ -296,7 +292,6 @@ card style:
 			name: Ledge Bold
 			size: 16
 			color: black
-			separator color: red
 	#scores:
 	#	z index: 2
 	#	left: 286
@@ -393,6 +388,12 @@ extra card field:
 	save value: false
 extra card field:
 	type: choice
+	name: cost box
+	script: card.base_cost
+	editable: false
+	save value: false
+extra card field:
+	type: choice
 	name: stamp
 	script: card.card_color
 	editable: false
@@ -456,3 +457,12 @@ extra card style:
 		visible: { card.card_color != "" }
 		render style: image
 		image: { card_color_box() }
+	cost box:
+		left: 273
+		top: 26
+		width: 90
+		height: 42
+		z index: 1
+		visible: { card.base_cost != "" }
+		render style: image
+		image: { card_cost_box() }
