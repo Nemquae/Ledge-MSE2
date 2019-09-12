@@ -343,6 +343,7 @@ color_combination := {
 # Specific types
 ########################################################################
 
+# TODO: Fix cost/color box type
 card_background 	:= { color_background(type:"card",		base_multi:horizontal_card_multi) }
 card_sha_box		:= { color_background(type:"sha",		base_multi:horizontal_score_multi) }
 card_chi_box		:= { color_background(type:"chi",		base_multi:horizontal_score_multi) }
@@ -377,7 +378,7 @@ font_white := {
 				   + (if chosen(choice:"jutu")  then "j")
 				   + (if chosen(choice:"glei")  then "g")
 				   + (if chosen(choice:"sace")  then "s")
-					 + (if chosen(choice:"rha" )  then "r")
+				   + (if chosen(choice:"rha" )  then "r")
 				   + (if chosen(choice:"dau" )  then "d")
 				   + (if chosen(choice:"wim" )  then "m")
 				   + (if chosen(choice:"pfi" )  then "p")

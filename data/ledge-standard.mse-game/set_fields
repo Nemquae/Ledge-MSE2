@@ -17,6 +17,9 @@ set field:
 	name: artist
 set field:
 	type: text
+	name: designer
+set field:
+	type: text
 	name: copyright
 set field:
 	type: text

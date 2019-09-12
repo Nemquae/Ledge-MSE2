@@ -17,7 +17,7 @@ energy_filter	  := to_upper + { energy_sort() }
 
 # Like energy filter, only also allow up / down symbols:
 updown_filter := sort_text@(order: "<UT>")
-energy_filter_t := replace@(               # Remove [] used for forcing energy symbols
+energy_filter_d := replace@(               # Remove [] used for forcing energy symbols
 			match: "[\\[\\]]",
 			replace: ""
 		) + { updown_filter() + energy_sort() }
@@ -82,7 +82,7 @@ source_to_color := {
 	if      watermark = "energy symbol rha" 	then "rha, 	source"
 	else if watermark = "energy symbol dau"  	then "dau, 	source"
 	else if watermark = "energy symbol wim" 	then "wim, 	source"
-	else if watermark = "energy symbol pfi"   then "pfi, 	source"
+	else if watermark = "energy symbol pfi"		then "pfi, 	source"
 	else if watermark = "energy symbol quae" 	then "quae, source"
 	else if watermark = "energy symbol vei" 	then "vei, 	source"
 	else if watermark = "energy symbol ela" 	then "ela, 	source"
@@ -131,17 +131,22 @@ text_to_color := {
 }
 
 # The color of a card
-is_creature    := match@(match: "(?i)Creature")
-is_tech			   := match@(match: "(?i)Tech")
-is_source      := match@(match: "(?i)Source")
-is_magic	   	 := match@(match: "(?i)Magic")
-is_nature	     := match@(match: "(?i)Nature")
+is_creature		:= match@(match: "(?i)Creature")
+is_tech			:= match@(match: "(?i)Tech")
+is_source		:= match@(match: "(?i)Source")
+is_magic		:= match@(match: "(?i)Magic")
+is_nature	    := match@(match: "(?i)Nature")
 card_color := {
 	# usually the color of energy
+	
 	text_color := text_to_color(rules_text, source: is_source(keywords));
+#	trace("card_color, text_color = " + text_color)
 	if text_color == "" then (
 		energy_color := energy_to_color(colors: color_filter(base_cost))
-		if      energy_color == "colorless" and is_source    (keywords)  then source_to_color(watermark)
+		source_color := source_to_color(watermark)
+#		trace("card_color, energy_color = " + energy_color)
+#		trace("card_color, source_color = " + source_color)
+		if      energy_color == "colorless" and is_source    (keywords)  then source_color
 		else if energy_color == "colorless" and is_tech(keywords)  then "tech"
 		else energy_color
 	)
@@ -153,6 +158,7 @@ card_color_count := count_chosen@(choices: "rha,dau,wim,pfi,quae,vei,ela,biz,yun
 # Clean up color field
 card_color_filter := {
 	colors := card_color_count()
+#	trace("card_color_filter, colors = " + colors)
 	if colors > 1 then (
 		input := require_choice(choices: "dual-color, tri-color, all-colors, no-colors, source")
 		input := exclusive_choice(choices: "dual-color, tri-color, all-colors, no-colors")
@@ -317,7 +323,7 @@ contains_target := match@(match:"(?i)([^a-z]|^)target([^a-z]|$)")
 
 is_targeted := { contains_target(card.rule_text) }
 
-color_to_energy :=	replace@(match: "rha",  replace: "[R]")+
+color_to_energy :=	replace@(match: "rha",  replace: "[r]")+
 					replace@(match: "dau",  replace: "[d]")+
 					replace@(match: "wim",  replace: "[m]")+
 					replace@(match: "pfi",  replace: "[p]")+
@@ -661,7 +667,7 @@ primary_card_color := {
 	else if quad		then "quad-color"
 	else if hex			then "hex-color"
 	else if magic		then "magic"
-	else if nature	then "nature"
+	else if nature		then "nature"
 	else if none		then "none"
 	else if all			then "all"
 	else if source		then "source"

@@ -340,6 +340,16 @@ card style:
 			name: Ledge Small Caps Bold
 			size: 7.25
 			color: white
+	designer:
+		left: { 44 + card_style.set_code.content_width }
+		top: 508
+		width: 200
+		height: 10
+		z index: 1
+		font:
+			name: Ledge Small Caps Bold
+			size: 7.25
+			color: white
 	copyright:
 		right: 350
 		top: { if (card.sha != "" or card.chi != "") then 500 else 488 }
@@ -365,6 +375,12 @@ extra card field:
 extra card field:
 	type: choice
 	name: artist arrow
+	editable: false
+	save value: false
+	choice: white
+extra card field:
+	type: choice
+	name: designer arrow
 	editable: false
 	save value: false
 	choice: white
@@ -430,13 +446,22 @@ extra card style:
 		z index: 1
 		render style: image
 		image: artist_arrow.png
+	# TODO: Make designer arrow
+	designer arrow:
+		left: { 28 + card_style.set_code.content_width }
+		top: 512.5
+		width: 12
+		height: 7
+		z index: 1
+		render style: image
+		image: artist_arrow.png
 	sha box:
 		left: 21
 		top: 451
 		width: 81
 		height:	42
 		z index: 1
-		visible: { card.sha != "" }
+		visible: yes
 		render style: image
 		image: { card_sha_box() }
 	chi box:
@@ -445,7 +470,7 @@ extra card style:
 		width: 81
 		height:	42
 		z index: 1
-		visible: { card.chi != "" }
+		visible: yes
 		render style: image
 		image: { card_chi_box() }
 	color box:
@@ -454,15 +479,15 @@ extra card style:
 		width: 90
 		height: 42
 		z index: 1
-		visible: { card.card_color != "" }
+		visible: yes
 		render style: image
 		image: { card_color_box() }
 	cost box:
 		left: 273
-		top: 26
+		top: 23
 		width: 90
 		height: 42
 		z index: 1
-		visible: { card.base_cost != "" }
+		visible: yes
 		render style: image
 		image: { card_cost_box() }

@@ -84,7 +84,7 @@ card field:
 	name: base cost
 	icon: stats/base_cost.png
 	position hint: 1
-	script: energy_filter(value)
+#	script: energy_filter(value)
 	card list visible: true
 	card list column: 2
 	card list alignment: right
@@ -313,6 +313,14 @@ card field:
 	position hint: 210
 	default: set.artist
 	description: Illustrator of this card, the default value can be changed on the 'set info' tab
+# TODO: Make designer icon
+card field:
+	type: text
+	name: designer
+	icon: stats/illustrator.png
+	position hint: 210
+	default: set.designer
+	description: Designer of this card, the default value can be changed on the 'set info' tab
 card field:
 	type: text
 	name: copyright
