@@ -66,8 +66,9 @@ card field:
 	choice: tri
 	choice: quad
 	choice: hex
+	# choice: source
 	script: card_color_filter(value)
-	default: card_color(base_cost: card.base_cost, rules_text: card.rule_text, keywords: card.keywords, watermark: card.watermark, card_name: card.name, default: "ohm")
+	default: card_color(base_cost: card.base_cost, rules_text: card.rule_text, watermark: card.watermark, card_name: card.name, default: "ohm")
 	show statistics: false
 	description: The frame of the card, used to indicate card color.
 
@@ -122,6 +123,7 @@ card field:
 	choice: jutu
 	choice: glei
 	choice: sace
+	choice: ohm
 	choice:
 		name: wry
 		line below: true
@@ -266,6 +268,7 @@ card field:
 	choice: jutu
 	choice: glei
 	choice: sace
+	choice: ohm
 	choice: wry
 	default: card.card_color
 	show statistics: false

@@ -11,7 +11,7 @@ mask_tri_source_with_color	:= { false }
 mask_quad_source_with_color	:= { false }
 mask_hex_source_with_color	:= { false }
 template		:= { input + "{type}.jpg" }
-source_template		:= { (if input == "n" then "c" else input) + "s{type}.jpg" }
+source_template		:= { input + "s{type}.jpg" }
 # For what value should thumbnails of multi-colored be made?
 multi_previews         := "multi"
 # Are there templates for colored sources, source_template(...)?
@@ -179,24 +179,30 @@ horizontal_identity_multi := [
 # Determine the card background based on the card_color multiple choice options
 color_background := {
 
-	# for thumbnails
-	#if input == "multi" then
-		input := "rha,quae,yun,{multi_previews}"
-	#else if input == "horizontal" then
-	#	input := "rha,quae,yun,{multi_previews}," + input
+	# trace("Input: " + input)
 
+	# for thumbnails
+	if input == "multi" then
+		input := "rha,quae,yun,{multi_previews}"
+	else if input == "horizontal" then
+		input := "rha,quae,yun,{multi_previews}," + input
+	else if input == "" then
+		input := "ohm"
+
+	
+	# trace("Input: " + input)
 
 	# What type of 'multi-color'?
-	mono	:= chosen(choice:"mono-color")
-	dual  := chosen(choice:"dual-color")
-	tri		:= chosen(choice:"tri-color")
-	quad	:= chosen(choice:"quad-colors")
-	hex		:= chosen(choice:"hex-colors")
-	all		:= chosen(choice:"all-colors")
-	none	:= chosen(choice:"no-colors")
-	source := chosen(choice:"source-colors")
+	mono	:= chosen(choice:"mono")
+	dual	:= chosen(choice:"dual")
+	tri		:= chosen(choice:"tri")
+	quad	:= chosen(choice:"quad")
+	hex		:= chosen(choice:"hex")
+	all		:= chosen(choice:"wry")
+	none	:= chosen(choice:"ohm")
+	source	:= chosen(choice:"source")
 
-	if source and colored_sources then template := source_template # use source template instead?
+	# if source and colored_sources then template := source_template # use source template instead?
 
 	# The selected colors
 	colors := sort_text( order: "(ebyjgsrdmpqvow)"
@@ -216,42 +222,67 @@ color_background := {
 					   + (if chosen(choice:"wry" )  then "w")
 					   )
 
+	if colors == "" then colors == "o"
+
+	# trace("Colors: " + colors)
+
+	# TODO: Fix the appended letters so they don't interfere with the colors
+
 	if dual and colors == "" then (
-		colors := colors + "d"
+		colors := colors + "D"
 		dual := false
 	)
 
 	if tri and colors == "" then (
-		colors := colors + "t"
+		colors := colors + "T"
 		tri := false
 	)
 
+	if quad and colors == "" then (
+		colors := colors + "Q"
+		quad := false
+	)
+
+	if hex and colors == "" then (
+		colors := colors + "H"
+		hex := false
+	)
+
 	if all and colors == "" then (
-		colors := colors + "a"
+		colors := colors + "w"
 		all := false
 	)
 
 	if none and colors == "" then (
-		colors := colors + "n"
+		colors := colors + "o"
 		none := false
 	)
 
+	# if colors == " " then colors == "o"
+
 	color_count := number_of_items(in: colors)
-	if colors == "" then colors == "c"
+	
+
+	# trace("Colors: " + colors)
+	# trace("Color Count: " + color_count)
 
 	# Determine background (allows styles to hook something else here)
 	color_combination()
+
+	# trace("_: " + colors)
 }
 
 color_combination := {
 	# The base multi, without the outer frame blended over it
 	base := base_multi[color_count]()
 
+	# trace("Type: " + "{type}")
+
 	# Put a frame around it?
 	if source and not colored_sources then
 		masked_blend(
 			mask:  "dual_color_blend_{type}.png",
-			dark:  source_template("c"),
+			dark:  source_template("s"),
 			light: base,
 		)
 	else if source and dual and mask_dual_source_with_color() then

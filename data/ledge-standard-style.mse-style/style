@@ -405,7 +405,7 @@ extra card field:
 extra card field:
 	type: choice
 	name: cost box
-	script: card.base_cost
+	script: card.card_color
 	editable: false
 	save value: false
 extra card field:
@@ -487,7 +487,7 @@ extra card style:
 		top: 23
 		width: 90
 		height: 42
-		z index: 1
+		z index: 0
 		visible: yes
 		render style: image
 		image: { card_cost_box() }

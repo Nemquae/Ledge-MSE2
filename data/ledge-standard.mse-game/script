@@ -51,11 +51,11 @@ color_filter  := sort_text@(order: "<ebyjgsrdpqvow>")
 energy_to_color := {
 	count  := number_of_items(in: colors)
 
-	if      count == 0 then  "colorless"
+	if      count == 0 then  "ohm"
 	else if count == 1 then  color_names_1()
 	else if count == 2 then  color_names_2() + ", dual-color"
 	else if count == 3 then  color_names_3() + ", tri-color"
-	else                     "all-colors"
+	else                     "wry"
 }
 
 # color based on keywords text box, input = textbox contents
@@ -75,7 +75,7 @@ source_multicolor := {
 	else if count == 1 then color_names_1() + ", source"
 	else if count == 2 then color_names_2() + ", source"
 	else if count == 3 then color_names_3() + ", source"
-	else                    "source, all-colors"
+	else                    "source, wry"
 }
 source_to_color := {
 	# Based on watermark
@@ -139,18 +139,20 @@ is_nature	    := match@(match: "(?i)Nature")
 card_color := {
 	# usually the color of energy
 	
-	text_color := text_to_color(rules_text, source: is_source(keywords));
+
+
+#	text_color := text_to_color(rules_text, source: is_source(keywords));
 #	trace("card_color, text_color = " + text_color)
-	if text_color == "" then (
+#	if text_color == "" then (
 		energy_color := energy_to_color(colors: color_filter(base_cost))
 		source_color := source_to_color(watermark)
 #		trace("card_color, energy_color = " + energy_color)
 #		trace("card_color, source_color = " + source_color)
-		if      energy_color == "colorless" and is_source    (keywords)  then source_color
-		else if energy_color == "colorless" and is_tech(keywords)  then "tech"
-		else energy_color
-	)
-	else text_color
+#		if      energy_color == "ohm" and is_source    (keywords)  then source_color
+#		else if energy_color == "ohm" and is_tech(keywords)  then "tech"
+#		else energy_color
+#	)
+#	else text_color
 }
 
 # Number of colors in a card_color
@@ -160,8 +162,8 @@ card_color_filter := {
 	colors := card_color_count()
 #	trace("card_color_filter, colors = " + colors)
 	if colors > 1 then (
-		input := require_choice(choices: "dual-color, tri-color, all-colors, no-colors, source")
-		input := exclusive_choice(choices: "dual-color, tri-color, all-colors, no-colors")
+		input := require_choice(choices: "dual, tri, quad, hex, wry, ohm, source")
+		input := exclusive_choice(choices: "dual, tri, quad, hex, wry, ohm")
 	) else
 	input
 }
@@ -607,9 +609,9 @@ colorless_color := {
 #Indicators do appear if the chosen frame doesn't match the default.
 #Indicators do appear if the chosen color for the indicator doesn't match the default.
 
-has_identity := { ( ( card.card_color != card_color(base_cost: card.base_cost, rules_text: card.rule_text, keywords: card.keywords, watermark: card.watermark, card_name: card.name, default: "colorless") ) or ( card.indicator != card_color(base_cost: card.base_cost, rules_text: card.rule_text, keyword: card.keywords, watermark: card.watermark, card_name: card.name, default: "colorless") ) ) and card.indicator != "colorless" and card.indicator != "tech" and card.indicator != "source"}
+has_identity := { ( ( card.card_color != card_color(base_cost: card.base_cost, rules_text: card.rule_text, watermark: card.watermark, card_name: card.name, default: "ohm") ) or ( card.indicator != card_color(base_cost: card.base_cost, rules_text: card.rule_text, watermark: card.watermark, card_name: card.name, default: "ohm") ) ) and card.indicator != "ohm" and card.indicator != "tech" and card.indicator != "source"}
 
-has_identity_2 := { ( ( card.card_color_2 != card_color(base_cost: card.base_cost_2, rules_text: card.rule_text_2, keyword: card.keywords, watermark: card.watermark_2, card_name: card.name_2, default: "colorless") ) or ( card.indicator_2 != card_color(base_cost: card.base_cost_2, rules_text: card.rule_text_2, keyword: card.keywords, watermark: card.watermark_2, card_name: card.name_2, default: "colorless") ) ) and card.indicator_2 != "colorless" and card.indicator_2 != "tech" and card.indicator_2 != "source"}
+has_identity_2 := { ( ( card.card_color_2 != card_color(base_cost: card.base_cost_2, rules_text: card.rule_text_2, watermark: card.watermark_2, card_name: card.name_2, default: "ohm") ) or ( card.indicator_2 != card_color(base_cost: card.base_cost_2, rules_text: card.rule_text_2, watermark: card.watermark_2, card_name: card.name_2, default: "ohm") ) ) and card.indicator_2 != "ohm" and card.indicator_2 != "tech" and card.indicator_2 != "source"}
 
 ############################################################## Statistics utilities
 

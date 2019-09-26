@@ -48,10 +48,10 @@ card list color script:
 		tech		:= chosen(choice:"tech")
 		nature	:= chosen(choice:"nature")
 		magic		:= chosen(choice:"magic")
-		dual		:= chosen(choice:"dual-color")
-		tri			:= chosen(choice:"tri-color")
-		none		:= chosen(choice:"no-color")
-		all			:= chosen(choice:"all-colors")
+		dual		:= chosen(choice:"dual")
+		tri			:= chosen(choice:"tri")
+		none		:= chosen(choice:"ohm")
+		all			:= chosen(choice:"wry")
 		source		:= chosen(choice:"source")
 		if      tech	    then rgb(72,90,100) # tech
 		else if nature		then rgb(130,110,0) # nature
