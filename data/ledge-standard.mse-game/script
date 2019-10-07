@@ -43,8 +43,10 @@ color_name := {
 	else                     ""
 }
 color_names_1 := { color_name(colors.0) }
-color_names_2 := { color_name(colors.0) + ", " + color_name(colors.1) }
-color_names_3 := { color_name(colors.0) + ", " + color_name(colors.1) + ", " + color_name(colors.2) }
+color_names_2 := { color_name(colors.0) + " " + color_name(colors.1) }
+color_names_3 := { color_name(colors.0) + " " + color_name(colors.1) + " " + color_name(colors.2) }
+color_names_4 := { color_name(colors.0) + " " + color_name(colors.1) + " " + color_name(colors.2) + " " + color_name(colors.3) }
+color_names_6 := { color_name(colors.0) + " " + color_name(colors.1) + " " + color_name(colors.2) + " " + color_name(colors.3) + " " + color_name(colors.4) + " " + color_name(colors.5)}
 
 # color based on energy cost, input = an energy cost
 color_filter  := sort_text@(order: "<ebyjgsrdpqvow>")
@@ -55,8 +57,61 @@ energy_to_color := {
 	else if count == 1 then  color_names_1()
 	else if count == 2 then  color_names_2() + ", dual-color"
 	else if count == 3 then  color_names_3() + ", tri-color"
+	else if count == 4 then  color_names_4() + ", quad-color"
+	else if count == 6 then  color_names_6() + ", hex-color"
 	else                     "wry"
 }
+
+# color_text_box_filter := {
+#	
+#	card_name := card.full_name
+#	colors := (
+#	  text := filter_text(match: "is (colorless|all colors|((rha|dau|wim|pfi|quae|vei|ela|biz|yun|jutu|glei|sace|ohm|wry)((,|,? and) (ela|biz|yun|jutu|glei|sace|rha|dau|wim|pfi|quae|vei|ohm|wry))*))", in_context: regex_escape(card_name)+"(</[-a-z]+>)* <match>\\.")
+#	  if text != "" then (
+#	    if contains(text, match: "all colors") then (
+#		colors := "ebyjgsrdpqvow"
+#		if source = "source" then source_multicolor()
+#		else energy_to_color()
+#	    ) else (
+#		colors := ""
+#		if contains(text, match: "rha" ) then colors := colors + "r"
+#		if contains(text, match: "dau" ) then colors := colors + "d"
+#		if contains(text, match: "wim" ) then colors := colors + "m"
+#		if contains(text, match: "pfi" ) then colors := colors + "p"
+#		if contains(text, match: "quae") then colors := colors + "q"
+#		if contains(text, match: "vei" ) then colors := colors + "v"
+#		if contains(text, match: "ela" ) then colors := colors + "e"
+#		if contains(text, match: "biz" ) then colors := colors + "b"
+#		if contains(text, match: "yun" ) then colors := colors + "y"
+#		if contains(text, match: "jutu") then colors := colors + "j"
+#		if contains(text, match: "glei") then colors := colors + "g"
+#		if contains(text, match: "sace") then colors := colors + "s"
+#		if contains(text, match: "ohm" ) then colors := colors + "o"
+#		if contains(text, match: "wry" ) then colors := colors + "w"
+#
+#		if source = "source" then source_multicolor()
+#		else energy_to_color()
+#	    )
+#	  ) else ""
+#	 )
+#
+#	count  := number_of_items(in: colors)
+#
+#	trace("Colors: " + colors)
+#	trace("Count: " + count)
+#
+#	if(count == 8) then trace("Colors: " + colors.0 + " " + colors.1 + " " + colors.2 + " " + colors.3 + " " + colors.4 + " " + colors.5 + " " + colors.6 + " " + colors.7)
+#
+#	to_upper(colors)
+#
+#	if      count == 0 then  to_upper("ohm")
+#	else if count == 1 then  to_upper(color_name(colors.0))
+#	else if count == 2 then  to_upper(color_name(colors.0)) + " " + to_upper(color_name(colors.1))
+#	else if count == 3 then  to_upper(color_name(colors.0)) + " " + to_upper(color_name(colors.1)) + " " + to_upper(color_name(colors.2))
+#	else if count == 4 then  to_upper(color_name(colors.0)) + " " + to_upper(color_name(colors.1)) + " " + to_upper(color_name(colors.2)) + " " + to_upper(color_name(colors.3))
+#	else if count == 6 then  to_upper(color_name(colors.0)) + " " + to_upper(color_name(colors.1)) + " " + to_upper(color_name(colors.2)) + " " + to_upper(color_name(colors.3)) + " " + to_upper(color_name(colors.4)) + " " + to_upper(color_name(colors.5))
+#	else                     to_upper("wry")
+#}
 
 # color based on keywords text box, input = textbox contents
 color_text_filter :=
@@ -75,6 +130,8 @@ source_multicolor := {
 	else if count == 1 then color_names_1() + ", source"
 	else if count == 2 then color_names_2() + ", source"
 	else if count == 3 then color_names_3() + ", source"
+	else if count == 4 then color_names_4() + ", source"
+	else if count == 6 then color_names_6() + ", source"
 	else                    "source, wry"
 }
 source_to_color := {
@@ -100,7 +157,7 @@ source_to_color := {
 text_to_color := {
 	# Note: running filter_text is quite slow, do a quick 'contains' check first
 	if contains(match: card_name) then (
-	  text := filter_text(match: "is (colorless|all colors|((rha|dau|wim|pfi|quae|vei|ela|biz|yun|jutu|glei|sace|ohm|wry)((,|,? and) (rha|dau|wim|pfi|quae|vei|ela|biz|yun|jutu|glei|sace|ohm|wry))*))", in_context: regex_escape(card_name)+"(</[-a-z]+>)* <match>\\.")
+	  text := filter_text(match: "is (colorless|all colors|((rha|dau|wim|pfi|quae|vei|ela|biz|yun|jutu|glei|sace|ohm|wry)((,|,? and) (ela|biz|yun|jutu|glei|sace|rha|dau|wim|pfi|quae|vei|ohm|wry))*))", in_context: regex_escape(card_name)+"(</[-a-z]+>)* <match>\\.")
 	  if text != "" then (
 	    if contains(text, match: "all colors") then (
 		colors := "ebyjgsrdpqvow"
@@ -156,7 +213,7 @@ card_color := {
 }
 
 # Number of colors in a card_color
-card_color_count := count_chosen@(choices: "rha,dau,wim,pfi,quae,vei,ela,biz,yun,jutu,glei,sace,ohm,wry")
+card_color_count := count_chosen@(choices: "ela,biz,yun,jutu,glei,sace,rha,dau,wim,pfi,quae,vei,ohm,wry")
 # Clean up color field
 card_color_filter := {
 	colors := card_color_count()

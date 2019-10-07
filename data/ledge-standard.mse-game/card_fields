@@ -45,20 +45,21 @@ card field:
 	description: The border of the card; can be any solid color.
 card field:
 	type: multiple choice
-	name: card color
+	name: card color frame
 	empty choice: ohm
-	choice: rha
-	choice: dau
-	choice: wim
-	choice: pfi
-	choice: quae
-	choice: vei
 	choice: ela
 	choice: biz
 	choice: yun
 	choice: jutu
 	choice: glei
 	choice: sace
+	choice: rha
+	choice: dau
+	choice: wim
+	choice: pfi
+	choice: quae
+	choice: vei
+	choice: ohm
 	choice:
 		name: wry
 		line below: true
@@ -68,7 +69,7 @@ card field:
 	choice: hex
 	# choice: source
 	script: card_color_filter(value)
-	default: card_color(base_cost: card.base_cost, rules_text: card.rule_text, watermark: card.watermark, card_name: card.name, default: "ohm")
+	default: card.card_color #card_color(base_cost: card.base_cost, rules_text: card.rule_text, watermark: card.watermark, card_name: card.name, default: "ohm")
 	show statistics: false
 	description: The frame of the card, used to indicate card color.
 
@@ -111,18 +112,18 @@ card field:
 	type: multiple choice
 	name: indicator
 	empty choice: ohm
-	choice: rha
-	choice: dau
-	choice: wim
-	choice: pfi
-	choice: quae
-	choice: vei
 	choice: ela
 	choice: biz
 	choice: yun
 	choice: jutu
 	choice: glei
 	choice: sace
+	choice: rha
+	choice: dau
+	choice: wim
+	choice: pfi
+	choice: quae
+	choice: vei
 	choice: ohm
 	choice:
 		name: wry
@@ -207,8 +208,8 @@ card field:
 	save value: false
 	show statistics: false
 	script:
-		combined_editor(field1: card.rule_text, separator: "<line>\n</line>", field2: card.flavor_text)
-	description: The rules and flavor text for the card; use up and down arrows to switch
+		combined_editor(field1: card.flavor_text, separator: "<line>\n</line>", field2: card.rule_text)
+	description: The flavor and rules text for the card; use up and down arrows to switch
 card field:
 	type: choice
 	name: watermark
@@ -254,25 +255,32 @@ card field:
 ############################# Card Color Symbols
 card field:
 	type: multiple choice
-	name: card color symbols
+	name: card color
 	empty choice: ohm
-	choice: rha
-	choice: dau
-	choice: wim
-	choice: pfi
-	choice: quae
-	choice: vei
 	choice: ela
 	choice: biz
 	choice: yun
 	choice: jutu
 	choice: glei
 	choice: sace
+	choice: rha
+	choice: dau
+	choice: wim
+	choice: pfi
+	choice: quae
+	choice: vei
 	choice: ohm
-	choice: wry
-	default: card.card_color
+	choice:
+		name: wry
+		line below: true
+	choice: dual
+	choice: tri
+	choice: quad
+	choice: hex
+#	script: color_text_box_filter(value)
+#	default: card.card_color
 	show statistics: false
-	description: The color symbols of the card, used to indicate card color.
+	description: The color(s) of the card.
 
 ############################# Card sorting / numbering
 card field:
