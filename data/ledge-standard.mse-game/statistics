@@ -74,17 +74,17 @@ statistics dimension:
 
 statistics dimension:
 	position hint: 50
-	name: sha
-	script: card.sha
+	name: dark
+	script: card.dark
 	numeric: true
-	icon: stats/sha.png
+	icon: stats/dark.png
 
 statistics dimension:
 	position hint: 51
-	name: chi
-	script: card.chi
+	name: light
+	script: card.light
 	numeric: true
-	icon: stats/chi.png
+	icon: stats/light.png
 
 statistics dimension:
 	name: text length (words)

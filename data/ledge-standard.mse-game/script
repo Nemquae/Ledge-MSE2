@@ -62,6 +62,18 @@ energy_to_color := {
 	else                     "wry"
 }
 
+color_text_box_filter := {
+
+	trace("Input 1: " + input)
+
+	input := to_upper(input)
+
+	trace("Input 2: " + input)
+
+	string := input
+
+}
+
 # color_text_box_filter := {
 #	
 #	card_name := card.full_name
@@ -666,9 +678,9 @@ colorless_color := {
 #Indicators do appear if the chosen frame doesn't match the default.
 #Indicators do appear if the chosen color for the indicator doesn't match the default.
 
-has_identity := { ( ( card.card_color != card_color(base_cost: card.base_cost, rules_text: card.rule_text, watermark: card.watermark, card_name: card.name, default: "ohm") ) or ( card.indicator != card_color(base_cost: card.base_cost, rules_text: card.rule_text, watermark: card.watermark, card_name: card.name, default: "ohm") ) ) and card.indicator != "ohm" and card.indicator != "tech" and card.indicator != "source"}
+# has_identity := { ( ( card.card_color != card_color(base_cost: card.base_cost, rules_text: card.rule_text, watermark: card.watermark, card_name: card.name, default: "ohm") ) or ( card.indicator != card_color(base_cost: card.base_cost, rules_text: card.rule_text, watermark: card.watermark, card_name: card.name, default: "ohm") ) ) and card.indicator != "ohm" and card.indicator != "tech" and card.indicator != "source"}
 
-has_identity_2 := { ( ( card.card_color_2 != card_color(base_cost: card.base_cost_2, rules_text: card.rule_text_2, watermark: card.watermark_2, card_name: card.name_2, default: "ohm") ) or ( card.indicator_2 != card_color(base_cost: card.base_cost_2, rules_text: card.rule_text_2, watermark: card.watermark_2, card_name: card.name_2, default: "ohm") ) ) and card.indicator_2 != "ohm" and card.indicator_2 != "tech" and card.indicator_2 != "source"}
+# has_identity_2 := { ( ( card.card_color_2 != card_color(base_cost: card.base_cost_2, rules_text: card.rule_text_2, watermark: card.watermark_2, card_name: card.name_2, default: "ohm") ) or ( card.indicator_2 != card_color(base_cost: card.base_cost_2, rules_text: card.rule_text_2, watermark: card.watermark_2, card_name: card.name_2, default: "ohm") ) ) and card.indicator_2 != "ohm" and card.indicator_2 != "tech" and card.indicator_2 != "source"}
 
 ############################################################## Statistics utilities
 

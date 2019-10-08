@@ -115,62 +115,62 @@ horizontal_score_multi := [
 # Color Identity Marking
 ########################################################################
 
-horizontal_identity_multi := [
-	1: { template(colors[0]) }
-	2: { linear_blend(
-		image1: template(colors[0])
-		image2: template(colors[1])
-		x1: 0.4,  y1: 0
-		x2: 0.6,  y2: 0
-		)}
-	3: {linear_blend(
-		image1: template(colors[0])
-		x1: 0.33,  y1: 0
-		x2: 0.34,   y2: 0
-		image2: linear_blend(
-		  image1: template(colors[1])
-		  x1: 0.66,   y1: 0
-		  x2: 0.67,  y2: 0
-		  image2: template(colors[2])
-	   ))}
-	4: {linear_blend(
-		# blend = 0.16
-		image1: template(colors[0])
-		x1: 0.24,  y1: 0
-		x2: 0.25,  y2: 0
-		image2: linear_blend(
-		  image1: template(colors[1])
-		  x1: 0.49,  y1: 0
-		  x2: 0.50,  y2: 0
-		  image2: linear_blend(
-		    image1: template(colors[2])
-		    x1: 0.74, y1: 0
-		    x2: 0.75, y2: 0
-		    image2: template(colors[3])
-	   )))}
-	6: {linear_blend(
-		image1: template(colors[0])
-		x1: 1.5 / 15,  y1: 0
-		x2: 3.1 / 15,  y2: 0
-		image2: linear_blend(
-		  image1: template(colors[1])
-		  x1: 4.1 / 15,  y1: 0
-		  x2: 5.7 / 15,  y2: 0
-		  image2: linear_blend(
-		    image1: template(colors[2])
-		    x1: 6.7 / 15,  y1: 0
-		    x2: 8.3 / 15,  y2: 0
-		    image2: linear_blend(
-		      image1: template(colors[3])
-		      x1: 9.3 / 15,  y1: 0
-		      x2: 10.9 / 15,  y2: 0
-		      image2: linear_blend(
-		        image1: template(colors[4])
-		        x1: 11.9 / 15, y1: 0
-		        x2: 13.5 / 15, y2: 0
-		        image2: template(colors[5])
-	   )))))}
-]
+#horizontal_identity_multi := [
+#	1: { template(colors[0]) }
+#	2: { linear_blend(
+#		image1: template(colors[0])
+#		image2: template(colors[1])
+#		x1: 0.4,  y1: 0
+#		x2: 0.6,  y2: 0
+#		)}
+#	3: {linear_blend(
+#		image1: template(colors[0])
+#		x1: 0.33,  y1: 0
+#		x2: 0.34,   y2: 0
+#		image2: linear_blend(
+#		  image1: template(colors[1])
+#		  x1: 0.66,   y1: 0
+#		  x2: 0.67,  y2: 0
+#		  image2: template(colors[2])
+#	   ))}
+#	4: {linear_blend(
+#		# blend = 0.16
+#		image1: template(colors[0])
+#		x1: 0.24,  y1: 0
+#		x2: 0.25,  y2: 0
+#		image2: linear_blend(
+#		  image1: template(colors[1])
+#		  x1: 0.49,  y1: 0
+#		  x2: 0.50,  y2: 0
+#		  image2: linear_blend(
+#		    image1: template(colors[2])
+#		    x1: 0.74, y1: 0
+#		    x2: 0.75, y2: 0
+#		    image2: template(colors[3])
+#	   )))}
+#	6: {linear_blend(
+#		image1: template(colors[0])
+#		x1: 1.5 / 15,  y1: 0
+#		x2: 3.1 / 15,  y2: 0
+#		image2: linear_blend(
+#		  image1: template(colors[1])
+#		  x1: 4.1 / 15,  y1: 0
+#		  x2: 5.7 / 15,  y2: 0
+#		  image2: linear_blend(
+#		    image1: template(colors[2])
+#		    x1: 6.7 / 15,  y1: 0
+#		    x2: 8.3 / 15,  y2: 0
+#		    image2: linear_blend(
+#		      image1: template(colors[3])
+#		      x1: 9.3 / 15,  y1: 0
+#		      x2: 10.9 / 15,  y2: 0
+#		      image2: linear_blend(
+#		        image1: template(colors[4])
+#		        x1: 11.9 / 15, y1: 0
+#		        x2: 13.5 / 15, y2: 0
+#		        image2: template(colors[5])
+#	   )))))}
+#]
 
 ########################################################################
 # Putting it all together.
@@ -182,12 +182,12 @@ color_background := {
 	# trace("Input: " + input)
 
 	# for thumbnails
-	if input == "multi" then
-		input := "rha,quae,yun,{multi_previews}"
-	else if input == "horizontal" then
-		input := "rha,quae,yun,{multi_previews}," + input
-	else if input == "" then
-		input := "ohm"
+#	if input == "multi" then
+#		input := "rha,quae,yun,{multi_previews}"
+#	else if input == "horizontal" then
+#		input := "rha,quae,yun,{multi_previews}," + input
+#	else if input == "" then
+#		input := "ohm"
 
 	
 	# trace("Input: " + input)
@@ -205,21 +205,20 @@ color_background := {
 	# if source and colored_sources then template := source_template # use source template instead?
 
 	# The selected colors
-	colors := sort_text( order: "(ebyjgsrdmpqvow)"
-					   , (if chosen(choice:"ela" )  then "e")
-					   + (if chosen(choice:"biz" )  then "b")
-					   + (if chosen(choice:"yun" )  then "y")
-					   + (if chosen(choice:"jutu")  then "j")
-					   + (if chosen(choice:"glei")  then "g")
-					   + (if chosen(choice:"sace")  then "s")
-					   + (if chosen(choice:"rha" )  then "r")
-					   + (if chosen(choice:"dau" )  then "d")
-					   + (if chosen(choice:"wim" )  then "m")
-					   + (if chosen(choice:"pfi" )  then "p")
-					   + (if chosen(choice:"quae")  then "q")
-					   + (if chosen(choice:"vei" )  then "v")
-					   + (if chosen(choice:"ohm" )  then "o")
-					   + (if chosen(choice:"wry" )  then "w")
+	colors :=		   ( (if chosen(choice:"Ela" )  then "e")
+					   + (if chosen(choice:"Biz" )  then "b")
+					   + (if chosen(choice:"Yun" )  then "y")
+					   + (if chosen(choice:"Jutu")  then "j")
+					   + (if chosen(choice:"Glei")  then "g")
+					   + (if chosen(choice:"Sace")  then "s")
+					   + (if chosen(choice:"Rha" )  then "r")
+					   + (if chosen(choice:"Dau" )  then "d")
+					   + (if chosen(choice:"Wim" )  then "m")
+					   + (if chosen(choice:"Pfi" )  then "p")
+					   + (if chosen(choice:"Quae")  then "q")
+					   + (if chosen(choice:"Vei" )  then "v")
+					   + (if chosen(choice:"Ohm" )  then "o")
+					   + (if chosen(choice:"Wry" )  then "w")
 					   )
 
 	if colors == "" then colors == "o"
@@ -260,6 +259,8 @@ color_background := {
 
 	# if colors == " " then colors == "o"
 
+	# colors := sort_text( order: "(ebyjgsrdmpqvow)" )
+
 	color_count := number_of_items(in: colors)
 	
 
@@ -279,95 +280,95 @@ color_combination := {
 	# trace("Type: " + "{type}")
 
 	# Put a frame around it?
-	if source and not colored_sources then
-		masked_blend(
-			mask:  "dual_color_blend_{type}.png",
-			dark:  source_template("s"),
-			light: base,
-		)
-	else if source and dual and mask_dual_source_with_color() then
-		masked_blend(
-			mask:  "dual_color_blend_{type}.png",
-			dark:  base,
-			light:  source_template("d"),
-		)
-	else if source and tri and mask_tri_source_with_color() then
-		masked_blend(
-			mask:  "tri_color_blend_{type}.png",
-			dark:  base,
-			light:  source_template("t"),
-		)
-	else if dual and none then
-		masked_blend(
-			mask: "no_color_blend_{type}.png",
-			dark: template("n"),
-			light: masked_blend(
-				mask: "dual_color_blend_{type}.png",
-				dark: template("d"),
-				light: base
-			)
-		)
-	else if tri and none then
-		masked_blend(
-			mask: "no_color_blend_{type}.png",
-			dark: template("n"),
-			light: masked_blend(
-				mask: "tri_color_blend_{type}.png",
-				dark: template("t"),
-				light: base
-			)
-		)
-	else if dual then
-		masked_blend(
-			mask:  "dual_color_blend_{type}.png",
-			dark:  template("d"),
-			light: base,
-		)
-	else if tri then
-		masked_blend(
-			mask:  "tri_color_blend_{type}.png",
-			dark:  template("t"),
-			light: base,
-		)
-	else if none and color_count > 1 and mask_dual_source_with_color() then
-		masked_blend(
-			mask:  "no_color_blend_{type}.png",
-			dark:  template("n"),
-			light: masked_blend(
-				mask: "dual_color_blend_{type}.png",
-				dark: template("c"),
-				light: base
-			)
-		)
-	else if none and color_count > 1 and mask_tri_source_with_color() then
-		masked_blend(
-			mask:  "no_color_blend_{type}.png",
-			dark:  template("n"),
-			light: masked_blend(
-				mask: "tri_color_blend_{type}.png",
-				dark: template("c"),
-				light: base
-			)
-		)
-	else if none then
-		masked_blend(
-			mask:  "no_color_blend_{type}.png",
-			dark:  template("n"),
-			light: base,
-		)
-	else if color_count > 1 and mask_dual_source_with_color() then
-		masked_blend(
-			mask:  "dual_color_blend_{type}.png",
-			dark:  source_template("c"),
-			light: base,
-		)
-	else if color_count > 1 and mask_tri_source_with_color() then
-		masked_blend(
-			mask:  "tri_color_blend_{type}.png",
-			dark:  source_template("c"),
-			light: base,
-		)
-	else base
+#	if source and not colored_sources then
+#		masked_blend(
+#			mask:  "dual_color_blend_{type}.png",
+#			dark:  source_template("s"),
+#			light: base,
+#		)
+#	else if source and dual and mask_dual_source_with_color() then
+#		masked_blend(
+#			mask:  "dual_color_blend_{type}.png",
+#			dark:  base,
+#			light:  source_template("d"),
+#		)
+#	else if source and tri and mask_tri_source_with_color() then
+#		masked_blend(
+#			mask:  "tri_color_blend_{type}.png",
+#			dark:  base,
+#			light:  source_template("t"),
+#		)
+#	else if dual and none then
+#		masked_blend(
+#			mask: "no_color_blend_{type}.png",
+#			dark: template("n"),
+#			light: masked_blend(
+#				mask: "dual_color_blend_{type}.png",
+#				dark: template("d"),
+#				light: base
+#			)
+#		)
+#	else if tri and none then
+#		masked_blend(
+#			mask: "no_color_blend_{type}.png",
+#			dark: template("n"),
+#			light: masked_blend(
+#				mask: "tri_color_blend_{type}.png",
+#				dark: template("t"),
+#				light: base
+#			)
+#		)
+#	else if dual then
+#		masked_blend(
+#			mask:  "dual_color_blend_{type}.png",
+#			dark:  template("d"),
+#			light: base,
+#		)
+#	else if tri then
+#		masked_blend(
+#			mask:  "tri_color_blend_{type}.png",
+#			dark:  template("t"),
+#			light: base,
+#		)
+#	else if none and color_count > 1 and mask_dual_source_with_color() then
+#		masked_blend(
+#			mask:  "no_color_blend_{type}.png",
+#			dark:  template("n"),
+#			light: masked_blend(
+#				mask: "dual_color_blend_{type}.png",
+#				dark: template("c"),
+#				light: base
+#			)
+#		)
+#	else if none and color_count > 1 and mask_tri_source_with_color() then
+#		masked_blend(
+#			mask:  "no_color_blend_{type}.png",
+#			dark:  template("n"),
+#			light: masked_blend(
+#				mask: "tri_color_blend_{type}.png",
+#				dark: template("c"),
+#				light: base
+#			)
+#		)
+#	else if none then
+#		masked_blend(
+#			mask:  "no_color_blend_{type}.png",
+#			dark:  template("n"),
+#			light: base,
+#		)
+#	else if color_count > 1 and mask_dual_source_with_color() then
+#		masked_blend(
+#			mask:  "dual_color_blend_{type}.png",
+#			dark:  source_template("c"),
+#			light: base,
+#		)
+#	else if color_count > 1 and mask_tri_source_with_color() then
+#		masked_blend(
+#			mask:  "tri_color_blend_{type}.png",
+#			dark:  source_template("c"),
+#			light: base,
+#		)
+#	else base
 }
 
 ########################################################################
@@ -376,12 +377,12 @@ color_combination := {
 
 # TODO: Fix cost/color box type
 card_background 	:= { color_background(type:"card",		base_multi:horizontal_card_multi) }
-card_sha_box		:= { color_background(type:"sha",		base_multi:horizontal_score_multi) }
-card_chi_box		:= { color_background(type:"chi",		base_multi:horizontal_score_multi) }
-card_color_box		:= { color_background(type:"color",		base_multi:horizontal_score_multi) }
+card_dark_box		:= { color_background(type:"dark",		base_multi:horizontal_score_multi) }
+card_light_box		:= { color_background(type:"light",		base_multi:horizontal_score_multi) }
+# card_color_box		:= { color_background(type:"color",		base_multi:horizontal_score_multi) }
 card_cost_box		:= { color_background(type:"cost",		base_multi:horizontal_score_multi) }
 card_textbox    	:= { color_background(type:"textbox",	base_multi:horizontal_card_multi) }
-card_identity   	:= { color_background(type:"identity",	base_multi:horizontal_identity_multi) }
+# card_identity   	:= { color_background(type:"identity",	base_multi:horizontal_identity_multi) }
 
 ########################################################################
 # Font colors

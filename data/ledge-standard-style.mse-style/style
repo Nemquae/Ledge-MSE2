@@ -20,9 +20,9 @@ depends on:
 	package: ledge-watermarks.mse-include
 	version: 2017-10-13
 
-depends on:
-	package: ledge-color-identity.mse-include
-	version: 2017-10-13
+#depends on:
+#	package: ledge-color-identity.mse-include
+#	version: 2017-10-13
 
 depends on:
 	package: ledge-energy-large.mse-symbol-font
@@ -50,8 +50,8 @@ init script:
 	#Should multicolor sources with basic source keywords have a colored name?
 	mask_multi_source_with_color := { styling.colored_multicolor_source_name }
 
-	template_prefix := [card: "" card2: "" sha: "" chi: "" color: "" cost: "" stamp: "" identity: "/ledge-color-identity.mse-include/"]
-	template_suffix := [card: "card.jpg" card2: "card2.jpg" sha: "sc.png", chi: "sc.png" color: "sc.png" cost: "sc.png" stamp: "stamp.jpg" identity: "identity.png"]
+	template_prefix := [card: "" card2: "" dark: "" light: "" color: "" cost: "" stamp: ""]
+	template_suffix := [card: "card.jpg" card2: "card2.jpg" dark: "dark.png", light: "light.png" cost: "cost.png" stamp: "stamp.jpg"]
 	template      := { template_prefix[type] + input + template_suffix[type] }
 	source_template := { template_prefix[type] + (if input == "o" then "c" else input) + "s" + template_suffix[type] }
 
@@ -152,7 +152,7 @@ card style:
 	name:
 		left: 32
 		top: 30
-		right:  { 341 - card_style.base_cost.content_width }
+		right:  281
 		height: 23
 		alignment: bottom shrink-overflow
 		padding bottom: 0
@@ -164,9 +164,9 @@ card style:
 	base cost:
 		right: 346
 		top: 29
-		width: { max(30, card_style.base_cost.content_width) + 5 }
+		width: 60
 		height: 23
-		alignment: middle right
+		alignment: center middle shrink-overflow
 		font:
 			name: Ledge Bold
 			size: 16
@@ -177,26 +177,26 @@ card style:
 	############################# Image
 	image:
 		left: 29
-		top: 60
+		top: 62
 		width: 316
 		height:	237
 		z index: 1
 		default: {default_image(card.card_color)}
 		mask: mask_image.png
 	############################# Card type
-	indicator:
-		left: 29
-		top: 425
-		width: 17
-		height: 17
-		z index: 2
-		render style: image
-		visible: { has_identity() }
-		image: { card_identity() }
+#	indicator:
+#		left: 29
+#		top: 425
+#		width: 17
+#		height: 17
+#		z index: 2
+#		render style: image
+#		visible: { has_identity() }
+#		image: { card_identity() }
 	keywords:
-		left: { if has_identity() then "50" else "29" }
+		left: 29
 		top: 423
-		width: { (if has_identity() then "296" else "316") - max(22,card_style.rarity.content_width) }
+		width: { 316 - max(22,card_style.rarity.content_width) }
 		height: 20
 		alignment: top shrink-overflow
 		z index: 1
@@ -207,7 +207,7 @@ card style:
 			color: black
 			separator color: red
 	rarity:
-		right: 345
+		right: 343
 		top: 422
 		width: 44
 		height: 22
@@ -272,21 +272,21 @@ card style:
 		alignment: middle center
 		include file: /ledge-watermarks.mse-include/watermarks
 	############################# Scores
-	sha:
+	dark:
 		z index: 2
 		left: 29
-		top: 454
+		top: 462
 		width: 60
 		height:	28
 		alignment: center middle shrink-overflow
 		font:
 			name: Ledge Bold
 			size: 16
-			color: black
-	chi:
+			color: white
+	light:
 		z index: 2
 		left: 286
-		top: 454
+		top: 462
 		width: 60
 		height:	28
 		alignment: center middle shrink-overflow
@@ -309,9 +309,9 @@ card style:
 	############################# Colors
 	card color:
 		z index: 2
-		left: 165
-		top: 454
-		width: 46
+		left: 108
+		top: 462
+		width: 160
 		height: 26
 		alignment: center middle shrink-overflow
 		font:
@@ -354,7 +354,7 @@ card style:
 			color: white
 	copyright:
 		right: 350
-		top: { if (card.sha != "" or card.chi != "") then 500 else 488 }
+		top: 500
 		width: 140
 		height: 10
 		z index: 2
@@ -388,13 +388,13 @@ extra card field:
 	choice: white
 extra card field:
 	type: choice
-	name: sha box
+	name: dark box
 	script: card.card_color
 	editable: false
 	save value: false
 extra card field:
 	type: choice
-	name: chi box
+	name: light box
 	script: card.card_color
 	editable: false
 	save value: false
@@ -430,11 +430,12 @@ extra card field:
 	editable: false
 extra card style:
 	card code:
-		left: 24
-		top: 488
-		width: 120
+		right: 350
+		top: 512.5
+		width: 60
 		height: 10
 		z index: 1
+		alignment: middle right shrink-overflow
 		font:
 			name: Relay-Medium
 			size: 7
@@ -456,40 +457,40 @@ extra card style:
 		height: 7
 		z index: 1
 		render style: image
-		image: artist_arrow.png
-	sha box:
-		left: 21
-		top: 451
-		width: 81
-		height:	42
+		image: designer_arrow.png
+	dark box:
+		left: 6
+		top: 438
+		width: 107
+		height:	75
 		z index: 1
 		visible: yes
 		render style: image
-		image: { card_sha_box() }
-	chi box:
-		left: 273
-		top: 451
-		width: 81
-		height:	42
+		image: dark.png
+	light box:
+		left: 263
+		top: 438
+		width: 107
+		height:	75
 		z index: 1
 		visible: yes
 		render style: image
-		image: { card_chi_box() }
-	color box:
-		left: 142
-		top: 451
-		width: 90
-		height: 42
-		z index: 1
-		visible: yes
-		render style: image
-		image: { card_color_box() }
+		image: light.png
+#	color box:
+#		left: 142
+#		top: 451
+#		width: 90
+#		height: 42
+#		z index: 1
+#		visible: yes
+#		render style: image
+#		image: { card_color_box() }
 	cost box:
-		left: 273
-		top: 23
-		width: 90
-		height: 42
-		z index: 0
+		left: 263
+		top: 4
+		width: 107
+		height: 75
+		z index: 1
 		visible: yes
 		render style: image
-		image: { card_cost_box() }
+		image: cost.png

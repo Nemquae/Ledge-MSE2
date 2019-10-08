@@ -46,29 +46,22 @@ card field:
 card field:
 	type: multiple choice
 	name: card color frame
-	empty choice: ohm
-	choice: ela
-	choice: biz
-	choice: yun
-	choice: jutu
-	choice: glei
-	choice: sace
-	choice: rha
-	choice: dau
-	choice: wim
-	choice: pfi
-	choice: quae
-	choice: vei
-	choice: ohm
-	choice:
-		name: wry
-		line below: true
-	choice: dual
-	choice: tri
-	choice: quad
-	choice: hex
-	# choice: source
-	script: card_color_filter(value)
+	empty choice: Ohm
+	choice: Ela
+	choice: Biz
+	choice: Yun
+	choice: Jutu
+	choice: Glei
+	choice: Sace
+	choice: Rha
+	choice: Dau
+	choice: Wim
+	choice: Pfi
+	choice: Quae
+	choice: Vei
+	choice: Ohm
+	choice: Wry
+#	script: card_color_filter(value)
 	default: card.card_color #card_color(base_cost: card.base_cost, rules_text: card.rule_text, watermark: card.watermark, card_name: card.name, default: "ohm")
 	show statistics: false
 	description: The frame of the card, used to indicate card color.
@@ -108,34 +101,28 @@ card field:
 	choice: nature
 	choice: none
 	description: The card keywords symbol for this card
-card field:
-	type: multiple choice
-	name: indicator
-	empty choice: ohm
-	choice: ela
-	choice: biz
-	choice: yun
-	choice: jutu
-	choice: glei
-	choice: sace
-	choice: rha
-	choice: dau
-	choice: wim
-	choice: pfi
-	choice: quae
-	choice: vei
-	choice: ohm
-	choice:
-		name: wry
-		line below: true
-	choice: dual
-	choice: tri
-	choice: quad
-	choice: hex
-	script: card_color_filter(value)
-	default: card.card_color
-	show statistics: false
-	description: The color indicator of the card, used to indicate card color.
+#card field:
+#	type: multiple choice
+#	name: indicator
+#	empty choice: ohm
+#	choice: ela
+#	choice: biz
+#	choice: yun
+#	choice: jutu
+#	choice: glei
+#	choice: sace
+#	choice: rha
+#	choice: dau
+#	choice: wim
+#	choice: pfi
+#	choice: quae
+#	choice: vei
+#	choice: ohm
+#	choice: wry
+#	script: card_color_filter(value)
+#	default: card.card_color
+#	show statistics: false
+#	description: The color indicator of the card, used to indicate card color.
 
 ############################# Image
 card field:
@@ -221,27 +208,27 @@ card field:
 ############################# Scores
 card field:
 	type: text
-	name: sha
-	icon: stats/sha.png
+	name: dark
+	icon: stats/dark.png
 	show statistics: false
 #	script: type_over_scores(value)
-	description: The sha (negative energy) score of a creature
+	description: The dark (negative energy) score of a creature
 card field:
 	type: text
-	name: chi
-	icon: stats/chi.png
+	name: light
+	icon: stats/light.png
 	show statistics: false
 #	script: type_over_scores(value)
-	description: The chi (positive energy) score of a creature
+	description: The light (positive energy) score of a creature
 #card field:
 #	type: text
 #	name: scores
 #	save value: false
 #	script:
 #		combined_editor(
-#			field1: card.sha,
+#			field1: card.dark,
 #			separator: language().scores_separator,
-#			field2: card.chi,
+#			field2: card.light,
 #			soft_before_empty: true,
 #			hide_when_empty:   true
 #		)
@@ -256,27 +243,21 @@ card field:
 card field:
 	type: multiple choice
 	name: card color
-	empty choice: ohm
-	choice: ela
-	choice: biz
-	choice: yun
-	choice: jutu
-	choice: glei
-	choice: sace
-	choice: rha
-	choice: dau
-	choice: wim
-	choice: pfi
-	choice: quae
-	choice: vei
-	choice: ohm
-	choice:
-		name: wry
-		line below: true
-	choice: dual
-	choice: tri
-	choice: quad
-	choice: hex
+	empty choice: Ohm
+	choice: Ela
+	choice: Biz
+	choice: Yun
+	choice: Jutu
+	choice: Glei
+	choice: Sace
+	choice: Rha
+	choice: Dau
+	choice: Wim
+	choice: Pfi
+	choice: Quae
+	choice: Vei
+	choice: Ohm
+	choice: Wry
 #	script: color_text_box_filter(value)
 #	default: card.card_color
 	show statistics: false
